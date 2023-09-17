@@ -1,6 +1,6 @@
 
 export default {
-  async fetch(req, env, ctx) {
-    return new Response('Hello World');
+  fetch(__req, __env, __ctx) {
+    return new Response('Hello World!');
   }
 }
