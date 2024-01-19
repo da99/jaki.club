@@ -7,19 +7,38 @@ case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 build"
+    echo "$0 build dir"
+    echo "$0 build css SECTION_NAME"
     echo
     ;;
-  "build")
-    cd "$(dirname "$0")"/..
-    echo "--- in $PWD" >&2
+  "server")
+    bunx wrangler dev
+    ;;
+  "build dir")
     set -x
     rm -rf build
     mkdir build
     cp -r Public build/
+    ;;
+  "build")
+    cd "$(dirname "$0")"/..
+    echo "--- in $PWD" >&2
+    "$0" build dir
     cd build
     bun build Public/section/root/index.ts --outdir Public/section/root/
     www write file manifest for Public
     bunx lightningcss --minify --bundle Public/section/root/index.css -o Public/section/root/main.css
+    ;;
+  "build css "*)
+    if ! test -e build ; then
+      "$0" build dir
+    fi
+    section="$3"
+    echo "=== Compiling section: $section"
+    set -x
+    cd build/Public/section/"$section"
+    bunx lightningcss --minify --bundle main.css -o tmp.main.css
+    mv -f tmp.main.css main.css
     ;;
   *)
     echo "!!! Unknown command: $*" >&2
