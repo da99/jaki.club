@@ -12,7 +12,7 @@ case "$*" in
     echo
     ;;
   "server")
-    bunx wrangler dev
+    # bunx wrangler dev
     ;;
   "build dir")
     set -x
@@ -20,15 +20,41 @@ case "$*" in
     mkdir build
     cp -r Public build/
     ;;
+
   "build")
     cd "$(dirname "$0")"/..
     echo "--- in $PWD" >&2
     "$0" build dir
     cd build
-    bun build Public/section/root/index.ts --outdir Public/section/root/
+
+    echo "=== Writing file manifest..."
     www write file manifest for Public
-    bunx lightningcss --minify --bundle Public/section/root/index.css -o Public/section/root/main.css
+
+    while read -r LINE ; do
+      case "$LINE" in
+        *section/base*)
+          :
+          ;;
+        *.ts)
+          echo "--- Processing .ts: $LINE"
+          bun build "$LINE" --outdir "$(dirname "$LINE")"
+          rm "$LINE"
+          ;;
+        *.css)
+          echo "--- Processing .css: $LINE"
+          bunx lightningcss --minify --bundle "$LINE" -o "$LINE".tmp
+          mv "$LINE".tmp "$LINE"
+          ;;
+        *)
+          ;;
+      esac
+    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.ts')
+
+    echo "=== Done building. ==="
+    echo
+    tree .
     ;;
+
   "build css "*)
     if ! test -e build ; then
       "$0" build dir
