@@ -1,10 +1,9 @@
 
-export default {
-  fetch(req, __env, __ctx) {
-    const the_url = new URL(req.url);
-    if (the_url.pathname === "/" ) {
-      return new Response(`Hello World: ${req.url}`);
-    }
-    return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
-  }
-}
+    // return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
+
+import { Hono } from 'hono'
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hono!'))
+
+export default app

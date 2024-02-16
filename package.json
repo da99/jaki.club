@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "deploy": "wrangler deploy",
-    "start": "wrangler dev"
+    "start": "wrangler dev",
+    "dev": "bun run -p 8787 --hot src/worker.js"
   },
   "devDependencies": {
-    "wrangler": "^3.22.2"
+    "wrangler": "^3.22.2",
+    "@types/bun": "latest"
   },
   "dependencies": {
     "jest": "^29.6.4",
-    "lightningcss-cli": "^1.22.1"
+    "lightningcss-cli": "^1.22.1",
+    "hono": "latest"
   }
 }
