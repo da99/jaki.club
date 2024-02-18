@@ -2,6 +2,7 @@ name = "jaki-club"
 main = "src/worker.js"
 compatibility_date = "2023-08-21"
 workers_dev = false
+send_metrics = false
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 
 

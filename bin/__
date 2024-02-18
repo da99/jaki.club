@@ -24,6 +24,16 @@ case "$*" in
   "build")
     cd "$(dirname "$0")"/..
     echo "--- in $PWD" >&2
+
+
+    cd Public/style
+    if ! test -e pure.css; then
+      wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
+    fi
+    if ! test -e pure-grids.css; then
+      wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
+    fi
+    
     "$0" build dir
     cd build
 

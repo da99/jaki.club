@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+#
+set -u -e -o pipefail
+
+cd "$( dirname "$(realpath "$0")" )"/..
+
+secrets FAUNA_JAKI node migrate/main.mjs

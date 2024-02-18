@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Mountains of Christmas
+- Font Author: Copyright (c) 2010 2011, Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reserved Font Name "Mountains of Christmas"
+- Font Source: http://fonts.gstatic.com/s/mountainsofchristmas/v13/3y9w6a4zcCnn5X0FDyrKi2ZRUBIy8uxoUo7ePNamMPNpJpc.ttf
+- Font License: Apache License, version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html))
