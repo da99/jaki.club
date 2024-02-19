@@ -1,5 +1,6 @@
 /tmp/
 /dist/
+/build/
 /.env
 /.dev.vars
 /shard.lock

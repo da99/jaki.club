@@ -6,8 +6,8 @@ import { serveStatic } from 'hono/bun';
 
 const app = new Hono()
 
-app.get('/', serveStatic({ path: "./Public/index.html"}));
-app.get('/*', serveStatic({ root: "./Public"}));
+app.get('/', serveStatic({ path: "./build/index.html"}));
+app.get('/*', serveStatic({ root: "./build"}));
 
 export default {
   port: 8787,
