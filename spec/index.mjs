@@ -1,5 +1,5 @@
 
-import { element, a, span } from '../../html.js/src/main.mjs';
+import { element, a, span } from '../../html.js/src/main.ts';
 
 
 
