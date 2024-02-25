@@ -7,38 +7,71 @@ case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 build"
+    echo "$0 build watch"
     echo "$0 build dir"
     echo "$0 build css SECTION_NAME"
     echo
     ;;
+
   "server")
     # bunx wrangler dev
     ;;
+
+  "build watch")
+    content=""
+    while read -r LINE ; do
+      echo "--- $LINE"
+      filename="$(echo "$LINE" | cut -d' ' -f3-)"
+      dir="$(echo "$LINE" | cut -d' ' -f1)"
+      file="$dir$filename"
+      case "$file" in
+        *.css|*.html|*.js)
+          new_content="$(cat "$file")"
+          if ! test "$new_content" == "$content" ; then
+            echo "--- $file"
+            "$0" build
+            content="$new_content"
+          else
+            echo "skipping: $file"
+          fi
+          ;;
+      esac
+    done < <(inotifywait -r -m -e MODIFY Public)
+    ;;
+
   "build dir")
     set -x
+    cd "$(dirname "$0")"/..
     rm -rf build
     mkdir build
     cp -r Public build/
     ;;
 
   "build")
+    this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
+    this_project="$PWD"
     echo "--- in $PWD" >&2
 
 
-    cd Public/style
+    "$this_bin" build dir
+
+    cd Public/styles
     if ! test -e pure.css; then
       wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
     fi
     if ! test -e pure-grids.css; then
       wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
     fi
-    
-    "$0" build dir
+    if ! test -e reset.css ; then
+      wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
+    fi
+    cd "$this_project"
+
     cd build
 
-    echo "=== Writing file manifest..."
-    www write file manifest for Public
+    # echo "=== Writing file manifest..."
+    # www write file manifest for Public
 
     while read -r LINE ; do
       case "$LINE" in
@@ -52,7 +85,7 @@ case "$*" in
           ;;
         *.css)
           echo "--- Processing .css: $LINE"
-          bunx lightningcss --minify --bundle "$LINE" -o "$LINE".tmp
+          bun x lightningcss --minify --bundle "$LINE" -o "$LINE".tmp
           mv "$LINE".tmp "$LINE"
           ;;
         *)
@@ -62,7 +95,7 @@ case "$*" in
 
     echo "=== Done building. ==="
     echo
-    tree .
+    # tree .
     ;;
 
   "build css "*)

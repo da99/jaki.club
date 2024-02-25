@@ -10,6 +10,6 @@ app.get('/', serveStatic({ path: "./build/index.html"}));
 app.get('/*', serveStatic({ root: "./build"}));
 
 export default {
-  port: 8787,
+  port: 4567,
   fetch: app.fetch,
 };
