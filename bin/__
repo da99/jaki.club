@@ -80,12 +80,16 @@ case "$*" in
           ;;
         *.ts)
           echo "--- Processing .ts: $LINE"
-          bun build "$LINE" --outdir "$(dirname "$LINE")"
+          set -x
+          bun build --target browser "$LINE" --outdir "$(dirname "$LINE")"
+          set +x
           rm "$LINE"
           ;;
         *.css)
           echo "--- Processing .css: $LINE"
+          set -x
           bun x lightningcss --minify --bundle "$LINE" -o "$LINE".tmp
+          set +x
           mv "$LINE".tmp "$LINE"
           ;;
         *)
