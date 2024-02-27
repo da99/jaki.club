@@ -1,4 +1,6 @@
 // /apps/dom.ts/src/dom.ts
 
+import { body, element } from "../js/html";
+
 document.title = "jAkI.club - Home"
-console.log("Done: loading page.")
+body( element('div', "Hello, World."));
