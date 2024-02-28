@@ -1,6 +1,7 @@
 // /apps/dom.ts/src/dom.ts
+import { body, element as e } from "/apps/html.js/src/index.mts";
 
-import { body, element } from "html.js";
 
-document.title = "jAkI.club - Home"
-body( element('div', "Hello, World."));
+body(
+  e('main', e('div', 'hello'))
+);
