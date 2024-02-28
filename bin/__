@@ -64,11 +64,9 @@ case "$*" in
   "build")
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
-    # this_project="$PWD"
+    this_project="$PWD"
 
     echo "--- in $PWD" >&2
-    cp -f /apps/html.js/build/html.mjs Public/section/js/html.mjs
-    cp -f /apps/html.js/src/index.mts  Public/section/js/html.mts
     "$this_bin" build dir
     "$this_bin" download pure.css
 
@@ -78,16 +76,7 @@ case "$*" in
 
     while read -r LINE ; do
       case "$LINE" in
-        *section/base*)
-          :
-          ;;
-        *.mts)
-          echo "--- Processing .ts: $LINE"
-          set -x
-          bun build --target browser "$LINE" --outdir "$(dirname "$LINE")" --splitting
-          set +x
-          rm "$LINE"
-          ;;
+        *section/base*) : ;;
         *.css)
           echo "--- Processing .css: $LINE"
           set -x
@@ -95,14 +84,12 @@ case "$*" in
           set +x
           mv "$LINE".tmp "$LINE"
           ;;
-        *)
-          ;;
       esac
-    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.mts')
+    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css')
 
+    www build mjs
     echo "=== Done building. ==="
     echo
-    # tree .
     ;;
 
   "build css "*)
