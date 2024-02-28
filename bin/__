@@ -47,15 +47,8 @@ case "$*" in
     cp -r Public build/
     ;;
 
-  "build")
-    this_bin="$(realpath "$0")"
-    cd "$(dirname "$0")"/..
-    this_project="$PWD"
-    echo "--- in $PWD" >&2
-
-
-    "$this_bin" build dir
-
+  "download pure.css")
+    set -x
     cd Public/styles
     if ! test -e pure.css; then
       wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
@@ -66,10 +59,19 @@ case "$*" in
     if ! test -e reset.css ; then
       wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
     fi
-    cd "$this_project"
+    ;;
+
+  "build")
+    this_bin="$(realpath "$0")"
+    cd "$(dirname "$0")"/..
+    # this_project="$PWD"
+
+    echo "--- in $PWD" >&2
+    cp -f /apps/html.js/build/html.mjs Public/section/js/html.mjs
+    "$this_bin" build dir
+    "$this_bin" download pure.css
 
     cd build
-
     # echo "=== Writing file manifest..."
     # www write file manifest for Public
 
@@ -80,12 +82,16 @@ case "$*" in
           ;;
         *.ts)
           echo "--- Processing .ts: $LINE"
-          bun build "$LINE" --outdir "$(dirname "$LINE")"
+          set -x
+          bun build --target browser "$LINE" --outdir "$(dirname "$LINE")"
+          set +x
           rm "$LINE"
           ;;
         *.css)
           echo "--- Processing .css: $LINE"
+          set -x
           bun x lightningcss --minify --bundle "$LINE" -o "$LINE".tmp
+          set +x
           mv "$LINE".tmp "$LINE"
           ;;
         *)
