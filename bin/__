@@ -68,6 +68,7 @@ case "$*" in
 
     echo "--- in $PWD" >&2
     cp -f /apps/html.js/build/html.mjs Public/section/js/html.mjs
+    cp -f /apps/html.js/src/index.mts  Public/section/js/html.mts
     "$this_bin" build dir
     "$this_bin" download pure.css
 
@@ -80,10 +81,10 @@ case "$*" in
         *section/base*)
           :
           ;;
-        *.ts)
+        *.mts)
           echo "--- Processing .ts: $LINE"
           set -x
-          bun build --target browser "$LINE" --outdir "$(dirname "$LINE")"
+          bun build --target browser "$LINE" --outdir "$(dirname "$LINE")" --splitting
           set +x
           rm "$LINE"
           ;;
@@ -97,7 +98,7 @@ case "$*" in
         *)
           ;;
       esac
-    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.ts')
+    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.mts')
 
     echo "=== Done building. ==="
     echo

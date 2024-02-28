@@ -3,8 +3,12 @@
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
+    "allowImportingTsExtensions": true,
     "types": [
       "@cloudflare/workers-types"
-    ]
+    ],
+    "paths": {
+      "html.js": ["Public/section/js/html.mts"]
+    }
   }
 }
