@@ -15,6 +15,7 @@ case "$*" in
 
   "server")
     # bunx wrangler dev
+    bun run --hot src/worker.js
     ;;
 
   "build watch")

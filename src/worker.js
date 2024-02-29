@@ -6,10 +6,16 @@ import { serveStatic } from 'hono/bun';
 
 const app = new Hono()
 
-app.get('/', serveStatic({ path: "./build/index.html"}));
-app.get('/*', serveStatic({ root: "./build"}));
+app.get('/', async (_c) => {
+  await Bun.spawn(['bin/__', 'build']).exited
+  return new Response(Bun.file("./build/Public/section/home/index.html"));
+});
+// app.get('/', serveStatic({ path: "./build/index.html"}));
+app.get('/*', serveStatic({ root: "./build/Public"}));
 
+const PORT = 4567;
+console.log(`Starting server at: ${PORT}`)
 export default {
-  port: 4567,
+  port: PORT,
   fetch: app.fetch,
 };
