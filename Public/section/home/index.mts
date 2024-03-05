@@ -2,8 +2,10 @@
 // import { body, element as e } from "../base/html.mts";
 import { body, element as e } from "/apps/html.js/src/index.mts";
 
+const SITE_NAME = "jAki.CLUB";
 
 body(
+  e('h1', `${SITE_NAME} home.`),
   e('main', e('div', 'hello'))
 );
 
