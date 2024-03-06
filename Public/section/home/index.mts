@@ -6,7 +6,15 @@ const SITE_NAME = "jAki.CLUB";
 
 body(
   e('h1', `${SITE_NAME} home.`),
-  e('main', e('div', 'hello'))
+  e('main',
+    e('form.login',
+      e('h2', 'Login or Create an account.'),
+      e('input', {type: 'email', name: 'email'}),
+      e('label', 'Email'),
+      e('button', 'Enter')
+    ) // form
+   ), // main
+  e('footer', e('span.copyright', '(c) 2024. All rights reserved.'))
 );
 
 /// <reference no-default-lib="true"/>
