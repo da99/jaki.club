@@ -8,9 +8,12 @@ body(
   e('h1', `${SITE_NAME} home.`),
   e('main',
     e('form.login',
+      {action: "/login", method: "post"},
       e('h2', 'Login or Create an account.'),
-      e('input', {type: 'email', name: 'email'}),
-      e('label', 'Email'),
+      e('fieldset',
+        e('label', {htmlFor: 'email'}, 'Email:'),
+        e('input', {type: 'email', name: 'email'}),
+       ),
       e('button', 'Enter')
     ) // form
    ), // main
