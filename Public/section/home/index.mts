@@ -7,7 +7,7 @@ const SITE_NAME = "jAki.CLUB";
 body(
   e('h1', `${SITE_NAME} home.`),
   e('main',
-    e('form.login',
+    e('form.login#login',
       {action: "/login", method: "post"},
       e('h2', 'Login or Create an account.'),
       e('fieldset',
