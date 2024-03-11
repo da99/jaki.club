@@ -16,7 +16,10 @@ app.get('/*', serveStatic({ root: "./build/Public"}));
 
 app.post('/login', async (ctx) => {
   const json = await ctx.req.json();
-  const dom_id = ctx.req.header(X_SENT_FROM) || '[NONE]';
+  const dom_id = ctx.req.header(X_SENT_FROM);
+  if (!dom_id) {
+    return ctx.notFound();
+  }
   console.log(dom_id);
   console.log(json);
   return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
