@@ -3,6 +3,7 @@
 
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
+import { X_SENT_FROM } from '/apps/html.js/src/index.mts';
 
 const app = new Hono()
 
@@ -15,8 +16,10 @@ app.get('/*', serveStatic({ root: "./build/Public"}));
 
 app.post('/login', async (ctx) => {
   const json = await ctx.req.json();
+  const dom_id = ctx.req.header(X_SENT_FROM) || '[NONE]';
+  console.log(dom_id);
   console.log(json);
-  return new Response(JSON.stringify({__target: json.__target || '[NONE]', msg: "A-ok."}));
+  return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
 })
 
 const PORT = 4567;
