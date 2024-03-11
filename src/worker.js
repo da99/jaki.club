@@ -13,6 +13,12 @@ app.get('/', async (_c) => {
 // app.get('/', serveStatic({ path: "./build/index.html"}));
 app.get('/*', serveStatic({ root: "./build/Public"}));
 
+app.post('/login', async (ctx) => {
+  const json = await ctx.req.json();
+  console.log(json);
+  return new Response(JSON.stringify({__target: json.__target || '[NONE]', msg: "A-ok."}));
+})
+
 const PORT = 4567;
 console.log(`Starting server at: ${PORT}`)
 export default {
