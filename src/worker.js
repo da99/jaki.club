@@ -1,9 +1,17 @@
 
     // return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
 
+
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 import { X_SENT_FROM } from '/apps/html.js/src/index.mts';
+// import { Client, fql, FaunaError } from "fauna";
+
+// configure your client
+// const client = new Client({
+//   secret: 'insert your api key here',
+// });
+// const collectionQuery = fql`Collection.create({ name: "Dogs" })`;
 
 const app = new Hono()
 
@@ -31,3 +39,6 @@ export default {
   port: PORT,
   fetch: app.fetch,
 };
+
+
+
