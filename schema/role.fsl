@@ -1,0 +1,4 @@
+
+role jaki_admin {
+  privileges Account { create; read; write; delete }
+}

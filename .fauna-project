@@ -1,0 +1,6 @@
+schema_directory=schema
+default=prod
+
+[environment.prod]
+endpoint=fauna-us
+database=diego

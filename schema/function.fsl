@@ -1,0 +1,13 @@
+
+
+@role(jaki_admin)
+function create_account(raw_email: String, raw_name: String): String {
+  let uname = raw_name.toUpperCase()
+  Account.create({
+    email: raw_email,
+    uemail: raw_email.toUpperCase(),
+    name: raw_name,
+    uname: uname
+  })
+  uname
+}
