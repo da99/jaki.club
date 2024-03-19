@@ -1,5 +1,3 @@
-// /apps/dom.ts/src/dom.ts
-// import { body, element as e } from "../base/html.mts";
 import { body, element as e, form_post } from "/apps/html.js/src/index.mts";
 import {SITE_NAME} from "/apps/jaki.club/src/site.mts";
 

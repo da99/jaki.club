@@ -10,7 +10,8 @@ case "$*" in
     echo "$0 build"
     echo "$0 build watch"
     echo "$0 build dir"
-    echo "$0 build css SECTION_NAME"
+    echo "$0 build css [SECTION-NAME]"
+    echo "$0 section new [SECTION-NAME]"
     echo
     ;;
 
@@ -105,6 +106,20 @@ case "$*" in
     bunx lightningcss --minify --bundle main.css -o tmp.main.css
     mv -f tmp.main.css main.css
     ;;
+
+  "section new "*)
+    new_name="$3"
+
+    new_dir=Public/section/"$new_name"
+    mkdir -p "$new_dir"
+    for x in index.html index.mts index.css ; do
+      if ! test -f "$new_dir"/"$x" ; then
+        cp templates/"$x" "$new_dir"/"$x"
+      fi
+    done
+    tree "$new_dir"
+    ;;
+
   *)
     echo "!!! Unknown command: $*" >&2
     exit 1

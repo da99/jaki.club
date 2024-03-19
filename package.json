@@ -13,9 +13,10 @@
     "@types/bun": "latest"
   },
   "dependencies": {
-    "jest": "latest",
-    "lightningcss-cli": "latest",
     "fauna": "latest",
-    "hono": "latest"
+    "hono": "latest",
+    "hono-sessions": "^0.3.4",
+    "jest": "latest",
+    "lightningcss-cli": "latest"
   }
 }

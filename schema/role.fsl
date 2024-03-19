@@ -2,3 +2,7 @@
 role jaki_admin {
   privileges Account { create; read; write; delete }
 }
+
+role dev_admin {
+  privileges create_account { call }
+}
