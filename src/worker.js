@@ -33,6 +33,16 @@ app.get('/', async (_c) => {
   return new Response(Bun.file("./build/Public/section/home/index.html"));
 });
 
+app.get('/session-data', async (_c) => {
+  const session = c.get('session');
+  const screen_name = session.get('screen_name');
+  if (screen_name) {
+    return {screen_name};
+  } else {
+    return {screen_name: undefined};
+  }
+})
+
 // app.get('/', serveStatic({ path: "./build/index.html"}));
 app.get('/*', serveStatic({ root: "./build/Public"}));
 app.get('/admin', async (_c) => {
