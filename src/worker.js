@@ -33,13 +33,13 @@ app.get('/', async (_c) => {
   return new Response(Bun.file("./build/Public/section/home/index.html"));
 });
 
-app.get('/session-data', async (_c) => {
+app.get('/session-data', async (c) => {
   const session = c.get('session');
   const screen_name = session.get('screen_name');
   if (screen_name) {
-    return {screen_name};
+    return c.json({screen_name});
   } else {
-    return {screen_name: undefined};
+    return c.json({screen_name: undefined});
   }
 })
 
@@ -51,14 +51,13 @@ app.get('/admin', async (_c) => {
   return new Response(Bun.file("./build/Public/section/admin/index.html"));
 });
 
-app.post('/login', async (ctx) => {
-  const json = await ctx.req.json();
-  const dom_id = ctx.req.header(X_SENT_FROM);
+app.post('/login', async (c) => {
+  const json = await c.req.json();
+  const dom_id = c.req.header(X_SENT_FROM);
   if (!dom_id) {
-    return ctx.notFound();
+    return c.notFound();
   }
-  console.log(dom_id);
-  console.log(json);
+  const hash = await Bun.password.hash(json.pswd);
   return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
 })
 
