@@ -10,13 +10,13 @@
   "devDependencies": {
     "wrangler": "latest",
     "@cloudflare/workers-types": "latest",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "jest": "latest",
+    "lightningcss-cli": "latest"
   },
   "dependencies": {
     "fauna": "latest",
     "hono": "latest",
-    "hono-sessions": "^0.3.4",
-    "jest": "latest",
-    "lightningcss-cli": "latest"
+    "hono-sessions": "latest"
   }
 }

@@ -51,15 +51,15 @@ app.get('/admin', async (_c) => {
   return new Response(Bun.file("./build/Public/section/admin/index.html"));
 });
 
-app.post('/login', async (c) => {
-  const json = await c.req.json();
-  const dom_id = c.req.header(X_SENT_FROM);
-  if (!dom_id) {
-    return c.notFound();
-  }
-  const hash = await Bun.password.hash(json.pswd);
-  return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
-})
+// app.post('/login', async (c) => {
+//   const json = await c.req.json();
+//   const dom_id = c.req.header(X_SENT_FROM);
+//   if (!dom_id) {
+//     return c.notFound();
+//   }
+//   const hash = await Bun.password.hash(json.pswd);
+//   return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
+// })
 
 const PORT = 4567;
 console.log(`Starting server at: ${PORT}`)
