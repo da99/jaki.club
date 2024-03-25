@@ -50,20 +50,6 @@ case "$*" in
     cp -r Public build/
     ;;
 
-  "download pure.css")
-    set -x
-    cd Public/styles
-    if ! test -e pure.css; then
-      wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
-    fi
-    if ! test -e pure-grids.css; then
-      wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
-    fi
-    if ! test -e reset.css ; then
-      wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
-    fi
-    ;;
-
   "build")
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
@@ -105,6 +91,20 @@ case "$*" in
     cd build/Public/section/"$section"
     bunx lightningcss --minify --bundle main.css -o tmp.main.css
     mv -f tmp.main.css main.css
+    ;;
+
+  "download pure.css")
+    set -x
+    cd Public/styles
+    if ! test -e pure.css; then
+      wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
+    fi
+    if ! test -e pure-grids.css; then
+      wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
+    fi
+    if ! test -e reset.css ; then
+      wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
+    fi
     ;;
 
   "section new "*)
