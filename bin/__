@@ -17,7 +17,7 @@ case "$*" in
 
   "serve")
     # bunx wrangler dev
-    bun run --hot src/worker.js
+    secrets JAKI_DEV bun run --hot src/worker.js
     ;;
 
   "build watch")
@@ -82,7 +82,16 @@ case "$*" in
       esac
     done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')
 
-    www build mjs
+    set -x
+    index_mts=$( find Public/section -maxdepth 2 -mindepth 2 -type f -iname index.mts)
+    bun build --target browser \
+      --outdir "$PWD"/Public/section --splitting \
+      --entry-naming "[dir]/[name].mjs" \
+      $index_mts
+    rm $index_mts
+    set +x
+
+    # www build mjs
     echo "=== Done building. ==="
     echo
     ;;

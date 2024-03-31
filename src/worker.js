@@ -19,7 +19,7 @@ const store = new CookieStore();
 
 app.use('*', sessionMiddleware({
   store,
-  encryptionKey: process.env.COOKIE_KEY,
+  encryptionKey: process.env.PSWD_SALT,
   expireAfterSeconds: (60 * 60 * 24 * 14),
   cookieOptions: {
     sameSite: 'Lax',
