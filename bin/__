@@ -17,6 +17,7 @@ case "$*" in
 
   "serve")
     # bunx wrangler dev
+    export IS_DEV='YES'
     secrets JAKI_DEV bun run --hot src/worker.js
     ;;
 
@@ -78,6 +79,7 @@ case "$*" in
           new_file=${LINE/.html.mts/.html}
           echo "--- Writing: $new_file"
           bun run "$LINE" > "$new_file"
+          rm "$LINE"
           ;;
       esac
     done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')

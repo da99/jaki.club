@@ -1,12 +1,14 @@
 import { html5, element as E } from '/apps/html.js/src/bsr.mts';
-import { SITE_NAME, default_head } from '/apps/jaki.club/src/site.mts';
+import { Static, SITE_NAME, default_head } from '/apps/jaki.club/src/site.mts';
 
+
+const Home = new Static('home');
 
 console.log(
   html5(
     default_head('home', `${SITE_NAME} homepage`),
     E('body',
-      E('script', {type: 'module', src: "/section/home/index.mjs"})
+      E('script', {type: 'module', src: Home.index_mjs})
      )
   )
 );
