@@ -8,11 +8,12 @@
     "dev": "bun run -p 8787 --hot src/worker.js"
   },
   "devDependencies": {
-    "wrangler": "latest",
     "@cloudflare/workers-types": "latest",
+    "@happy-dom/global-registrator": "^14.3.9",
     "@types/bun": "latest",
     "jest": "latest",
-    "lightningcss-cli": "latest"
+    "lightningcss-cli": "latest",
+    "wrangler": "latest"
   },
   "dependencies": {
     "fauna": "latest",

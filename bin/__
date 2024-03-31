@@ -60,8 +60,9 @@ case "$*" in
     "$this_bin" download pure.css
 
     cd build
-    # echo "=== Writing file manifest..."
-    # www write file manifest for Public
+
+    echo "=== Writing file manifest..."
+    www write file manifest for Public
 
     while read -r LINE ; do
       case "$LINE" in
@@ -73,8 +74,13 @@ case "$*" in
           set +x
           mv "$LINE".tmp "$LINE"
           ;;
+        *.html.mts)
+          new_file=${LINE/.html.mts/.html}
+          echo "--- Writing: $new_file"
+          bun run "$LINE" > "$new_file"
+          ;;
       esac
-    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css')
+    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')
 
     www build mjs
     echo "=== Done building. ==="
