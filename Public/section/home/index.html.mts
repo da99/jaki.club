@@ -1,5 +1,6 @@
 import { html5, element as E } from '/apps/html.js/src/bsr.mts';
-import { Static, SITE_NAME } from '/apps/jaki.club/src/site.mts';
+import { SITE_NAME } from '/apps/jaki.club/src/site.mts';
+import { Static } from '/apps/jaki.club/src/Static.mts';
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
 

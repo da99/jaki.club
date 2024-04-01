@@ -1,5 +1,5 @@
 import { element as E } from '/apps/html.js/src/bsr.mts';
-import { Static } from '/apps/jaki.club/src/site.mts';
+import { Static } from '/apps/jaki.club/src/Static.mts';
 
 
 //   <head>

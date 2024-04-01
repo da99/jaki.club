@@ -1,7 +1,6 @@
 
     // return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
 
-
 import { Hono } from 'hono';
 import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 import { serveStatic } from 'hono/bun';
