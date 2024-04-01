@@ -7,7 +7,7 @@ case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 serve"
-    echo "$0 build"
+    echo "$0 build dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
     echo "$0 build css [SECTION-NAME]"
@@ -51,7 +51,24 @@ case "$*" in
     cp -r Public build/
     ;;
 
-  "build")
+  "build dev")
+    IS_DEV=YES "$0" __build
+    ;;
+
+  "build prod")
+    IS_DEV='' "$0" __build
+    ;;
+
+  __build)
+    case "$IS_DEV" in
+      yes|YES|IS_DEV)
+        echo "--- Building for development..." >&2
+        ;;
+      *)
+        echo "--- Building for production..." >&2
+        export IS_DEV=""
+        ;;
+    esac
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
     this_project="$PWD"
@@ -86,15 +103,17 @@ case "$*" in
 
     set -x
     index_mts=$( find Public/section -maxdepth 2 -mindepth 2 -type f -iname index.mts)
-    bun build --target browser \
-      --outdir "$PWD"/Public/section --splitting \
+    bun build \
+      --target browser \
+      --outdir "$PWD"/Public/section \
+      --splitting \
       --entry-naming "[dir]/[name].mjs" \
       $index_mts
     rm $index_mts
     set +x
 
     # www build mjs
-    echo "=== Done building. ==="
+    echo "=== Done building. ===" >&2
     echo
     ;;
 

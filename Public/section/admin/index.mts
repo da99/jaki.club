@@ -11,4 +11,4 @@ body(
   e('footer', e('span.copyright', '(c) 2024. All rights reserved.'))
 );
 
-console.log(SITE_NAME);
+// console.log(SITE_NAME);

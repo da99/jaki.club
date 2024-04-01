@@ -8,7 +8,8 @@ import { X_SENT_FROM } from '/apps/html.js/src/index.mts';
 import { Client, fql, FaunaError } from "fauna";
 import { which } from 'bun';
 
-import { IS_DEV, DEV_PORT, Static } from '/apps/jaki.club/src/site.mts';
+import { IS_DEV, DEV_PORT } from '/apps/jaki.club/src/site.mts';
+import { Static } from '/apps/jaki.club/src/Static.mts';
 
 // configure your client
 const client = new Client({
@@ -29,10 +30,13 @@ app.use('*', sessionMiddleware({
   }
 })
 );
-app.get('/', async (_c) => {
-  await Bun.spawn(['bin/__', 'build']).exited
-  return new Response(Bun.file("./build/Public/section/home/index.html"));
-});
+
+  app.get('/', async (_c) => {
+    await Bun.spawn(['bin/__', 'build', 'dev']).exited
+    return Static.fetch('/section/home/index.html');
+  });
+// if (IS_DEV) {
+// }
 
 app.get('/session-data', async (c) => {
   const session = c.get('session');
