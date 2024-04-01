@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "latest",
-    "@happy-dom/global-registrator": "^14.3.9",
     "@types/bun": "latest",
     "jest": "latest",
     "lightningcss-cli": "latest",
