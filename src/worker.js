@@ -9,6 +9,8 @@ import { X_SENT_FROM } from '/apps/html.js/src/index.mts';
 import { Client, fql, FaunaError } from "fauna";
 import { which } from 'bun';
 
+import { IS_DEV, DEV_PORT, Static } from '/apps/jaki.club/src/site.mts';
+
 // configure your client
 const client = new Client({
   secret: process.env.FAUNA_SECRET
@@ -44,11 +46,11 @@ app.get('/session-data', async (c) => {
 })
 
 // app.get('/', serveStatic({ path: "./build/index.html"}));
-app.get('/*', serveStatic({ root: "./build/Public"}));
-app.get('/admin', async (_c) => {
+app.get('/admin', async (c) => {
   const session = c.get('session');
 
-  return new Response(Bun.file("./build/Public/section/admin/index.html"));
+  return Static.fetch('/section/admin/index.html');
+  // return new Response(Bun.file("./build/Public/section/admin/index.html"));
 });
 
 // app.post('/login', async (c) => {
@@ -61,10 +63,13 @@ app.get('/admin', async (_c) => {
 //   return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
 // })
 
-const PORT = 4567;
-console.log(`Starting server at: ${PORT}`)
+if (IS_DEV) {
+  app.get('/*', serveStatic({ root: "./build/Public"}));
+}
+
+console.log(`Starting server at: ${DEV_PORT}`)
 export default {
-  port: PORT,
+  port: DEV_PORT,
   fetch: app.fetch,
 };
 
