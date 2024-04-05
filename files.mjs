@@ -1,124 +1,184 @@
 
 const MANIFEST = {
   "/index.less": {
-    "public_path": "/index.ecff45.less",
-    "etag": "ecff45524"
+    "local_path": "/index.less",
+    "public_path": "/index.ecff45524.less",
+    "etag": "ecff45524",
+    "created_at": "1706943764"
   },
   "/index.alt.html": {
-    "public_path": "/index.alt.69fef5.html",
-    "etag": "69fef5839"
+    "local_path": "/index.alt.html",
+    "public_path": "/index.alt.69fef5839.html",
+    "etag": "69fef5839",
+    "created_at": "1706943764"
   },
   "/android-chrome-512x512.png": {
-    "public_path": "/android-chrome-512x512.90754b.png",
-    "etag": "90754bd5a"
+    "local_path": "/android-chrome-512x512.png",
+    "public_path": "/android-chrome-512x512.90754bd5a.png",
+    "etag": "90754bd5a",
+    "created_at": "1706943764"
   },
   "/favicon.ico": {
-    "public_path": "/favicon.9bd279.ico",
-    "etag": "9bd279dd5"
+    "local_path": "/favicon.ico",
+    "public_path": "/favicon.9bd279dd5.ico",
+    "etag": "9bd279dd5",
+    "created_at": "1706943764"
   },
   "/styles/pure-grids.css": {
-    "public_path": "/styles/pure-grids.e980b1.css",
-    "etag": "e980b19ca"
+    "local_path": "/styles/pure-grids.css",
+    "public_path": "/styles/pure-grids.e980b19ca.css",
+    "etag": "e980b19ca",
+    "created_at": "1708897279"
   },
   "/styles/reset.css": {
-    "public_path": "/styles/reset.ed555a.css",
-    "etag": "ed555a279"
+    "local_path": "/styles/reset.css",
+    "public_path": "/styles/reset.ed555a279.css",
+    "etag": "ed555a279",
+    "created_at": "1708898191"
   },
   "/styles/mazak/webfont.woff": {
-    "public_path": "/styles/mazak/webfont.756a47.woff",
-    "etag": "756a47e7d"
+    "local_path": "/styles/mazak/webfont.woff",
+    "public_path": "/styles/mazak/webfont.756a47e7d.woff",
+    "etag": "756a47e7d",
+    "created_at": "1706943764"
   },
   "/styles/mazak/webfont.woff2": {
-    "public_path": "/styles/mazak/webfont.cfaf72.woff2",
-    "etag": "cfaf729db"
+    "local_path": "/styles/mazak/webfont.woff2",
+    "public_path": "/styles/mazak/webfont.cfaf729db.woff2",
+    "etag": "cfaf729db",
+    "created_at": "1706943764"
   },
   "/styles/mwe/logo.png": {
-    "public_path": "/styles/mwe/logo.558503.png",
-    "etag": "5585032ef"
+    "local_path": "/styles/mwe/logo.png",
+    "public_path": "/styles/mwe/logo.5585032ef.png",
+    "etag": "5585032ef",
+    "created_at": "1706943764"
   },
   "/styles/mwe/spotlight.png": {
-    "public_path": "/styles/mwe/spotlight.febc43.png",
-    "etag": "febc43dab"
+    "local_path": "/styles/mwe/spotlight.png",
+    "public_path": "/styles/mwe/spotlight.febc43dab.png",
+    "etag": "febc43dab",
+    "created_at": "1706943764"
   },
   "/styles/mwe/bg_header.gif": {
-    "public_path": "/styles/mwe/bg_header.a1f389.gif",
-    "etag": "a1f38945d"
+    "local_path": "/styles/mwe/bg_header.gif",
+    "public_path": "/styles/mwe/bg_header.a1f38945d.gif",
+    "etag": "a1f38945d",
+    "created_at": "1706943764"
   },
   "/styles/mwe/bg.gif": {
-    "public_path": "/styles/mwe/bg.f3ac83.gif",
-    "etag": "f3ac835c6"
+    "local_path": "/styles/mwe/bg.gif",
+    "public_path": "/styles/mwe/bg.f3ac835c6.gif",
+    "etag": "f3ac835c6",
+    "created_at": "1706943764"
   },
   "/styles/mwe/spotlight_r1_c5.png": {
-    "public_path": "/styles/mwe/spotlight_r1_c5.58e82a.png",
-    "etag": "58e82a7e0"
+    "local_path": "/styles/mwe/spotlight_r1_c5.png",
+    "public_path": "/styles/mwe/spotlight_r1_c5.58e82a7e0.png",
+    "etag": "58e82a7e0",
+    "created_at": "1706943764"
   },
   "/styles/pure.css": {
-    "public_path": "/styles/pure.ffb9da.css",
-    "etag": "ffb9da134"
+    "local_path": "/styles/pure.css",
+    "public_path": "/styles/pure.ffb9da134.css",
+    "etag": "ffb9da134",
+    "created_at": "1708897279"
   },
   "/normalize.css": {
-    "public_path": "/normalize.580818.css",
-    "etag": "580818700"
+    "local_path": "/normalize.css",
+    "public_path": "/normalize.580818700.css",
+    "etag": "580818700",
+    "created_at": "1706943764"
   },
   "/index.html": {
-    "public_path": "/index.57e80c.html",
-    "etag": "57e80c539"
+    "local_path": "/index.html",
+    "public_path": "/index.57e80c539.html",
+    "etag": "57e80c539",
+    "created_at": "1706943761"
   },
   "/favicon.about.txt": {
-    "public_path": "/favicon.about.b01dca.txt",
-    "etag": "b01dcab6d"
+    "local_path": "/favicon.about.txt",
+    "public_path": "/favicon.about.b01dcab6d.txt",
+    "etag": "b01dcab6d",
+    "created_at": "1706943764"
   },
   "/favicon-16x16.png": {
-    "public_path": "/favicon-16x16.c99327.png",
-    "etag": "c99327bf2"
+    "local_path": "/favicon-16x16.png",
+    "public_path": "/favicon-16x16.c99327bf2.png",
+    "etag": "c99327bf2",
+    "created_at": "1706943764"
   },
   "/pure-grid.css": {
-    "public_path": "/pure-grid.e980b1.css",
-    "etag": "e980b19ca"
+    "local_path": "/pure-grid.css",
+    "public_path": "/pure-grid.e980b19ca.css",
+    "etag": "e980b19ca",
+    "created_at": "1706943761"
   },
   "/android-chrome-192x192.png": {
-    "public_path": "/android-chrome-192x192.93ee74.png",
-    "etag": "93ee74ef3"
+    "local_path": "/android-chrome-192x192.png",
+    "public_path": "/android-chrome-192x192.93ee74ef3.png",
+    "etag": "93ee74ef3",
+    "created_at": "1706943764"
   },
   "/section/admin/index.css": {
-    "public_path": "/section/admin/index.e3b0c4.css",
-    "etag": "e3b0c4429"
+    "local_path": "/section/admin/index.css",
+    "public_path": "/section/admin/index.e3b0c4429.css",
+    "etag": "e3b0c4429",
+    "created_at": "1710883219"
+  },
+  "/section/admin/index.html.mts": {
+    "local_path": "/section/admin/index.html.mts",
+    "public_path": "/section/admin/index.html.27e23f79f.mts",
+    "etag": "27e23f79f",
+    "created_at": "1711936925"
   },
   "/section/admin/index.mts": {
-    "public_path": "/section/admin/index.a1628d.mts",
-    "etag": "a1628d558"
-  },
-  "/section/admin/index.html": {
-    "public_path": "/section/admin/index.852451.html",
-    "etag": "8524513c7"
+    "local_path": "/section/admin/index.mts",
+    "public_path": "/section/admin/index.b8b5ad075.mts",
+    "etag": "b8b5ad075",
+    "created_at": "1711938653"
   },
   "/section/home/index.css": {
-    "public_path": "/section/home/index.e6a60f.css",
-    "etag": "e6a60f57d"
+    "local_path": "/section/home/index.css",
+    "public_path": "/section/home/index.e6a60f57d.css",
+    "etag": "e6a60f57d",
+    "created_at": "1710883219"
+  },
+  "/section/home/index.html.mts": {
+    "local_path": "/section/home/index.html.mts",
+    "public_path": "/section/home/index.html.241b911c0.mts",
+    "etag": "241b911c0",
+    "created_at": "1712053163"
   },
   "/section/home/index.mts": {
-    "public_path": "/section/home/index.8e58e7.mts",
-    "etag": "8e58e7c4c"
-  },
-  "/section/home/index.html": {
-    "public_path": "/section/home/index.4c4791.html",
-    "etag": "4c4791a6b"
+    "local_path": "/section/home/index.mts",
+    "public_path": "/section/home/index.acfc856b9.mts",
+    "etag": "acfc856b9",
+    "created_at": "1712053163"
   },
   "/section/base/reset.css": {
-    "public_path": "/section/base/reset.0dfd41.css",
-    "etag": "0dfd41340"
+    "local_path": "/section/base/reset.css",
+    "public_path": "/section/base/reset.0dfd41340.css",
+    "etag": "0dfd41340",
+    "created_at": "1708276574"
   },
   "/section/base/html.mts": {
-    "public_path": "/section/base/html.317d8f.mts",
-    "etag": "317d8f0bb"
+    "local_path": "/section/base/html.mts",
+    "public_path": "/section/base/html.317d8f0bb.mts",
+    "etag": "317d8f0bb",
+    "created_at": "1709166028"
   },
   "/apple-touch-icon.png": {
-    "public_path": "/apple-touch-icon.f77486.png",
-    "etag": "f77486ab8"
+    "local_path": "/apple-touch-icon.png",
+    "public_path": "/apple-touch-icon.f77486ab8.png",
+    "etag": "f77486ab8",
+    "created_at": "1706943764"
   },
   "/favicon-32x32.png": {
-    "public_path": "/favicon-32x32.e4026d.png",
-    "etag": "e4026d831"
+    "local_path": "/favicon-32x32.png",
+    "public_path": "/favicon-32x32.e4026d831.png",
+    "etag": "e4026d831",
+    "created_at": "1706943764"
   }
 } ;
 
