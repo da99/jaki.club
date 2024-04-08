@@ -12,6 +12,8 @@ case "$*" in
     echo "$0 build dir"
     echo "$0 build css [SECTION-NAME]"
     echo "$0 section new [SECTION-NAME]"
+    echo "$0 upload"
+    echo "$0 upgrade"
     echo
     ;;
 
@@ -40,7 +42,7 @@ case "$*" in
           fi
           ;;
       esac
-    done < <(inotifywait -r -m -e MODIFY Public)
+    done < <(inotifywait -r -m -e MODIFY public)
     ;;
 
   "build dir")
@@ -48,7 +50,7 @@ case "$*" in
     cd "$(dirname "$0")"/..
     rm -rf build
     mkdir build
-    cp -r Public build/
+    cp -r public build/
     ;;
 
   "build dev")
@@ -80,7 +82,7 @@ case "$*" in
     cd build
 
     echo "=== Writing file manifest..."
-    www write file manifest for Public
+    www write file manifest
 
     while read -r LINE ; do
       case "$LINE" in
@@ -99,13 +101,13 @@ case "$*" in
           rm "$LINE"
           ;;
       esac
-    done < <( find Public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')
+    done < <( find public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')
 
     set -x
-    index_mts=$( find Public/section -maxdepth 2 -mindepth 2 -type f -iname index.mts)
+    index_mts=$( find public/section -maxdepth 2 -mindepth 2 -type f -iname index.mts)
     bun build \
       --target browser \
-      --outdir "$PWD"/Public/section \
+      --outdir "$PWD"/public/section \
       --splitting \
       --entry-naming "[dir]/[name].mjs" \
       $index_mts
@@ -124,29 +126,23 @@ case "$*" in
     section="$3"
     echo "=== Compiling section: $section"
     set -x
-    cd build/Public/section/"$section"
+    cd build/public/section/"$section"
     bunx lightningcss --minify --bundle main.css -o tmp.main.css
     mv -f tmp.main.css main.css
     ;;
 
   "download pure.css")
     set -x
-    cd Public/styles
-    if ! test -e pure.css; then
-      wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
-    fi
-    if ! test -e pure-grids.css; then
-      wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
-    fi
-    if ! test -e reset.css ; then
-      wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
-    fi
+    cd public/styles
+    wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
+    wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
+    wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
     ;;
 
   "section new "*)
     new_name="$3"
 
-    new_dir=Public/section/"$new_name"
+    new_dir=public/section/"$new_name"
     mkdir -p "$new_dir"
     for x in index.html index.mts index.css ; do
       if ! test -f "$new_dir"/"$x" ; then
@@ -156,6 +152,16 @@ case "$*" in
     tree "$new_dir"
     ;;
 
+  "upload")
+    www setup bucket
+    www write file manifest
+    www upload to bucket
+    ;;
+
+  upgrade)
+    bun update
+    "$0" download pure.css
+    ;;
   *)
     echo "!!! Unknown command: $*" >&2
     exit 1

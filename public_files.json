@@ -1,5 +1,4 @@
-
-const MANIFEST = {
+{
   "/index.less": {
     "local_path": "/index.less",
     "public_path": "/index.ecff45524.less",
@@ -180,22 +179,4 @@ const MANIFEST = {
     "etag": "e4026d831",
     "created_at": "1706943764"
   }
-} ;
-
-export default {
-
-  files: MANIFEST,
-
-  path(key) {
-    const file = MANIFEST[key];
-
-    if (typeof IS_DEV === 'boolean')
-      return key;
-
-    if (file)
-      return MANIFEST[key]["public_path"];
-
-    throw new Error(`File not found: ${key}`);
-  },
-
-};
+}
