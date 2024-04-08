@@ -88,11 +88,17 @@
       "etag": "ffb9da134",
       "created_at": "1708897279"
     },
-    "/normalize.css": {
-      "local_path": "/normalize.css",
-      "public_path": "/normalize.580818700.css",
+    "/styles/normalize.css": {
+      "local_path": "/styles/normalize.css",
+      "public_path": "/styles/normalize.580818700.css",
       "etag": "580818700",
       "created_at": "1706943764"
+    },
+    "/styles/pure-grid.css": {
+      "local_path": "/styles/pure-grid.css",
+      "public_path": "/styles/pure-grid.e980b19ca.css",
+      "etag": "e980b19ca",
+      "created_at": "1706943761"
     },
     "/index.html": {
       "local_path": "/index.html",
@@ -111,12 +117,6 @@
       "public_path": "/favicon-16x16.c99327bf2.png",
       "etag": "c99327bf2",
       "created_at": "1706943764"
-    },
-    "/pure-grid.css": {
-      "local_path": "/pure-grid.css",
-      "public_path": "/pure-grid.e980b19ca.css",
-      "etag": "e980b19ca",
-      "created_at": "1706943761"
     },
     "/android-chrome-192x192.png": {
       "local_path": "/android-chrome-192x192.png",
