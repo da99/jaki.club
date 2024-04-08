@@ -14,6 +14,7 @@ case "$*" in
     echo "$0 section new [SECTION-NAME]"
     echo "$0 upload"
     echo "$0 upgrade"
+    echo "$0 prune files"
     echo
     ;;
 
@@ -161,6 +162,11 @@ case "$*" in
   upgrade)
     bun update
     "$0" download pure.css
+    ;;
+
+  "prune files")
+    set -x
+    secrets JAKI_DEV www "$@"
     ;;
   *)
     echo "!!! Unknown command: $*" >&2
