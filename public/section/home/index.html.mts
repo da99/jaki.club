@@ -1,5 +1,5 @@
 import { html5, element as E } from '/apps/html.js/src/bsr.mts';
-import { SITE_NAME } from '/apps/jaki.club/src/site.mts';
+import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { Static } from '/apps/jaki.club/src/Static.mts';
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
@@ -8,9 +8,9 @@ const Home = new Static('home');
 
 console.log(
   html5(
-    default_head(Home.name, `${SITE_NAME} homepage`),
+    default_head(Home.name, `${SETTINGS.site_name} homepage`),
     E('body',
-      E('h1', `${SITE_NAME} home.`),
+      E('h1', `${SETTINGS.site_name} home.`),
       E('main',
         E('form.login#login',
           {action: '/login', method: "post"},

@@ -1,9 +1,9 @@
 
-import { DEV_PORT, IS_DEV, REMOTE_URL, LOCAL_URL } from '/apps/jaki.club/src/site.mts';
+import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { normalize, join } from "node:path";
 
 
-const THE_SOURCE = (IS_DEV) ? LOCAL_URL : REMOTE_URL;
+const THE_SOURCE = (SETTINGS.IS_DEV) ? SETTINGS.local_url : SETTINGS.static_url;
 
 export class Static {
   name: string;

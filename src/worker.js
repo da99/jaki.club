@@ -8,8 +8,11 @@ import { X_SENT_FROM } from '/apps/html.js/src/index.mts';
 import { Client, fql, FaunaError } from "fauna";
 import { which } from 'bun';
 
-import { IS_DEV, DEV_PORT } from '/apps/jaki.club/src/site.mts';
+import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { Static } from '/apps/jaki.club/src/Static.mts';
+
+const IS_DEV = SETTINGS.IS_DEV;
+const DEV_PORT = SETTINGS.dev_port;
 
 // configure your client
 const client = new Client({

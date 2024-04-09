@@ -1,8 +1,8 @@
 import { body, element as e, form_post } from "/apps/html.js/src/index.mts";
-import { SITE_NAME } from "/apps/jaki.club/src/site.mts";
+import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
 // body(
-//   e('h1', `${SITE_NAME} home.`),
+//   e('h1', `${SETTINGS.site_name} home.`),
 //   e('main',
 //     e('form.login#login',
 //       {action: '/login', method: "post"},
