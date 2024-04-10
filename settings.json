@@ -1,5 +1,6 @@
 {
   "IS_DEV": false,
+  "build_target": "prod",
   "site_name": "jAki.CLUB",
   "dev_port": 4567,
   "static_dir": "public",

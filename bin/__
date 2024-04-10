@@ -20,8 +20,7 @@ case "$*" in
 
   "serve")
     # bunx wrangler dev
-    export IS_DEV='YES'
-    secrets JAKI_DEV bun run --hot src/worker.js
+    IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
     ;;
 
   "build watch")
@@ -55,26 +54,19 @@ case "$*" in
     ;;
 
   "build dev")
-    IS_DEV=YES "$0" __build
+    echo "--- Building for development..." >&2
+    BUILD_TARGET="dev" "$0" __build
+
     ;;
 
   "build prod")
-    IS_DEV='' "$0" __build
+    echo "--- Building for production..." >&2
+    BUILD_TARGET="prod" "$0" __build
     ;;
 
   __build)
-    case "$IS_DEV" in
-      yes|YES|IS_DEV)
-        echo "--- Building for development..." >&2
-        ;;
-      *)
-        echo "--- Building for production..." >&2
-        export IS_DEV=""
-        ;;
-    esac
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
-    this_project="$PWD"
 
     echo "--- in $PWD" >&2
     "$this_bin" build dir
@@ -168,6 +160,7 @@ case "$*" in
     set -x
     secrets JAKI_DEV www "$@"
     ;;
+
   *)
     echo "!!! Unknown command: $*" >&2
     exit 1
