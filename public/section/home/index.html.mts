@@ -1,4 +1,4 @@
-import { html5, element as E } from '/apps/html.js/src/bsr.mts';
+import { html5, element as E } from '/apps/www/src/bsr.mts';
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { Static } from '/apps/jaki.club/src/Static.mts';
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
