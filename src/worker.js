@@ -4,7 +4,7 @@
 import { Hono } from 'hono';
 import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 import { serveStatic } from 'hono/bun';
-import { X_SENT_FROM } from '/apps/html.js/src/index.mts';
+import { X_SENT_FROM } from '/apps/www/src/html.mts';
 import { Client, fql, FaunaError } from "fauna";
 import { which } from 'bun';
 
