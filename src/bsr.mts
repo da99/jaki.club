@@ -19,6 +19,7 @@ export function default_head(section: string, title: string) {
            E('meta', {charset: "utf-8"}),
            E('meta', {name: "viewport", content: "width=device-width, initial-scale=1"}),
            E('title', title),
+            // <link rel='icon' type='image/png' href='/favicon.png'>
            E('link', {rel: "stylesheet", href: Static.file("/styles/reset.css") }),
            E('link', {rel: "stylesheet", href: Static.file("/styles/pure.css") }),
            E('link', {rel: "stylesheet", href: Static.file(`/section/${section}/index.css`) }),
