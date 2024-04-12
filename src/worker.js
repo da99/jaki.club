@@ -6,13 +6,10 @@ import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 import { serveStatic } from 'hono/bun';
 import { X_SENT_FROM } from '/apps/www/src/html.mts';
 import { Client, fql, FaunaError } from "fauna";
-import { which } from 'bun';
+// import { which } from 'bun';
 
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { Static } from '/apps/jaki.club/src/Static.mts';
-
-const IS_DEV = SETTINGS.IS_DEV;
-const DEV_PORT = SETTINGS.dev_port;
 
 // configure your client
 const client = new Client({
@@ -38,17 +35,14 @@ app.use('*', sessionMiddleware({
     await Bun.spawn(['bin/__', 'build', 'dev']).exited
     return Static.fetch('/section/home/index.html');
   });
-// if (IS_DEV) {
-// }
 
 app.get('/session-data', async (c) => {
   const session = c.get('session');
   const screen_name = session.get('screen_name');
   if (screen_name) {
-    return c.json({screen_name});
-  } else {
-    return c.json({screen_name: undefined});
+    return c.json({screen_name, logged_in: true});
   }
+  return c.json({screen_name: undefined, logged_in: false});
 })
 
 // app.get('/', serveStatic({ path: "./build/index.html"}));
@@ -69,13 +63,13 @@ app.post('/login', async (c) => {
   return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
 })
 
-if (IS_DEV) {
-  app.get('/*', serveStatic({ root: "./build/Public"}));
+if (SETTINGS.IS_DEV) {
+  app.get('/*', serveStatic({ root: `./${SETTINGS.build_dir}/${SETTINGS.static_dir}`}));
 }
 
-console.log(`Starting server at: ${DEV_PORT}`)
+console.log(`Starting server at: ${SETTINGS.dev_port}`)
 export default {
-  port: DEV_PORT,
+  port: SETTINGS.dev_port,
   fetch: app.fetch,
 };
 
