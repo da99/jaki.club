@@ -74,8 +74,8 @@ case "$*" in
 
     cd build
 
-    echo "=== Writing file manifest..."
-    www write file manifest
+    echo "=== Updating file manifest..."
+    www updating file manifest
 
     while read -r LINE ; do
       case "$LINE" in
@@ -96,18 +96,9 @@ case "$*" in
       esac
     done < <( find public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')
 
-    set -x
-    index_mts=$( find public/section -maxdepth 2 -mindepth 2 -type f -iname index.mts)
-    bun build \
-      --target browser \
-      --outdir "$PWD"/public/section \
-      --splitting \
-      --entry-naming "[dir]/[name].mjs" \
-      $index_mts
-    rm $index_mts
-    set +x
+    echo "=== Building public .mjs scripts"
+    www build mjs
 
-    # www build mjs
     echo "=== Done building. ===" >&2
     echo
     ;;
