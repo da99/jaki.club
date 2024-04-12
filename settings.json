@@ -137,15 +137,15 @@
     },
     "/section/admin/index.html.mts": {
       "local_path": "/section/admin/index.html.mts",
-      "public_path": "/section/admin/index.html.27e23f79f.mts",
-      "etag": "27e23f79f",
-      "created_at": "1711936925"
+      "public_path": "/section/admin/index.html.4e13fdb8c.mts",
+      "etag": "4e13fdb8c",
+      "created_at": "1712909078"
     },
     "/section/admin/index.mts": {
       "local_path": "/section/admin/index.mts",
-      "public_path": "/section/admin/index.b8b5ad075.mts",
-      "etag": "b8b5ad075",
-      "created_at": "1711938653"
+      "public_path": "/section/admin/index.aae1c5115.mts",
+      "etag": "aae1c5115",
+      "created_at": "1712909078"
     },
     "/section/home/index.css": {
       "local_path": "/section/home/index.css",
@@ -155,15 +155,15 @@
     },
     "/section/home/index.html.mts": {
       "local_path": "/section/home/index.html.mts",
-      "public_path": "/section/home/index.html.241b911c0.mts",
-      "etag": "241b911c0",
-      "created_at": "1712053163"
+      "public_path": "/section/home/index.html.82eb4ed53.mts",
+      "etag": "82eb4ed53",
+      "created_at": "1712916528"
     },
     "/section/home/index.mts": {
       "local_path": "/section/home/index.mts",
-      "public_path": "/section/home/index.acfc856b9.mts",
-      "etag": "acfc856b9",
-      "created_at": "1712053163"
+      "public_path": "/section/home/index.e405c5ee3.mts",
+      "etag": "e405c5ee3",
+      "created_at": "1712909078"
     },
     "/section/base/reset.css": {
       "local_path": "/section/base/reset.css",
@@ -175,7 +175,7 @@
       "local_path": "/section/base/html.mts",
       "public_path": "/section/base/html.317d8f0bb.mts",
       "etag": "317d8f0bb",
-      "created_at": "1709166028"
+      "created_at": "1712909078"
     },
     "/apple-touch-icon.png": {
       "local_path": "/apple-touch-icon.png",

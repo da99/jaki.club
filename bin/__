@@ -10,7 +10,6 @@ case "$*" in
     echo "$0 build dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
-    echo "$0 build css [SECTION-NAME]"
     echo "$0 section new [SECTION-NAME]"
     echo "$0 upload"
     echo "$0 upgrade"
@@ -70,49 +69,24 @@ case "$*" in
 
     echo "--- in $PWD" >&2
     "$this_bin" build dir
-    "$this_bin" download pure.css
+    # "$this_bin" download pure.css
+
+    echo "=== Updating file manifest..."
+    www update file manifest
 
     cd build
 
-    echo "=== Updating file manifest..."
-    www updating file manifest
+    echo "=== Building css"
+    www build css
 
-    while read -r LINE ; do
-      case "$LINE" in
-        *section/base*) : ;;
-        *.css)
-          echo "--- Processing .css: $LINE"
-          set -x
-          bun x lightningcss --minify --bundle "$LINE" -o "$LINE".tmp
-          set +x
-          mv "$LINE".tmp "$LINE"
-          ;;
-        *.html.mts)
-          new_file=${LINE/.html.mts/.html}
-          echo "--- Writing: $new_file"
-          bun run "$LINE" > "$new_file"
-          rm "$LINE"
-          ;;
-      esac
-    done < <( find public/section -maxdepth 2 -mindepth 2 -type f -iname '*.css' -or -iname '*.html.mts')
-
-    echo "=== Building public .mjs scripts"
+    echo "=== Building .mjs scripts"
     www build mjs
+
+    echo "=== Building html"
+    www build html
 
     echo "=== Done building. ===" >&2
     echo
-    ;;
-
-  "build css "*)
-    if ! test -e build ; then
-      "$0" build dir
-    fi
-    section="$3"
-    echo "=== Compiling section: $section"
-    set -x
-    cd build/public/section/"$section"
-    bunx lightningcss --minify --bundle main.css -o tmp.main.css
-    mv -f tmp.main.css main.css
     ;;
 
   "download pure.css")
