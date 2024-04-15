@@ -1,4 +1,4 @@
-import { default_form_submit } from "/apps/www/src/html.mts";
+import { setup_events } from "/apps/www/src/html.mts";
 // import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
 // body(
@@ -17,10 +17,11 @@ import { default_form_submit } from "/apps/www/src/html.mts";
 //   e('footer', e('span.copyright', '(c) 2024. All rights reserved.'))
 // );
 
-default_form_submit('#login_button', function (ele: Element) {
-  ele.addEventListener('formOK', function (ev: Event) {
+setup_events();
+document.querySelectorAll('body').forEach((ele) => {
+  ele.addEventListener('before-request', function (ev: Event) {
     const ce = ev as CustomEvent;
-    console.warn("Form login received:");
+    console.warn("Before request listener running.");
     console.warn(ce.detail);
   });
 });
