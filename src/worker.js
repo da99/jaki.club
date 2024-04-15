@@ -60,7 +60,7 @@ app.post('/login', async (c) => {
     return c.notFound();
   }
   const hash = await Bun.password.hash(json.pswd);
-  return new Response(JSON.stringify({__target: dom_id, msg: "A-ok."}));
+  return new Response(JSON.stringify({X_SENT_FROM, msg: "A-ok."}));
 })
 
 if (SETTINGS.IS_DEV) {
