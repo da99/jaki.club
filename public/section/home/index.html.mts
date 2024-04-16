@@ -11,7 +11,7 @@ console.log(
   html5(
     default_head(Home.name, `${SETTINGS.site_name} homepage`),
     E('body',
-      E('h1', `${SETTINGS.site_name} home.`),
+      E('h1', `Storage Closet`),
       E('main',
         E('form.login#login', {action: '/login', method: "post"},
           E('h2', 'Login or Create an account.'),
