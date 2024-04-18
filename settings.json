@@ -10,185 +10,185 @@
   "bucket_name": "jaki",
   "storage_api_url": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki",
   "public_files": {
-    "/apple-touch-icon.png": {
-      "local_path": "/apple-touch-icon.png",
-      "public_path": "/apple-touch-icon.f77486ab8.png",
-      "etag": "f77486ab8",
-      "created_at": "1712576332"
-    },
-    "/favicon.about.txt": {
-      "local_path": "/favicon.about.txt",
-      "public_path": "/favicon.about.b01dcab6d.txt",
-      "etag": "b01dcab6d",
-      "created_at": "1712576332"
-    },
     "/index.less": {
       "local_path": "/index.less",
       "public_path": "/index.ecff45524.less",
       "etag": "ecff45524",
-      "created_at": "1712576332"
-    },
-    "/android-chrome-192x192.png": {
-      "local_path": "/android-chrome-192x192.png",
-      "public_path": "/android-chrome-192x192.93ee74ef3.png",
-      "etag": "93ee74ef3",
-      "created_at": "1712576332"
-    },
-    "/section/base/html.mts": {
-      "local_path": "/section/base/html.mts",
-      "public_path": "/section/base/html.317d8f0bb.mts",
-      "etag": "317d8f0bb",
-      "created_at": "1712576332"
-    },
-    "/section/base/reset.css": {
-      "local_path": "/section/base/reset.css",
-      "public_path": "/section/base/reset.0dfd41340.css",
-      "etag": "0dfd41340",
-      "created_at": "1712576332"
-    },
-    "/section/admin/index.html.mts": {
-      "local_path": "/section/admin/index.html.mts",
-      "public_path": "/section/admin/index.html.4e13fdb8c.mts",
-      "etag": "4e13fdb8c",
-      "created_at": "1712836650"
-    },
-    "/section/admin/index.css": {
-      "local_path": "/section/admin/index.css",
-      "public_path": "/section/admin/index.e3b0c4429.css",
-      "etag": "e3b0c4429",
-      "created_at": "1712576332"
-    },
-    "/section/admin/index.mts": {
-      "local_path": "/section/admin/index.mts",
-      "public_path": "/section/admin/index.aae1c5115.mts",
-      "etag": "aae1c5115",
-      "created_at": "1712836650"
-    },
-    "/section/home/index.html.mts": {
-      "local_path": "/section/home/index.html.mts",
-      "public_path": "/section/home/index.html.0287ccbe2.mts",
-      "etag": "0287ccbe2",
-      "created_at": "1713291129"
-    },
-    "/section/home/index.css": {
-      "local_path": "/section/home/index.css",
-      "public_path": "/section/home/index.3feecef0e.css",
-      "etag": "3feecef0e",
-      "created_at": "1713294666"
-    },
-    "/section/home/index.mts": {
-      "local_path": "/section/home/index.mts",
-      "public_path": "/section/home/index.762dbebc4.mts",
-      "etag": "762dbebc4",
-      "created_at": "1713195182"
-    },
-    "/styles/mazak/webfont.woff": {
-      "local_path": "/styles/mazak/webfont.woff",
-      "public_path": "/styles/mazak/webfont.756a47e7d.woff",
-      "etag": "756a47e7d",
-      "created_at": "1712576332"
-    },
-    "/styles/mazak/webfont.woff2": {
-      "local_path": "/styles/mazak/webfont.woff2",
-      "public_path": "/styles/mazak/webfont.cfaf729db.woff2",
-      "etag": "cfaf729db",
-      "created_at": "1712576332"
-    },
-    "/styles/pure.css": {
-      "local_path": "/styles/pure.css",
-      "public_path": "/styles/pure.ffb9da134.css",
-      "etag": "ffb9da134",
-      "created_at": "1712576332"
-    },
-    "/styles/mwe/bg_header.gif": {
-      "local_path": "/styles/mwe/bg_header.gif",
-      "public_path": "/styles/mwe/bg_header.a1f38945d.gif",
-      "etag": "a1f38945d",
-      "created_at": "1712576332"
-    },
-    "/styles/mwe/spotlight.png": {
-      "local_path": "/styles/mwe/spotlight.png",
-      "public_path": "/styles/mwe/spotlight.febc43dab.png",
-      "etag": "febc43dab",
-      "created_at": "1712576332"
-    },
-    "/styles/mwe/logo.png": {
-      "local_path": "/styles/mwe/logo.png",
-      "public_path": "/styles/mwe/logo.5585032ef.png",
-      "etag": "5585032ef",
-      "created_at": "1712576332"
-    },
-    "/styles/mwe/bg.gif": {
-      "local_path": "/styles/mwe/bg.gif",
-      "public_path": "/styles/mwe/bg.f3ac835c6.gif",
-      "etag": "f3ac835c6",
-      "created_at": "1712576332"
-    },
-    "/styles/mwe/spotlight_r1_c5.png": {
-      "local_path": "/styles/mwe/spotlight_r1_c5.png",
-      "public_path": "/styles/mwe/spotlight_r1_c5.58e82a7e0.png",
-      "etag": "58e82a7e0",
-      "created_at": "1712576332"
-    },
-    "/styles/pure-grids.css": {
-      "local_path": "/styles/pure-grids.css",
-      "public_path": "/styles/pure-grids.e980b19ca.css",
-      "etag": "e980b19ca",
-      "created_at": "1712576332"
-    },
-    "/styles/reset.css": {
-      "local_path": "/styles/reset.css",
-      "public_path": "/styles/reset.ed555a279.css",
-      "etag": "ed555a279",
-      "created_at": "1712576332"
-    },
-    "/styles/normalize.css": {
-      "local_path": "/styles/normalize.css",
-      "public_path": "/styles/normalize.580818700.css",
-      "etag": "580818700",
-      "created_at": "1712576332"
-    },
-    "/styles/pure-grid.css": {
-      "local_path": "/styles/pure-grid.css",
-      "public_path": "/styles/pure-grid.e980b19ca.css",
-      "etag": "e980b19ca",
-      "created_at": "1712576332"
-    },
-    "/favicon-32x32.png": {
-      "local_path": "/favicon-32x32.png",
-      "public_path": "/favicon-32x32.e4026d831.png",
-      "etag": "e4026d831",
-      "created_at": "1712576332"
-    },
-    "/favicon-16x16.png": {
-      "local_path": "/favicon-16x16.png",
-      "public_path": "/favicon-16x16.c99327bf2.png",
-      "etag": "c99327bf2",
-      "created_at": "1712576332"
-    },
-    "/android-chrome-512x512.png": {
-      "local_path": "/android-chrome-512x512.png",
-      "public_path": "/android-chrome-512x512.90754bd5a.png",
-      "etag": "90754bd5a",
-      "created_at": "1712576332"
-    },
-    "/index.html": {
-      "local_path": "/index.html",
-      "public_path": "/index.57e80c539.html",
-      "etag": "57e80c539",
-      "created_at": "1712576332"
+      "created_at": "1706943764"
     },
     "/index.alt.html": {
       "local_path": "/index.alt.html",
       "public_path": "/index.alt.69fef5839.html",
       "etag": "69fef5839",
-      "created_at": "1712576332"
+      "created_at": "1706943764"
+    },
+    "/android-chrome-512x512.png": {
+      "local_path": "/android-chrome-512x512.png",
+      "public_path": "/android-chrome-512x512.90754bd5a.png",
+      "etag": "90754bd5a",
+      "created_at": "1706943764"
     },
     "/favicon.ico": {
       "local_path": "/favicon.ico",
       "public_path": "/favicon.9bd279dd5.ico",
       "etag": "9bd279dd5",
-      "created_at": "1712576332"
+      "created_at": "1706943764"
+    },
+    "/styles/pure-grids.css": {
+      "local_path": "/styles/pure-grids.css",
+      "public_path": "/styles/pure-grids.e980b19ca.css",
+      "etag": "e980b19ca",
+      "created_at": "1708897279"
+    },
+    "/styles/reset.css": {
+      "local_path": "/styles/reset.css",
+      "public_path": "/styles/reset.ed555a279.css",
+      "etag": "ed555a279",
+      "created_at": "1708898191"
+    },
+    "/styles/mazak/webfont.woff": {
+      "local_path": "/styles/mazak/webfont.woff",
+      "public_path": "/styles/mazak/webfont.756a47e7d.woff",
+      "etag": "756a47e7d",
+      "created_at": "1706943764"
+    },
+    "/styles/mazak/webfont.woff2": {
+      "local_path": "/styles/mazak/webfont.woff2",
+      "public_path": "/styles/mazak/webfont.cfaf729db.woff2",
+      "etag": "cfaf729db",
+      "created_at": "1706943764"
+    },
+    "/styles/mwe/logo.png": {
+      "local_path": "/styles/mwe/logo.png",
+      "public_path": "/styles/mwe/logo.5585032ef.png",
+      "etag": "5585032ef",
+      "created_at": "1706943764"
+    },
+    "/styles/mwe/spotlight.png": {
+      "local_path": "/styles/mwe/spotlight.png",
+      "public_path": "/styles/mwe/spotlight.febc43dab.png",
+      "etag": "febc43dab",
+      "created_at": "1706943764"
+    },
+    "/styles/mwe/bg_header.gif": {
+      "local_path": "/styles/mwe/bg_header.gif",
+      "public_path": "/styles/mwe/bg_header.a1f38945d.gif",
+      "etag": "a1f38945d",
+      "created_at": "1706943764"
+    },
+    "/styles/mwe/bg.gif": {
+      "local_path": "/styles/mwe/bg.gif",
+      "public_path": "/styles/mwe/bg.f3ac835c6.gif",
+      "etag": "f3ac835c6",
+      "created_at": "1706943764"
+    },
+    "/styles/mwe/spotlight_r1_c5.png": {
+      "local_path": "/styles/mwe/spotlight_r1_c5.png",
+      "public_path": "/styles/mwe/spotlight_r1_c5.58e82a7e0.png",
+      "etag": "58e82a7e0",
+      "created_at": "1706943764"
+    },
+    "/styles/pure.css": {
+      "local_path": "/styles/pure.css",
+      "public_path": "/styles/pure.ffb9da134.css",
+      "etag": "ffb9da134",
+      "created_at": "1708897279"
+    },
+    "/styles/normalize.css": {
+      "local_path": "/styles/normalize.css",
+      "public_path": "/styles/normalize.580818700.css",
+      "etag": "580818700",
+      "created_at": "1706943764"
+    },
+    "/styles/pure-grid.css": {
+      "local_path": "/styles/pure-grid.css",
+      "public_path": "/styles/pure-grid.e980b19ca.css",
+      "etag": "e980b19ca",
+      "created_at": "1706943761"
+    },
+    "/index.html": {
+      "local_path": "/index.html",
+      "public_path": "/index.57e80c539.html",
+      "etag": "57e80c539",
+      "created_at": "1706943761"
+    },
+    "/favicon.about.txt": {
+      "local_path": "/favicon.about.txt",
+      "public_path": "/favicon.about.b01dcab6d.txt",
+      "etag": "b01dcab6d",
+      "created_at": "1706943764"
+    },
+    "/favicon-16x16.png": {
+      "local_path": "/favicon-16x16.png",
+      "public_path": "/favicon-16x16.c99327bf2.png",
+      "etag": "c99327bf2",
+      "created_at": "1706943764"
+    },
+    "/android-chrome-192x192.png": {
+      "local_path": "/android-chrome-192x192.png",
+      "public_path": "/android-chrome-192x192.93ee74ef3.png",
+      "etag": "93ee74ef3",
+      "created_at": "1706943764"
+    },
+    "/section/admin/index.css": {
+      "local_path": "/section/admin/index.css",
+      "public_path": "/section/admin/index.e3b0c4429.css",
+      "etag": "e3b0c4429",
+      "created_at": "1710883219"
+    },
+    "/section/admin/index.html.mts": {
+      "local_path": "/section/admin/index.html.mts",
+      "public_path": "/section/admin/index.html.4e13fdb8c.mts",
+      "etag": "4e13fdb8c",
+      "created_at": "1712909078"
+    },
+    "/section/admin/index.mts": {
+      "local_path": "/section/admin/index.mts",
+      "public_path": "/section/admin/index.aae1c5115.mts",
+      "etag": "aae1c5115",
+      "created_at": "1712909078"
+    },
+    "/section/home/index.css": {
+      "local_path": "/section/home/index.css",
+      "public_path": "/section/home/index.3feecef0e.css",
+      "etag": "3feecef0e",
+      "created_at": "1713299180"
+    },
+    "/section/home/index.html.mts": {
+      "local_path": "/section/home/index.html.mts",
+      "public_path": "/section/home/index.html.0287ccbe2.mts",
+      "etag": "0287ccbe2",
+      "created_at": "1713299180"
+    },
+    "/section/home/index.mts": {
+      "local_path": "/section/home/index.mts",
+      "public_path": "/section/home/index.762dbebc4.mts",
+      "etag": "762dbebc4",
+      "created_at": "1713133617"
+    },
+    "/section/base/reset.css": {
+      "local_path": "/section/base/reset.css",
+      "public_path": "/section/base/reset.0dfd41340.css",
+      "etag": "0dfd41340",
+      "created_at": "1708276574"
+    },
+    "/section/base/html.mts": {
+      "local_path": "/section/base/html.mts",
+      "public_path": "/section/base/html.317d8f0bb.mts",
+      "etag": "317d8f0bb",
+      "created_at": "1712909078"
+    },
+    "/apple-touch-icon.png": {
+      "local_path": "/apple-touch-icon.png",
+      "public_path": "/apple-touch-icon.f77486ab8.png",
+      "etag": "f77486ab8",
+      "created_at": "1706943764"
+    },
+    "/favicon-32x32.png": {
+      "local_path": "/favicon-32x32.png",
+      "public_path": "/favicon-32x32.e4026d831.png",
+      "etag": "e4026d831",
+      "created_at": "1706943764"
     }
   }
 }
