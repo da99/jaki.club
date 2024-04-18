@@ -1,0 +1,9 @@
+
+
+form.loading > * {
+  visibility: hidden;
+}
+
+form.loading {
+  background: url("/section/base/bar.svg") no-repeat center;
+}

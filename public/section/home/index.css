@@ -1,4 +1,6 @@
 
+@import '../base/base.css';
+
 a {
   color: orange;
 }
