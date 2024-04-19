@@ -5,7 +5,9 @@ import { Hono } from 'hono';
 import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 import { serveStatic } from 'hono/bun';
 import { X_SENT_FROM } from '/apps/www/src/html.mts';
+import { is_email_valid } from '/apps/www/src/base.mts';
 import { Client, fql, FaunaError } from "fauna";
+import { send_via_zepto } from "./ZeptoMail.ts";
 // import { which } from 'bun';
 
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
@@ -59,8 +61,16 @@ app.post('/login', async (c) => {
   if (!dom_id) {
     return c.notFound();
   }
-  const hash = await Bun.password.hash(json.pswd);
-  return new Response(JSON.stringify({X_SENT_FROM, success: false, fields: {email: "empty"}}));
+  // const hash = await Bun.password.hash(json.pswd);
+  const raw_email = (json['email'] || '').toString().trim();
+  if (raw_email.length === 0)
+    return new Response(JSON.stringify({X_SENT_FROM, success: false, fields: {email: "empty"}}));
+  if (!is_email_valid(raw_email))
+    return new Response(JSON.stringify({X_SENT_FROM, success: false, fields: {email: "invalid"}}));
+  const email_response = await send_via_zepto(raw_email, "Log-in Code: 1 2 3 4 5 6")
+  console.warn(email_response);
+
+  return new Response(JSON.stringify({X_SENT_FROM, success: true, fields: {email: "accepted"}}));
 })
 
 if (SETTINGS.IS_DEV) {

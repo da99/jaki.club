@@ -24,7 +24,22 @@ document.querySelectorAll('body').forEach((ele) => {
     console.warn("Before request listener running.");
     console.warn(ce.detail);
   });
+
+  ele.addEventListener('success', function (ev: Event)  {
+    const ce = ev as CustomEvent;
+    const form_id = ce.detail['X_SENT_FROM'];
+    if (!form_id)
+      return false;
+    const form = document.getElementById(form_id);
+    if (!form)
+      return false;
+    switch (form_id) {
+      case 'login':
+        break;
+    }
+  });
 });
+
 
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />

@@ -1,6 +1,7 @@
 {
   "IS_DEV": false,
   "build_target": "prod",
+  "domain": "jaki.club",
   "site_name": "jAki.CLUB",
   "dev_port": 4567,
   "static_dir": "public",
@@ -48,9 +49,9 @@
     },
     "/section/base/bar.svg": {
       "local_path": "/section/base/bar.svg",
-      "public_path": "/section/base/bar.eba6fd7fc.svg",
-      "etag": "eba6fd7fc",
-      "created_at": "1713465531"
+      "public_path": "/section/base/bar.3884d5864.svg",
+      "etag": "3884d5864",
+      "created_at": "1713529855"
     },
     "/section/base/base.css": {
       "local_path": "/section/base/base.css",
