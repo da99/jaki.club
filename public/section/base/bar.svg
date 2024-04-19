@@ -30,9 +30,11 @@
        y="13">
        <animate
          attributeName="x"
-         values="5;30;70"
+         values="5;15;30;45;70"
          dur="1s"
-         repeatCount="indefinite" />
+         repeatCount="indefinite"
+         calcMode="discrete"
+         />
     </rect>
   </g>
 </svg>
