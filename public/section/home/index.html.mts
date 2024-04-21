@@ -13,16 +13,16 @@ console.log(
     E('body',
       E('h1', `Storage Closet`),
       E('main',
-        E('form.login#login', {action: '/login', method: "post"},
+        E('form', '.login#login', {action: '/login', method: "post"},
           E('h2', 'Login or Create an account.'),
           E('fieldset',
             E('label', {htmlFor: 'email'}, 'Email:'),
             E('input', {type: 'email', name: 'email'}),
            ),
-           E('button.submit', 'Enter')
+           E('button', '.submit', 'Enter')
          ) // form
        ), // main
-       E('footer', E('span.copyright', '(c) 2024. All rights reserved.')),
+       E('footer', E('span', '.copyright', '(c) 2024. All rights reserved.')),
       E('script', {type: 'module', src: Home.index_mjs})
      )
   )
