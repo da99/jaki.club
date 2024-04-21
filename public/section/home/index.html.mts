@@ -10,7 +10,7 @@ allow_tags('h1', 'h2', 'footer', 'main');
 console.log(
   html5(
     default_head(Home.name, `${SETTINGS.site_name} homepage`),
-    E('body',
+    E('body', '.stranger',
       E('h1', `Storage Closet`),
       E('main',
         E('form', '.login#login', {action: '/login', method: "post"},
@@ -20,7 +20,15 @@ console.log(
             E('input', {type: 'email', name: 'email'}),
            ),
            E('button', '.submit', 'Enter')
-         ) // form
+         ), // form
+         E('form', '#otp_enter', {action: '/otp-login', method: 'post'},
+          E('h2', 'Enter the 6 digit code sent to your email:'),
+          E('fieldset',
+            E('label', {htmlFor: 'otp_code'}, '{{EMAIL}}'),
+            E('input', {type: 'text', name: 'otp_code', maxLength: 6, minLength: 6}),
+           ),
+           E('button', '.submit', 'Enter')
+          )
        ), // main
        E('footer', E('span', '.copyright', '(c) 2024. All rights reserved.')),
       E('script', {type: 'module', src: Home.index_mjs})

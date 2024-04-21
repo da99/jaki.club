@@ -11,6 +11,7 @@ h1 {
 
 footer {
   text-align: center;
+  padding: 1em;
 }
 
 main {
@@ -19,3 +20,28 @@ main {
   text-align: center;
 }
 
+body.stranger #otp_enter {
+  display: none;
+}
+body.otp_user #otp_enter {
+  display: block;
+}
+body.otp_user #login {
+  display: none;
+}
+
+#otp_enter {
+  padding: 2em 0;
+}
+#otp_enter label {
+  display: block;
+  padding: 0.5em;
+  font-family: sans-serif;
+  font-size: 2em;
+}
+#otp_enter input[type='text'] {
+  font-size: 3em;
+  font-family: monospace;
+  text-align: center;
+  letter-spacing: 0.5em;
+}
