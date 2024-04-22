@@ -36,6 +36,7 @@ main {
 }
 
 #login { display: none; }
+
 body.stranger #login { display: block; }
 body.otp_enter #otp_enter,
 body.locked_out #locked_out,
