@@ -22,13 +22,19 @@ console.log(
            E('button', '.submit', 'Enter')
          ), // form
          E('form', '#otp_enter', {action: '/otp-login', method: 'post'},
-          E('h2', 'Enter the 6 digit code sent to your email:'),
-          E('fieldset',
-            E('label', {htmlFor: 'otp_code'}, '{{EMAIL}}'),
-            E('input', {type: 'text', name: 'otp_code', maxLength: 6, minLength: 6}),
+           E('h2', 'Enter the 6 digit code sent to your email:'),
+           E('fieldset',
+             E('label', {htmlFor: 'otp_code'}, '{{EMAIL}}'),
+             E('input', {type: 'text', name: 'otp_code', maxLength: 6, minLength: 6}),
+            ),
+            E('button', '.submit', 'Enter')
+         ),
+         E('div', '#user_msg',
+           E('p', 'You are now logged in as: ',
+             E('span', '.email', '{{EMAIL}}')
            ),
-           E('button', '.submit', 'Enter')
-          )
+           E('p', 'Please wait as the page loads...')
+         )
        ), // main
        E('footer', E('span', '.copyright', '(c) 2024. All rights reserved.')),
       E('script', {type: 'module', src: Home.index_mjs})

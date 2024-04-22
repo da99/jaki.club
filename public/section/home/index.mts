@@ -28,23 +28,29 @@ document.querySelectorAll('body').forEach((the_body) => {
   the_body.addEventListener('success', function (ev: Event)  {
     const ce = ev as CustomEvent;
     const form_id = ce.detail.response['X_SENT_FROM'];
+
     console.log(`Received: success dispatch: ${form_id}`)
+
     if (!form_id)
       return false;
     const form = document.getElementById(form_id);
     if (!form)
       return false;
+
     switch (form_id) {
       case 'login':
         document.body.classList.remove('stranger');
         document.body.classList.add('otp_user');
         document.querySelectorAll("#login input[name='email']").forEach((email) => {
           document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
-            otp_label.textContent = (email as HTMLInputElement).value;
+            otp_label.textContent = (email as HTMLInputElement).value.trim();
           })
         })
         break;
-    }
+
+      case 'otp_enter':
+        break;
+    } // === switch
   });
 });
 
