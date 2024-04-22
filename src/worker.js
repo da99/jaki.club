@@ -21,6 +21,10 @@ const client = new Client({
 const app = new Hono()
 const store = new CookieStore();
 
+function new_otp() {
+  return crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,6);
+}
+
 app.use('*', sessionMiddleware({
   store,
   encryptionKey: process.env.PSWD_SALT,
@@ -64,13 +68,16 @@ app.post('/login', async (c) => {
   // const hash = await Bun.password.hash(json.pswd);
   const raw_email = (json['email'] || '').toString().trim();
   if (raw_email.length === 0)
-    return new Response(JSON.stringify({X_SENT_FROM, success: false, fields: {email: "empty"}}));
+    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "empty"}}));
   if (!is_email_valid(raw_email))
-    return new Response(JSON.stringify({X_SENT_FROM, success: false, fields: {email: "invalid"}}));
-  const email_response = await send_via_zepto(raw_email, "Log-in Code: 1 2 3 4 5 6")
-  console.warn(email_response);
+    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "invalid"}}));
+  const otp = new_otp();
+  const otp_human = otp.split('').join(' ');
+  console.log(otp_human);
+  // const email_response = await send_via_zepto(raw_email, `Log-in Code: ${otp_human}`);
+  // console.warn(email_response);
 
-  return new Response(JSON.stringify({X_SENT_FROM, success: true, fields: {email: "accepted"}}));
+  return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {email: "accepted"}}));
 })
 
 if (SETTINGS.IS_DEV) {
