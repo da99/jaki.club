@@ -17,19 +17,26 @@ console.log(
           E('h2', 'Login or Create an account.'),
           E('fieldset',
             E('label', {htmlFor: 'email'}, 'Email:'),
-            E('input', {type: 'email', name: 'email'}),
+            E('input', {type: 'email', name: 'email', required: true}),
            ),
            E('button', '.submit', 'Enter')
          ), // form
          E('form', '#otp_enter', {action: '/otp-login', method: 'post'},
+           E('div', '.try_again', 'Incorrent code. Try again.'),
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
              E('label', {htmlFor: 'otp_code'}, '{{EMAIL}}'),
-             E('input', {type: 'text', name: 'otp_code', maxLength: 6, minLength: 6}),
+             E('input', {type: 'number', name: 'otp_code',  required: true, maxLength: 6, minLength: 6}),
             ),
             E('button', '.submit', 'Enter')
          ),
-         E('div', '#user_msg',
+         E('div', '#locked_out',
+           E('p',
+             'Too many failed attempts.',
+           ),
+           E('p', 'Try again in ', E('span', '#try_again_time', '10 minutes.'))
+         ),
+         E('div', '#user_is_in',
            E('p', 'You are now logged in as: ',
              E('span', '.email', '{{EMAIL}}')
            ),

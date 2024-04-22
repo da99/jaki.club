@@ -40,7 +40,7 @@ document.querySelectorAll('body').forEach((the_body) => {
     switch (form_id) {
       case 'login':
         document.body.classList.remove('stranger');
-        document.body.classList.add('otp_user');
+        document.body.classList.add('otp_enter');
         document.querySelectorAll("#login input[name='email']").forEach((email) => {
           document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
             otp_label.textContent = (email as HTMLInputElement).value.trim();

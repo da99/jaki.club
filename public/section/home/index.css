@@ -1,6 +1,10 @@
 
 @import '../base/base.css';
 
+form {
+  font-size: 2em;
+}
+
 a {
   color: orange;
 }
@@ -20,18 +24,43 @@ main {
   text-align: center;
 }
 
-body.stranger #otp_enter {
+#login div.error {
+  font-family: serif;
+  color: #cb000e;
+}
+
+#otp_enter,
+#locked_out,
+#user_is_in {
   display: none;
 }
-body.otp_user #otp_enter {
+
+#login { display: none; }
+body.stranger #login { display: block; }
+body.otp_enter #otp_enter,
+body.locked_out #locked_out,
+body.user_is_in #user_is_in { display: block; }
+
+#otp_enter div.try_again {
+  display: none;
+}
+body.otp_incorrect #otp_enter div.try_again {
   display: block;
 }
-body.otp_user #login {
-  display: none;
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  text-align: center;
+  font-family: serif;
 }
 
 #otp_enter {
   padding: 2em 0;
+}
+#otp_enter div.try_again {
+  font-family: serif;
+  color: #cb000e;
 }
 #otp_enter label {
   display: block;
@@ -44,4 +73,26 @@ body.otp_user #login {
   font-family: monospace;
   text-align: center;
   letter-spacing: 0.5em;
+}
+
+#locked_out {
+  padding: 0.5em;
+  font-size: 2em;
+  font-family: serif;
+  color: orange;
+  background-color: black;
+  margin: 1em;
+}
+
+#user_is_in {
+  padding: 0.5em;
+  font-size: 2em;
+  font-family: serif;
+  color: white;
+  background-color: black;
+  margin: 1em;
+}
+
+#user_is_in span.email {
+  color: orange;
 }
