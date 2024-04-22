@@ -50,9 +50,14 @@ body.otp_incorrect #otp_enter div.try_again {
 
 input[type='text'],
 input[type='email'],
+input[type='number'],
 input[type='password'] {
   text-align: center;
   font-family: serif;
+}
+
+input[type='number'] {
+  letter-spacing: 0.5em;
 }
 
 #otp_enter {

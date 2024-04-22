@@ -26,7 +26,7 @@ console.log(
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
              E('label', {htmlFor: 'otp_code'}, '{{EMAIL}}'),
-             E('input', {type: 'number', name: 'otp_code',  required: true, maxLength: 6, minLength: 6}),
+             E('input', {type: 'text', name: 'otp_code',  required: true, maxLength: 6, minLength: 6}),
             ),
             E('button', '.submit', 'Enter')
          ),

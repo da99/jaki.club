@@ -18,41 +18,45 @@ import { setup_events } from "/apps/www/src/html.mts";
 // );
 
 setup_events();
+
 document.querySelectorAll('body').forEach((the_body) => {
-  the_body.addEventListener('before-request', function (ev: Event) {
-    const ce = ev as CustomEvent;
-    console.warn("Before request listener running.");
-    console.warn(ce.detail);
+  the_body.addEventListener('login success', function (_ev: Event)  {
+    // const ce = ev as CustomEvent;
+    document.body.classList.remove('stranger');
+    document.body.classList.add('otp_enter');
+    document.querySelectorAll("#login input[name='email']").forEach((email) => {
+      document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
+        otp_label.textContent = (email as HTMLInputElement).value.trim();
+      })
+    });
   });
 
-  the_body.addEventListener('success', function (ev: Event)  {
-    const ce = ev as CustomEvent;
-    const form_id = ce.detail.response['X_SENT_FROM'];
-
-    console.log(`Received: success dispatch: ${form_id}`)
-
-    if (!form_id)
-      return false;
-    const form = document.getElementById(form_id);
-    if (!form)
-      return false;
-
-    switch (form_id) {
-      case 'login':
-        document.body.classList.remove('stranger');
-        document.body.classList.add('otp_enter');
-        document.querySelectorAll("#login input[name='email']").forEach((email) => {
-          document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
-            otp_label.textContent = (email as HTMLInputElement).value.trim();
-          })
-        })
-        break;
-
-      case 'otp_enter':
-        break;
-    } // === switch
-  });
 });
+
+document.querySelectorAll('input[name="otp_code"]').forEach( (ele) => {
+  ele.addEventListener("keydown", (event: Event) => {
+    const ev = event as KeyboardEvent;
+    switch (ev.key) {
+      case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        true;
+        break;
+      default:
+        ev.stopPropagation();
+      ev.preventDefault();
+    console.log(ev.key);
+    }
+    // do something
+  })
+})
 
 
 /// <reference no-default-lib="true"/>
