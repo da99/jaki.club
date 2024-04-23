@@ -1,4 +1,4 @@
-import { setup_events } from "/apps/www/src/html.mts";
+import { Classy_Events } from "/apps/www/src/html.mts";
 // import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
 // body(
@@ -17,27 +17,27 @@ import { setup_events } from "/apps/www/src/html.mts";
 //   e('footer', e('span.copyright', '(c) 2024. All rights reserved.'))
 // );
 
-setup_events();
+Classy_Events();
 
-document.querySelectorAll('body').forEach((the_body) => {
-  the_body.addEventListener('login success', function (ev: Event)  {
-    const ce = ev as CustomEvent;
-    document.body.classList.remove('stranger');
-    the_body.dispatchEvent(new CustomEvent('otp_enter', {detail: ce.detail }));
-  });
+const THE_BODY = document.body;
 
-  the_body.addEventListener('otp_enter', function (_ev: Event) {
-    document.body.classList.add('otp_enter');
-    document.querySelectorAll("#login input[name='email']").forEach((email) => {
-      document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
-        otp_label.textContent = (email as HTMLInputElement).value.trim();
-      })
-    });
-  });
+THE_BODY.addEventListener('login success', function (ev: Event)  {
+  const ce = ev as CustomEvent;
+  document.body.classList.remove('stranger');
+  THE_BODY.dispatchEvent(new CustomEvent('otp_enter', {detail: ce.detail }));
+});
 
-  the_body.addEventListener('otp_enter success', function (_ev: Event) {
-    setTimeout(() => { window.location.reload(); }, 1000);
+THE_BODY.addEventListener('otp_enter', function (_ev: Event) {
+  document.body.classList.add('otp_enter');
+  document.querySelectorAll("#login input[name='email']").forEach((email) => {
+    document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
+      otp_label.textContent = (email as HTMLInputElement).value.trim();
+    })
   });
+});
+
+THE_BODY.addEventListener('otp_enter success', function (_ev: Event) {
+  setTimeout(() => { window.location.reload(); }, 1000);
 });
 
 function input_numbers_only(selector: string) {
