@@ -10,10 +10,10 @@ allow_tags('h1', 'h2', 'footer', 'main');
 console.log(
   html5(
     default_head(Home.name, `${SETTINGS.site_name} homepage`),
-    E('body', '.stranger',
+    E('body', '.init',
       E('h1', `Storage Closet`),
       E('main',
-        E('form', '.login#login', {action: '/login', method: "post"},
+        E('form', '#login', {action: '/login', method: "post"},
           E('h2', 'Login or Create an account.'),
           E('fieldset',
             E('label', {htmlFor: 'email'}, 'Email:'),
@@ -21,19 +21,19 @@ console.log(
            ),
            E('button', '.submit', 'Enter')
          ), // form
-         E('form', '#otp_enter', {action: '/otp-login', method: 'post'},
-           E('div', '.try_again', 'Incorrent code. Try again.'),
+         E('form', '#enter_the_code', {action: '/login-otp', method: 'post'},
+           E('div', '.try_again.on-rejected', 'Incorrent code. Try again.'),
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
-             E('label', {htmlFor: 'otp_code'}, '{{EMAIL}}'),
-             E('input', {type: 'text', name: 'otp_code',  required: true, maxLength: 6, minLength: 6}),
+             E('label', {htmlFor: 'the_code'}, '{{EMAIL}}'),
+             E('input', {type: 'text', name: 'the_code',  required: true, maxLength: 6, minLength: 6}),
+             E('div', '.reject-msg.on-email-empty', 'Email may not be empty.'),
+             E('div', '.reject-msg.on-email-invalid', 'Email is invalid. Check for typos.')
             ),
             E('button', '.submit', 'Enter')
          ),
          E('div', '#locked_out',
-           E('p',
-             'Too many failed attempts.',
-           ),
+           E('p', 'Too many failed attempts.',),
            E('p', 'Try again in ', E('span', '#try_again_time', '10 minutes.'))
          ),
          E('div', '#user_is_in',
