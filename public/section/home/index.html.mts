@@ -1,11 +1,9 @@
-import { html5, element as E, allow_tags } from '/apps/www/src/bsr.mts';
+import { html5, element as E } from '/apps/www/src/bsr.mts';
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { Static } from '/apps/jaki.club/src/Static.mts';
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
 const Home = new Static('home');
-
-allow_tags('h1', 'h2', 'footer', 'main');
 
 console.log(
   html5(
@@ -31,7 +29,7 @@ console.log(
              E('div', '.reject-msg.on-email-invalid', 'Email is invalid. Check for typos.')
             ),
             E('button', '.submit', 'Enter')
-         ),
+         ), // form
          E('div', '#locked_out',
            E('p', 'Too many failed attempts.',),
            E('p', 'Try again in ', E('span', '#try_again_time', '10 minutes.'))
