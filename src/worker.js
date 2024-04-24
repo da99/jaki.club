@@ -4,8 +4,7 @@
 import { Hono } from 'hono';
 import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 import { serveStatic } from 'hono/bun';
-import { X_SENT_FROM } from '/apps/www/src/html.mts';
-import { is_email_valid } from '/apps/www/src/base.mts';
+import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
 import { Client, fql, FaunaError } from "fauna";
 import { send_via_zepto } from "./ZeptoMail.ts";
 // import { which } from 'bun';
