@@ -20,13 +20,13 @@ console.log(
            E('button', '.submit', 'Enter')
          ), // form
          E('form', '#enter_the_code', {action: '/login-otp', method: 'post'},
-           E('div', '.try_again.on-rejected', 'Incorrent code. Try again.'),
+           E('div', '.try_again.invalid', 'Incorrent code. Try again.'),
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
              E('label', {htmlFor: 'the_code'}, '{{EMAIL}}'),
              E('input', {type: 'text', name: 'the_code',  required: true, maxLength: 6, minLength: 6}),
-             E('div', '.reject-msg.on-email-empty', 'Email may not be empty.'),
-             E('div', '.reject-msg.on-email-invalid', 'Email is invalid. Check for typos.')
+             E('div', '.invalid.email-empty', 'Email may not be empty.'),
+             E('div', '.invalid.email-invalid', 'Email is invalid. Check for typos.')
             ),
             E('button', '.submit', 'Enter')
          ), // form

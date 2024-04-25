@@ -55,9 +55,9 @@
     },
     "/section/base/base.css": {
       "local_path": "/section/base/base.css",
-      "public_path": "/section/base/base.6ee74d2db.css",
-      "etag": "6ee74d2db",
-      "created_at": "1713465936"
+      "public_path": "/section/base/base.d02145bfb.css",
+      "etag": "d02145bfb",
+      "created_at": "1714068921"
     },
     "/section/admin/index.html.mts": {
       "local_path": "/section/admin/index.html.mts",
@@ -79,9 +79,9 @@
     },
     "/section/home/index.html.mts": {
       "local_path": "/section/home/index.html.mts",
-      "public_path": "/section/home/index.html.6235eaf04.mts",
-      "etag": "6235eaf04",
-      "created_at": "1713961176"
+      "public_path": "/section/home/index.html.cb0d4da58.mts",
+      "etag": "cb0d4da58",
+      "created_at": "1714068881"
     },
     "/section/home/index.css": {
       "local_path": "/section/home/index.css",

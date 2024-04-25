@@ -7,3 +7,7 @@ form.loading > * {
 form.loading {
   background: url("/section/base/bar.svg") no-repeat center;
 }
+
+form div.invalid {
+  display: none;
+}
