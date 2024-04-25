@@ -85,15 +85,15 @@
     },
     "/section/home/index.css": {
       "local_path": "/section/home/index.css",
-      "public_path": "/section/home/index.d572e84b3.css",
-      "etag": "d572e84b3",
-      "created_at": "1713815929"
+      "public_path": "/section/home/index.aaabe8b82.css",
+      "etag": "aaabe8b82",
+      "created_at": "1714070123"
     },
     "/section/home/index.mts": {
       "local_path": "/section/home/index.mts",
-      "public_path": "/section/home/index.c7c50d306.mts",
-      "etag": "c7c50d306",
-      "created_at": "1713875594"
+      "public_path": "/section/home/index.4955c7eff.mts",
+      "etag": "4955c7eff",
+      "created_at": "1714070207"
     },
     "/styles/mazak/webfont.woff": {
       "local_path": "/styles/mazak/webfont.woff",

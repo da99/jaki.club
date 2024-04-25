@@ -29,23 +29,18 @@ main {
   color: #cb000e;
 }
 
-#otp_enter,
+#enter_the_code,
 #locked_out,
 #user_is_in {
   display: none;
 }
 
-#login { display: none; }
-
 body.stranger #login { display: block; }
-body.otp_enter #otp_enter,
 body.locked_out #locked_out,
 body.user_is_in #user_is_in { display: block; }
 
-#otp_enter div.try_again {
-  display: none;
-}
-body.otp_incorrect #otp_enter div.try_again {
+
+#enter_the_code.invalid div.try_again {
   display: block;
 }
 
@@ -61,20 +56,20 @@ input[type='number'] {
   letter-spacing: 0.5em;
 }
 
-#otp_enter {
+#enter_the_code {
   padding: 2em 0;
 }
-#otp_enter div.try_again {
+#enter_the_code div.try_again {
   font-family: serif;
   color: #cb000e;
 }
-#otp_enter label {
+#enter_the_code label {
   display: block;
   padding: 0.5em;
   font-family: sans-serif;
   font-size: 2em;
 }
-#otp_enter input[type='text'] {
+#enter_the_code input[type='text'] {
   font-size: 3em;
   font-family: monospace;
   text-align: center;
@@ -101,4 +96,12 @@ input[type='number'] {
 
 #user_is_in span.email {
   color: orange;
+}
+
+body.waiting_for_code #login {
+  display: none;
+}
+
+body.waiting_for_code #enter_the_code {
+  display: inherit;
 }

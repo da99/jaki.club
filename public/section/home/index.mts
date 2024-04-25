@@ -24,19 +24,19 @@ const THE_BODY = document.body;
 THE_BODY.addEventListener('login success', function (ev: Event)  {
   const ce = ev as CustomEvent;
   document.body.classList.remove('stranger');
-  THE_BODY.dispatchEvent(new CustomEvent('otp_enter', {detail: ce.detail }));
+  THE_BODY.dispatchEvent(new CustomEvent('waiting_for_code', {detail: ce.detail }));
 });
 
-THE_BODY.addEventListener('otp_enter', function (_ev: Event) {
-  document.body.classList.add('otp_enter');
+THE_BODY.addEventListener('waiting_for_code', function (_ev: Event) {
+  document.body.classList.add('waiting_for_code');
   document.querySelectorAll("#login input[name='email']").forEach((email) => {
-    document.querySelectorAll(`#otp_enter label[for='otp_code']`).forEach((otp_label) => {
+    document.querySelectorAll(`#enter_the_code label[for='the_code']`).forEach((otp_label) => {
       otp_label.textContent = (email as HTMLInputElement).value.trim();
     })
   });
 });
 
-THE_BODY.addEventListener('otp_enter success', function (_ev: Event) {
+THE_BODY.addEventListener('enter_the_code success', function (_ev: Event) {
   setTimeout(() => { window.location.reload(); }, 1000);
 });
 
@@ -60,7 +60,7 @@ function input_numbers_only(selector: string) {
   })
 } // === function
 
-input_numbers_only('input[name="otp_code"]');
+input_numbers_only('input[name="the_code"]');
 
 
 /// <reference no-default-lib="true"/>
