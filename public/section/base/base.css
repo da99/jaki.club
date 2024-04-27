@@ -11,3 +11,31 @@ form.loading {
 form div.invalid {
   display: none;
 }
+
+div.network-error,
+div.server-error {
+  color: white;
+  text-align: center;
+  padding: 1em;
+  margin: 0.5em;
+  font-weight: bold;
+  display: none;
+}
+
+div.network-error {
+  background-color: #f18d00;
+}
+
+div.server-error {
+  background-color: #fa5749;
+}
+
+body[class*="-server-error"] div.server-error {
+  display: block;
+}
+
+body[class*="-network-error"] div.network-error {
+  display: block;
+}
+
+

@@ -9,13 +9,15 @@ console.log(
   html5(
     default_head(Home.name, `${SETTINGS.site_name} homepage`),
     E('body', '.init',
+      E('div', '.network-error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
+      E('div', '.server-error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
       E('h1', `Storage Closet`),
       E('main',
         E('form', '#login', {action: '/login', method: "post"},
           E('h2', 'Login or Create an account.'),
           E('fieldset',
-            E('label', {htmlFor: 'email'}, 'Email:'),
-            E('input', {type: 'email', name: 'email', required: true}),
+            E('label', {htmlFor: 'login-email'}, 'Email:'),
+            E('input', {type: 'email', name: 'email', id: "login-email", required: true, autocomplete: 'email'}),
            ),
            E('button', '.submit', 'Enter')
          ), // form
@@ -24,7 +26,7 @@ console.log(
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
              E('label', {htmlFor: 'the_code'}, '{{EMAIL}}'),
-             E('input', {type: 'text', name: 'the_code',  required: true, maxLength: 6, minLength: 6}),
+             E('input', {type: 'text', id: 'the_code', name: 'the_code',  required: true, maxLength: 6, minLength: 6}),
              E('div', '.invalid.email-empty', 'Email may not be empty.'),
              E('div', '.invalid.email-invalid', 'Email is invalid. Check for typos.')
             ),
