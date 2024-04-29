@@ -25,7 +25,7 @@ export class Static {
 export function static_url(sPath: string, c?: any) {
   if (!c && typeof process === 'object')
     c = process
-  const source = (c && c.env.IS_DEV)  ? `http://127.0.0.1:${SETTINGS.static_port}` : SETTINGS.static_url ;
+  const source = (c && c.env.IS_DEV)  ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url ;
   return `${source}${sPath}`;
 }
 
