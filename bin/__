@@ -7,6 +7,7 @@ case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 serve"
+    echo "$0 serve static"
     echo "$0 build dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
@@ -18,8 +19,21 @@ case "$*" in
     ;;
 
   "serve")
+    set -x
     # bunx wrangler dev
-    IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
+    # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
+    dev_port="$(jq --raw-output .dev_port < settings.json)"
+    bun x wrangler dev --env dev --port "$dev_port"
+    ;;
+
+  "serve static")
+    set -x
+    settings="$(cat settings.json)"
+    static_port="$(echo "$settings" | jq --raw-output .static_port)"
+    static_dir="$(echo "$settings" | jq --raw-output .static_dir)"
+    build_dir="$(echo "$settings" | jq --raw-output .build_dir)"
+    set -x
+    www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
     ;;
 
   "build watch")

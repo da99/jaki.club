@@ -13,3 +13,4 @@
 /bun.lockb
 /public_files.sqlite-shm
 /public_files.sqlite-wal
+/.wrangler

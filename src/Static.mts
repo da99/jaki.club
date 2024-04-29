@@ -23,8 +23,18 @@ export class Static {
     return `${THE_SOURCE}${normalize(sPath)}`;
   }
 
-  static fetch(sPath: string) {
-    return fetch( this.file(sPath) );
+  static fetch(c: string, sPath: string) {
+    const fin = this.file(c, sPath);
+    console.log(`-- Fetching: ${fin}`)
+    return fetch( fin );
   }
 } // class
+
+
+export function static_fetch(c: any, sPath: string) {
+  const source = (c.env.IS_DEV)  ? SETTINGS.local_url : SETTINGS.static_url ;
+  const fin = `${source}${normalize(sPath)}`;
+    console.log(`-- Fetching: ${fin}`)
+  return fetch(fin);
+}
 

@@ -1,10 +1,16 @@
 name = "jaki-club"
-main = "src/worker.js"
+main = "src/Worker.ts"
 compatibility_date = "2023-08-21"
+compatibility_flags = [ "nodejs_compat" ]
 workers_dev = false
 send_metrics = false
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 
+[env.dev.vars]
+IS_DEV = "yes"
+
+[env.production.vars]
+IS_PROD = "yes"
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
