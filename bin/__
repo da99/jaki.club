@@ -19,15 +19,14 @@ case "$*" in
     ;;
 
   "serve")
-    set -x
     # bunx wrangler dev
     # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
     dev_port="$(jq --raw-output .dev_port < settings.json)"
+    set -x
     bun x wrangler dev --env dev --port "$dev_port"
     ;;
 
   "serve static")
-    set -x
     settings="$(cat settings.json)"
     static_port="$(echo "$settings" | jq --raw-output .static_port)"
     static_dir="$(echo "$settings" | jq --raw-output .static_dir)"
@@ -69,7 +68,6 @@ case "$*" in
   "build dev")
     echo "--- Building for development..." >&2
     BUILD_TARGET="dev" "$0" __build
-
     ;;
 
   "build prod")

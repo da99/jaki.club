@@ -1,9 +1,9 @@
 
+declare let process: any;
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
-import { normalize, join } from "node:path";
 
 
-const THE_SOURCE = (SETTINGS.IS_DEV) ? SETTINGS.local_url : SETTINGS.static_url;
+// const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
 
 export class Static {
   name: string;
@@ -11,30 +11,27 @@ export class Static {
     this.name = raw_name;
   }
 
-  get index_mjs() { return this.file(`/index.mjs`); }
-  get index_html() { return this.file(`/index.html`); }
-  get index_css() { return this.file(`/index.css`); }
+  get index_mjs() { return  `/section/${this.name}/index.mjs` ; }
+  get index_html() { return  `/section/${this.name}/index.html` ; }
+  get index_css() { return  `/section/${this.name}/index.css` ; }
 
-  file(sPath: string) {
-    return Static.file(join('/section', this.name, sPath));
-  }
-
-  static file(sPath: string) {
-    return `${THE_SOURCE}${normalize(sPath)}`;
-  }
-
-  static fetch(c: string, sPath: string) {
-    const fin = this.file(c, sPath);
-    console.log(`-- Fetching: ${fin}`)
-    return fetch( fin );
-  }
+  // static fetch(sPath: string) {
+  //   const fin = static_url(c, sPath);
+  //   console.log(`-- Fetching: ${fin}`)
+  //   return fetch( fin );
+  // }
 } // class
 
+export function static_url(sPath: string, c?: any) {
+  if (!c && typeof process === 'object')
+    c = process
+  const source = (c && c.env.IS_DEV)  ? `http://127.0.0.1:${SETTINGS.static_port}` : SETTINGS.static_url ;
+  return `${source}${sPath}`;
+}
 
-export function static_fetch(c: any, sPath: string) {
-  const source = (c.env.IS_DEV)  ? SETTINGS.local_url : SETTINGS.static_url ;
-  const fin = `${source}${normalize(sPath)}`;
-    console.log(`-- Fetching: ${fin}`)
+export async function static_fetch(sPath: string, c?: any) {
+  const fin = static_url(sPath, c);
+  console.log(`-- Fetching: ${fin}`)
   return fetch(fin);
 }
 

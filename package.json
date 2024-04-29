@@ -12,7 +12,8 @@
     "@types/bun": "latest",
     "jest": "latest",
     "lightningcss-cli": "latest",
-    "wrangler": "latest"
+    "miniflare": "^3.20240419.0",
+    "wrangler": "^3.52.0"
   },
   "dependencies": {
     "fauna": "latest",

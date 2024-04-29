@@ -37,7 +37,8 @@ const app = new Hono()
 // );
 
 // app.get('/', serveStatic({ path: "./build/index.html"}));
-app.get('/', async (c) => static_fetch(c, '/section/home/index.html') );
+app.get('/', async (c) => static_fetch('/section/home/index.html', c) );
+// app.get('/', async (_c) => fetch('http://excite.com') );
 
 // app.get('/session-data', async (c) => {
 //   const session = c.get('session');
@@ -76,7 +77,19 @@ app.get('/', async (c) => static_fetch(c, '/section/home/index.html') );
 //   return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {email: "accepted"}}));
 // });
 
-app.get('/*', async (c) => static_fetch(c, c.req.path));
+app.get('/*', async function (c) {
+
+  if (c.req.method === 'GET') {
+      return static_fetch(c.req.path, c);
+  }
+
+  return new Response(`Method ${c.req.method} not allowed.`, {
+    status: 405,
+    headers: {
+      Allow: "GET",
+    },
+  });
+});
 
 export default app;
 // default {

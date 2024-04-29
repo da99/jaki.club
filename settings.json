@@ -7,7 +7,6 @@
   "static_port": 4568,
   "static_dir": "public",
   "build_dir": "build",
-  "local_url": "http://localhost:4568",
   "static_url": "https://static.jaki.club/public",
   "bucket_name": "jaki",
   "storage_api_url": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki",
