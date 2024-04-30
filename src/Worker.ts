@@ -37,7 +37,11 @@ const app = new Hono()
 // );
 
 // app.get('/', serveStatic({ path: "./build/index.html"}));
-app.get('/', async (c) => static_fetch('/section/home/index.html', c) );
+app.get('/', async function (_c) {
+  const file = static_fetch('/section/home/index.html');
+  console.log(file)
+  return new Response(file.value.base64, {headers: {'Content-Type': file.value.mime_type}});
+} );
 // app.get('/', async (_c) => fetch('http://excite.com') );
 
 // app.get('/session-data', async (c) => {
@@ -80,7 +84,17 @@ app.get('/', async (c) => static_fetch('/section/home/index.html', c) );
 app.get('/*', async function (c) {
 
   if (c.req.method === 'GET') {
-      return static_fetch(c.req.path, c);
+    const file = static_fetch(c.req.path);
+    switch (file.type) {
+      case 'text':
+        return new Response(file.value.base64, {headers: {'Content-Type': file.value.mime_type}});
+
+      case 'fetch':
+        return fetch(file.value);
+
+      case 'binary':
+        return new Response(file.binary, {headers: {'Content-Type': file.value.mime_type}});
+    }
   }
 
   return new Response(`Method ${c.req.method} not allowed.`, {

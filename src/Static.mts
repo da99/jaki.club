@@ -22,17 +22,29 @@ export class Static {
   // }
 } // class
 
-export function static_url(sPath: string, c?: any) {
-  if (!c && typeof process === 'object')
-    c = process
-  const source = (c && c.env.IS_DEV)  ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url ;
-  return `${source}${sPath}`;
+export function static_fetch(sPath: string, _c?: any) {
+  const public_file = SETTINGS.public_files[sPath];
+  if (!public_file || !public_file.base64) {
+    const new_url = `${SETTINGS.static_url}${sPath}`;
+    return {type: 'fetch', value: new_url};
+  }
+
+  const mime_type = public_file.mime_type as string;
+  if (mime_type.match(/charset=(utf-8|.+-ascii)/))
+    return {type: 'text', value: public_file};
+
+  return {type: 'binary', value: public_file, binary: Uint8Array.from(atob(public_file.base64), (x) => x.charCodeAt(0))};
 }
 
-export async function static_fetch(sPath: string, c?: any) {
-  // https://community.cloudflare.com/t/convert-request-body-to-base64-encoded-string-solved/99341
-  const fin = static_url(sPath, c);
-  console.log(`-- Fetching: ${fin}`)
-  return fetch(fin);
+export function static_url(sPath: string) {
+  const public_file = SETTINGS.public_files[sPath];
+  if (!public_file)
+    return sPath;
+
+  if (!public_file.base64) {
+    return `${SETTINGS.static_url}${sPath}`;
+  }
+
+  return sPath;
 }
 
