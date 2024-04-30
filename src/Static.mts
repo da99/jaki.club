@@ -1,6 +1,7 @@
 
 declare let process: any;
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
+import PUBLIC_FILES from '/apps/jaki.club/public_files.json';
 
 
 // const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
@@ -11,9 +12,9 @@ export class Static {
     this.name = raw_name;
   }
 
-  get index_mjs() { return  `/section/${this.name}/index.mjs` ; }
-  get index_html() { return  `/section/${this.name}/index.html` ; }
-  get index_css() { return  `/section/${this.name}/index.css` ; }
+  get index_mjs() { return  static_url(`/section/${this.name}/index.mjs`) ; }
+  get index_html() { return  static_url(`/section/${this.name}/index.html`) ; }
+  get index_css() { return  static_url(`/section/${this.name}/index.css`); }
 
   // static fetch(sPath: string) {
   //   const fin = static_url(c, sPath);
@@ -23,7 +24,7 @@ export class Static {
 } // class
 
 export function static_fetch(sPath: string, _c?: any) {
-  const public_file = SETTINGS.public_files[sPath];
+  const public_file = PUBLIC_FILES[sPath];
   if (!public_file || !public_file.base64) {
     const new_url = `${SETTINGS.static_url}${sPath}`;
     return {type: 'fetch', value: new_url};
@@ -37,11 +38,12 @@ export function static_fetch(sPath: string, _c?: any) {
 }
 
 export function static_url(sPath: string) {
-  const public_file = SETTINGS.public_files[sPath];
+  const public_file = PUBLIC_FILES[sPath];
   if (!public_file)
-    return sPath;
+    throw new Error(`!!! File not found: ${sPath}`);
 
   if (!public_file.base64) {
+    console.warn(`Not found for: ${sPath}`);
     return `${SETTINGS.static_url}${sPath}`;
   }
 

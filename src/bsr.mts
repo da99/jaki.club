@@ -1,6 +1,16 @@
-import { element as E } from '/apps/www/src/bsr.mts';
-import { static_url } from '/apps/jaki.club/src/Static.mts';
+declare let process: any;
 
+import { element as E } from '/apps/www/src/bsr.mts';
+import SETTINGS from '/apps/jaki.club/settings.json';
+
+const IS_DEV = process.env['BUILD_TARGET'] == 'dev';
+
+export function static_url(sPath: string) {
+  if (IS_DEV)
+    return sPath;
+
+  return `${SETTINGS.static_url}${sPath}`;
+}
 
 //   <head>
 //     <meta charset="utf-8">
