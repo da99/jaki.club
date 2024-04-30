@@ -30,6 +30,7 @@ export function static_url(sPath: string, c?: any) {
 }
 
 export async function static_fetch(sPath: string, c?: any) {
+  // https://community.cloudflare.com/t/convert-request-body-to-base64-encoded-string-solved/99341
   const fin = static_url(sPath, c);
   console.log(`-- Fetching: ${fin}`)
   return fetch(fin);
