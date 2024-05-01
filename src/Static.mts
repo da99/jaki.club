@@ -3,25 +3,7 @@ declare let process: any;
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import PUBLIC_FILES from '/apps/jaki.club/public_files.json';
 
-
 // const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
-
-export class Static {
-  name: string;
-  constructor(raw_name: string) {
-    this.name = raw_name;
-  }
-
-  get index_mjs() { return  static_url(`/section/${this.name}/index.mjs`) ; }
-  get index_html() { return  static_url(`/section/${this.name}/index.html`) ; }
-  get index_css() { return  static_url(`/section/${this.name}/index.css`); }
-
-  // static fetch(sPath: string) {
-  //   const fin = static_url(c, sPath);
-  //   console.log(`-- Fetching: ${fin}`)
-  //   return fetch( fin );
-  // }
-} // class
 
 export function static_fetch(sPath: string, _c?: any) {
   const public_file = PUBLIC_FILES[sPath];
@@ -35,18 +17,5 @@ export function static_fetch(sPath: string, _c?: any) {
     return {type: 'text', value: public_file};
 
   return {type: 'binary', value: public_file, binary: Uint8Array.from(atob(public_file.base64), (x) => x.charCodeAt(0))};
-}
-
-export function static_url(sPath: string) {
-  const public_file = PUBLIC_FILES[sPath];
-  if (!public_file)
-    throw new Error(`!!! File not found: ${sPath}`);
-
-  if (!public_file.base64) {
-    console.warn(`Not found for: ${sPath}`);
-    return `${SETTINGS.static_url}${sPath}`;
-  }
-
-  return sPath;
 }
 

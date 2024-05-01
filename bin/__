@@ -83,6 +83,8 @@ case "$*" in
     "$this_bin" build dir
     # "$this_bin" download pure.css
 
+    www update raw file manifest
+
     cd build
 
     echo "=== Building css"
@@ -98,6 +100,16 @@ case "$*" in
 
     echo "=== Updating file manifest..."
     www update file manifest
+
+    case "$BUILD_TARGET" in
+      dev)
+        rm -f public_files.json
+        ln -s tmp/public_files.json public_files.json
+        ;;
+      prod)
+        echo "{}" > public_files.json
+        ;;
+    esac
 
     echo "=== Done building. ===" >&2
     echo
