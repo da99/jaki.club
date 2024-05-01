@@ -8,6 +8,7 @@
     "dev": "bun run -p 8787 --hot src/worker.js"
   },
   "devDependencies": {
+    "@cloudflare/kv-asset-handler": "^0.3.2",
     "@cloudflare/workers-types": "latest",
     "@types/bun": "latest",
     "jest": "latest",

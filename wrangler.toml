@@ -9,7 +9,7 @@ route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 [env.dev.vars]
 IS_DEV = "yes"
 
-[env.production.vars]
+[env.prod.vars]
 IS_PROD = "yes"
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
