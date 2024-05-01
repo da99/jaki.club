@@ -1,7 +1,6 @@
 
 declare let process: any;
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
-import PUBLIC_FILES from '/apps/jaki.club/public_files.json';
 
 // const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
 
