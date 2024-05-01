@@ -83,18 +83,7 @@ app.get('/', async function (c) {
 app.get('/*', async function (c) {
 
   if (c.req.method === 'GET') {
-    return static_fetch(c.req.path);
-    // const file = static_fetch(c.req.path);
-    // switch (file.type) {
-    //   case 'text':
-    //     return new Response(file.value.base64, {headers: {'Content-Type': file.value.mime_type}});
-    //
-    //   case 'fetch':
-    //     return fetch(file.value);
-    //
-    //   case 'binary':
-    //     return new Response(file.binary, {headers: {'Content-Type': file.value.mime_type}});
-    // }
+    return static_fetch(c, c.req.path);
   }
 
   return new Response(`Method ${c.req.method} not allowed.`, {
