@@ -37,8 +37,8 @@ const app = new Hono()
 // );
 
 // app.get('/', serveStatic({ path: "./build/index.html"}));
-app.get('/', async function (_c) {
-  return static_fetch('/section/home/index.html');
+app.get('/', async function (c) {
+  return static_fetch(c, '/section/home/index.html');
   // return new Response(file.value.base64, {headers: {'Content-Type': file.value.mime_type}});
 } );
 // app.get('/', async (_c) => fetch('http://excite.com') );
