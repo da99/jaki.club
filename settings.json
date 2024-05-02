@@ -1,13 +1,15 @@
 {
   "IS_DEV": false,
-  "build_target": "prod",
-  "domain": "jaki.club",
-  "site_name": "jAki.CLUB",
-  "dev_port": 4567,
-  "static_port": 4568,
-  "static_dir": "public",
-  "build_dir": "build",
-  "static_url": "https://static.jaki.club/public",
-  "bucket_name": "jaki",
-  "storage_api_url": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki"
+  "BUILD_TARGET": "prod",
+  "DOMAIN": "jaki.club",
+  "SITE_NAME": "jAki.CLUB",
+  "DEV_PORT": 4567,
+  "STATIC_PORT": 4568,
+  "STATIC_DIR": "public",
+  "BUILD_CMD": "bin/__ build",
+  "BUILD_CMD_DEV": "bin/__ build dev",
+  "BUILD_DIR": "build",
+  "STATIC_URL": "https://static.jaki.club/public",
+  "BUCKET_NAME": "jaki",
+  "STORAGE_API_URL": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki"
 }

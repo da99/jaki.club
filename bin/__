@@ -65,6 +65,10 @@ case "$*" in
     cp -r public build/
     ;;
 
+  "build")
+    "$0" build "${BUILD_TARGET:-prod}"
+    ;;
+
   "build dev")
     echo "--- Building for development..." >&2
     BUILD_TARGET="dev" "$0" __build
