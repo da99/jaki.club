@@ -1,5 +1,8 @@
 
-    // return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
+  // return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
+
+
+import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 
 import { Hono } from 'hono';
 // import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
@@ -16,7 +19,7 @@ import { static_fetch } from '/apps/jaki.club/src/Static.mts';
 //   secret: process.env.FAUNA_SECRET
 // });
 
-const app = new Hono()
+const app = new Hono<{ Bindings: Bindings}>()
 
 // function new_otp() {
 //   return crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,6);
@@ -88,6 +91,7 @@ app.get('/*', async function (c) {
 
   return new Response(`Method ${c.req.method} not allowed.`, {
     status: 405,
+    statusText: 'Only GET alllowed.',
     headers: {
       Allow: "GET",
     },
