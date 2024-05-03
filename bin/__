@@ -21,16 +21,16 @@ case "$*" in
   "serve")
     # bunx wrangler dev
     # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
-    dev_port="$(jq --raw-output .dev_port < settings.json)"
+    dev_port="$(jq --raw-output .DEV_PORT < settings.json)"
     set -x
     bun x wrangler dev --env dev --port "$dev_port"
     ;;
 
   "serve static")
     settings="$(cat settings.json)"
-    static_port="$(echo "$settings" | jq --raw-output .static_port)"
-    static_dir="$(echo "$settings" | jq --raw-output .static_dir)"
-    build_dir="$(echo "$settings" | jq --raw-output .build_dir)"
+    static_port="$(echo "$settings" | jq --raw-output .STATIC_PORT)"
+    static_dir="$(echo "$settings" | jq --raw-output .STATIC_DIR)"
+    build_dir="$(echo "$settings" | jq --raw-output .BUILD_DIR)"
     set -x
     www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
     ;;
