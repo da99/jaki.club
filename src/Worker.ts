@@ -2,10 +2,12 @@
   // return new Response(`Not found: ${req.url}`, { status: 404, statusText: "Not Found"});
 
 
-import type { Bindings } from '/apps/jaki.club/src/Base.mts';
+import type { Bindings, Env } from '/apps/jaki.club/src/Base.mts';
 
 import { Hono } from 'hono';
 import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
+import update_code_sql from '../d1/update_code.sql';
+import update_tries_sql from '../d1/update_tries.sql';
 
 // import { send_via_zepto } from "./ZeptoMail.ts";
 // import { which } from 'bun';
@@ -19,8 +21,10 @@ import { static_fetch } from '/apps/jaki.club/src/Static.mts';
 //   secret: process.env.FAUNA_SECRET
 // });
 
-const app = new Hono<{ Bindings: Bindings}>()
-
+const app = new Hono<{ Env: Env, Bindings: Bindings}>()
+const CODE_UNUSED = 0;
+const CODE_USED = 1;
+const CODE_MAX_USE = 4;
 
 // const store = new CookieStore();
 // import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
@@ -84,6 +88,36 @@ app.post('/login', async (c) => {
   return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {email: "accepted"}}));
 });
 
+async function get_email_code(c: any, raw_email: string, raw_code: string) {
+  const e = c.env as Env;
+  const results = await e
+  .LOGIN_CODE_DB
+  .prepare(update_code_sql as string)
+  .bind(CODE_USED, raw_code, raw_email)
+  .first();
+
+  if (results) {
+    const data = results as {status: number, tries: number};
+    if (data.tries > CODE_MAX_USE)
+      return {success: false, fields: {the_code: 'max_use', tries: data.tries}};
+    return {success: true, fields: {the_code: 'valid'}};
+  }
+
+  const tries = await e
+  .LOGIN_CODE_DB
+  .prepare(update_tries_sql)
+  .bind(raw_email)
+  .first();
+
+  if ( tries ) {
+    const t = tries as { tries: number };
+    if (t['tries'] > CODE_MAX_USE) {
+      return {success: false, fields: {the_code: 'max_use', tries: t['tries']}};
+    }
+  }
+  return {success: false, fields: {the_code: 'invalid', tries}};
+}
+
 app.post('/otp-login', async (c) => {
   const json = await c.req.json();
   const dom_id = c.req.header(X_SENT_FROM);
@@ -100,7 +134,7 @@ app.post('/otp-login', async (c) => {
   if (!is_email_valid(raw_email))
     return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "invalid"}}));
 
-  const result = await get_email_code(raw_email, raw_code);
+  const result = await get_email_code(c as any, raw_email, raw_code);
 
   if (result.success)
     return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {the_code: "valid"}}));
@@ -108,7 +142,7 @@ app.post('/otp-login', async (c) => {
   switch (result.reason) {
     case 'email':
       return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "email"}}));
-    case 'the_code':
+    case 'code_no_match':
       return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {the_code: "invalid"}}));
     case 'too_many_tries':
       return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {the_code: "too_many_tries"}}));

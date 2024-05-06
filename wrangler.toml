@@ -6,6 +6,10 @@ workers_dev = false
 send_metrics = false
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 
+rules = [
+  { type = "Text", globs = ["**/*.sql"], fallthrough = true }
+]
+
 [env.dev.vars]
 IS_DEV = "yes"
 
