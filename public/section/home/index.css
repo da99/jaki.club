@@ -39,8 +39,8 @@ body.stranger #login { display: block; }
 body.locked_out #locked_out,
 body.user_is_in #user_is_in { display: block; }
 
-
-#enter_the_code.invalid div.try_again {
+#enter_the_code div.invalid { display: none; }
+#enter_the_code.the_code-invalid div.the_code-invalid {
   display: block;
 }
 

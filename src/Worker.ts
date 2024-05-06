@@ -128,27 +128,9 @@ app.post('/otp-login', async (c) => {
   const raw_email = (json['email'] || '').toString().trim();
   const raw_code = (json['the_code'] || '').toString().trim();
 
-  if (raw_code.length !== THE_CODE_LENGTH)
-    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {the_code: "invalid"}}));
-
-  if (!is_email_valid(raw_email))
-    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "invalid"}}));
-
   const result = await get_email_code(c as any, raw_email, raw_code);
 
-  if (result.success)
-    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {the_code: "valid"}}));
-
-  switch (result.reason) {
-    case 'email':
-      return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "email"}}));
-    case 'code_no_match':
-      return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {the_code: "invalid"}}));
-    case 'too_many_tries':
-      return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {the_code: "too_many_tries"}}));
-  }
-
-  return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {the_code: "unknown"}}));
+  return Response.json(Object.assign({X_SENT_FROM: dom_id}, result));
 });
 
 app.get('/*', async function (c) {

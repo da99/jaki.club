@@ -6,7 +6,7 @@ const Home = new Static('home');
 
 console.log(
   html5(
-    default_head(Home.name, `${SETTINGS.site_name} homepage`),
+    default_head(Home.name, `${SETTINGS.SITE_NAME} homepage`),
     E('body', '.init',
       E('div', '.network-error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
       E('div', '.server-error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
@@ -21,13 +21,11 @@ console.log(
            E('button', '.submit', 'Enter')
          ), // form
          E('form', '#enter_the_code', {action: '/login-otp', method: 'post'},
-           E('div', '.try_again.invalid', 'Incorrent code. Try again.'),
+           E('div', '.invalid.the_code-invalid', 'Incorrent code. Try again.'),
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
              E('label', {htmlFor: 'the_code'}, '{{EMAIL}}'),
              E('input', {type: 'text', id: 'the_code', name: 'the_code',  required: true, maxLength: 6, minLength: 6}),
-             E('div', '.invalid.email-empty', 'Email may not be empty.'),
-             E('div', '.invalid.email-invalid', 'Email is invalid. Check for typos.')
             ),
             E('button', '.submit', 'Enter')
          ), // form
