@@ -18,6 +18,11 @@ IS_PROD = "yes"
 # [vars]
 # MY_VARIABLE = "production_value"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "login-code-db"
+# database_id = "c020574a-5623-407b-be0c-cd192bab9545"
+
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
 # [[kv_namespaces]]
