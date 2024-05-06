@@ -4,7 +4,10 @@ import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 
 // const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
 
-export function static_fetch(c: { req: Request, env: Bindings }, sPath: string) {
+type CTX = { req: Request, env: Bindings };
+
+export function static_fetch(raw_c: any, sPath: string) {
+  const c = raw_c as CTX;
   if (c.env['IS_DEV']) {
     const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
     console.log(`--- Fetching: ${new_url}`);
