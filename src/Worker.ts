@@ -86,7 +86,7 @@ app.get('/', async function (c) {
 app.get('/*', async function (c) {
 
   if (c.req.method === 'GET') {
-    return static_fetch(c, c.req.path);
+    return static_fetch(c as any, c.req.path);
   }
 
   return new Response(`Method ${c.req.method} not allowed.`, {

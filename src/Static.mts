@@ -6,11 +6,11 @@ import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 
 export function static_fetch(c: { req: Request, env: Bindings }, sPath: string) {
   if (c.env['IS_DEV']) {
-    const new_url = `http://localhost:${SETTINGS.static_port}${sPath}`;
+    const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
     console.log(`--- Fetching: ${new_url}`);
     return fetch(new_url);
   } else {
-    return fetch(`${SETTINGS.static_url}${sPath}`);
+    return fetch(`${SETTINGS.STATIC_URL}${sPath}`);
   }
 }
 
