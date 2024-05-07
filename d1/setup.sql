@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS email (
   id INTEGER PRIMARY KEY,
-  email TEXT NOT NULL UNIQUE
+  email TEXT NOT NULL UNIQUE DEFAULT (trim(upper(display))),
+  display TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS codes (

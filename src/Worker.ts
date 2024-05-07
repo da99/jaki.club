@@ -122,7 +122,7 @@ async function validate_email_code(c: any, raw_email: string, raw_code: string) 
   return {success: false, fields: {the_code: 'invalid', tries}};
 }
 
-app.post('/otp-login', async (c) => {
+app.post('/login-otp', async (c) => {
   const json = await c.req.json();
   const dom_id = c.req.header(X_SENT_FROM);
   if (!dom_id) {

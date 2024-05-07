@@ -2,7 +2,7 @@
 @import '../base/base.css';
 
 form {
-  font-size: 2em;
+  font-size: 1em;
 }
 
 a {
@@ -40,8 +40,10 @@ body.locked_out #locked_out,
 body.user_is_in #user_is_in { display: block; }
 
 #enter_the_code div.invalid { display: none; }
-#enter_the_code.the_code-invalid div.the_code {
+#enter_the_code.invalid div.the_code {
   display: block;
+  color: #cb000e;
+  font-family: serif;
 }
 
 input[type='text'],
@@ -56,16 +58,13 @@ input[type='number'] {
   letter-spacing: 0.5em;
 }
 
-#enter_the_code {
-  padding: 2em 0;
-}
 #enter_the_code div.try_again {
   font-family: serif;
   color: #cb000e;
 }
 #enter_the_code label {
   display: block;
-  padding: 0.5em;
+  padding: 0.25em;
   font-family: sans-serif;
   font-size: 2em;
 }
