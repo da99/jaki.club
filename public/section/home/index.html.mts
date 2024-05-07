@@ -21,7 +21,7 @@ console.log(
            E('button', '.submit', 'Enter')
          ), // form
          E('form', '#enter_the_code', {action: '/login-otp', method: 'post'},
-           E('div', '.invalid.the_code-invalid', 'Incorrent code. Try again.'),
+           E('div', '.the_code.invalid', 'Incorrent code. Try again.'),
            E('h2', 'Enter the 6 digit code sent to your email:'),
            E('fieldset',
              E('label', {htmlFor: 'the_code'}, '{{EMAIL}}'),

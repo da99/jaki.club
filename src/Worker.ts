@@ -88,18 +88,20 @@ app.post('/login', async (c) => {
   return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {email: "accepted"}}));
 });
 
-async function get_email_code(c: any, raw_email: string, raw_code: string) {
+async function validate_email_code(c: any, raw_email: string, raw_code: string) {
   const e = c.env as Env;
   const results = await e
   .LOGIN_CODE_DB
   .prepare(update_code_sql as string)
-  .bind(CODE_USED, raw_code, raw_email)
+  .bind(CODE_USED, raw_code, raw_email, CODE_UNUSED)
   .first();
+
+  console.warn(results);
 
   if (results) {
     const data = results as {status: number, tries: number};
     if (data.tries > CODE_MAX_USE)
-      return {success: false, fields: {the_code: 'max_use', tries: data.tries}};
+      return {success: false, fields: {the_code: 'max_use'}};
     return {success: true, fields: {the_code: 'valid'}};
   }
 
@@ -108,6 +110,8 @@ async function get_email_code(c: any, raw_email: string, raw_code: string) {
   .prepare(update_tries_sql)
   .bind(raw_email)
   .first();
+
+  console.warn(tries);
 
   if ( tries ) {
     const t = tries as { tries: number };
@@ -128,7 +132,7 @@ app.post('/otp-login', async (c) => {
   const raw_email = (json['email'] || '').toString().trim();
   const raw_code = (json['the_code'] || '').toString().trim();
 
-  const result = await get_email_code(c as any, raw_email, raw_code);
+  const result = await validate_email_code(c as any, raw_email, raw_code);
 
   return Response.json(Object.assign({X_SENT_FROM: dom_id}, result));
 });
