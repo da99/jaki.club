@@ -6,16 +6,13 @@ import type { Bindings, Env } from '/apps/jaki.club/src/Base.mts';
 
 import { Hono } from 'hono';
 import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
-import select_email from '../d1/select_email.sql';
-import insert_email from '../d1/insert_email.sql';
-import update_code_sql from '../d1/update_code.sql';
-import update_tries_sql from '../d1/update_tries.sql';
 
 // import { send_via_zepto } from "./ZeptoMail.ts";
 // import { which } from 'bun';
 
 // import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { static_fetch } from '/apps/jaki.club/src/Static.mts';
+import { validate_email, upsert_email, insert_code } from './LOGIN_CODE_DB.mts';
 
 // import { Client, fql, FaunaError } from "fauna";
 // // configure your client
@@ -42,6 +39,9 @@ const CODE_MAX_USE = 4;
 // })
 // );
 
+function err500(msg: string) {
+  return new Response(msg, {status: 500, statusText: msg});
+}
 // app.get('/', serveStatic({ path: "./build/index.html"}));
 app.get('/', async function (c) {
   return static_fetch(c, '/section/home/index.html');
@@ -66,10 +66,11 @@ app.get('/', async function (c) {
 
 const THE_CODE_LENGTH = 6;
 
-async function upsert_email(raw_email: string) {
-  const email = raw_email.trim().toUpperCase()
+function new_otp() {
+  const otp = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,THE_CODE_LENGTH);
+  const human = otp.split('').join(' ');
+  return {otp, human};
 }
-
 app.post('/login', async (c) => {
   const json = await c.req.json();
   const dom_id = c.req.header(X_SENT_FROM);
@@ -77,29 +78,23 @@ app.post('/login', async (c) => {
     return c.notFound();
   }
   // const hash = await Bun.password.hash(json.pswd);
-  const raw_email = (json['email'] || '').toString().trim();
+  const raw_email = (json['email'] || '').toString();
 
-  if (raw_email.length === 0)
-    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "empty"}}));
+  const email_stat = validate_email(raw_email);
 
-  if (!is_email_valid(raw_email))
-    return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: false, fields: {email: "invalid"}}));
-
-  const otp = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,THE_CODE_LENGTH);
-  const otp_human = otp.split('').join(' ');
-  console.log(otp_human);
-
-  const upcase = raw_email.toUpperCase();
-  const downcase = raw_email.toLowerCase();
-  const inserted = await c.env.LOGIN_CODE_DB.prepare(insert_email).bind(upcase, downcase).first();
-  console.log("inserted: ", inserted);
-  // const email_response = await send_via_zepto(raw_email, `Log-in Code: ${otp_human}`);
-  if (!inserted) {
-    const selected = await c.env.LOGIN_CODE_DB.prepare(select_email).bind(upcase, downcase).first();
-    console.log("selected: ", selected)
-    if (!selected)
-      return new Response(`Email not inserted or select.`, { status: 500, statusText: "Email unable to be handled."});
+  if (!email_stat.valid) {
+    return Response.json({success: false, fields: {email: email_stat.msg}});
   }
+
+  const email_row = await upsert_email(c.env.LOGIN_CODE_DB, email_stat);
+  if (!email_row)
+    return err500('Email unabled to be saved.');
+
+  const otp = new_otp();
+  console.log(otp.human)
+  const code_row = await insert_code(c.env.LOGIN_CODE_DB, email_row, otp.otp);
+  if (!code_row)
+    return err500(`Unable to generate code for player.`);
 
   return Response.json({X_SENT_FROM: dom_id, success: true, fields: {email: "inserted"}});
 });
