@@ -64,6 +64,10 @@ app.get('/', async function (c) {
 
 const THE_CODE_LENGTH = 6;
 
+async function upsert_email(raw_email: string) {
+  const email = raw_email.trim().toUpperCase()
+}
+
 app.post('/login', async (c) => {
   const json = await c.req.json();
   const dom_id = c.req.header(X_SENT_FROM);
