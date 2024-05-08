@@ -6,6 +6,8 @@ import type { Bindings, Env } from '/apps/jaki.club/src/Base.mts';
 
 import { Hono } from 'hono';
 import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
+import select_email from '../d1/select_email.sql';
+import insert_email from '../d1/insert_email.sql';
 import update_code_sql from '../d1/update_code.sql';
 import update_tries_sql from '../d1/update_tries.sql';
 
@@ -21,7 +23,7 @@ import { static_fetch } from '/apps/jaki.club/src/Static.mts';
 //   secret: process.env.FAUNA_SECRET
 // });
 
-const app = new Hono<{ Env: Env, Bindings: Bindings}>()
+const app = new Hono<{ Bindings: Bindings }>()
 const CODE_UNUSED = 0;
 const CODE_USED = 1;
 const CODE_MAX_USE = 4;
@@ -86,15 +88,24 @@ app.post('/login', async (c) => {
   const otp = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,THE_CODE_LENGTH);
   const otp_human = otp.split('').join(' ');
   console.log(otp_human);
-  // const email_response = await send_via_zepto(raw_email, `Log-in Code: ${otp_human}`);
-  // console.warn(email_response);
 
-  return new Response(JSON.stringify({X_SENT_FROM: dom_id, success: true, fields: {email: "accepted"}}));
+  const upcase = raw_email.toUpperCase();
+  const downcase = raw_email.toLowerCase();
+  const inserted = await c.env.LOGIN_CODE_DB.prepare(insert_email).bind(upcase, downcase).first();
+  console.log("inserted: ", inserted);
+  // const email_response = await send_via_zepto(raw_email, `Log-in Code: ${otp_human}`);
+  if (!inserted) {
+    const selected = await c.env.LOGIN_CODE_DB.prepare(select_email).bind(upcase, downcase).first();
+    console.log("selected: ", selected)
+    if (!selected)
+      return new Response(`Email not inserted or select.`, { status: 500, statusText: "Email unable to be handled."});
+  }
+
+  return Response.json({X_SENT_FROM: dom_id, success: true, fields: {email: "inserted"}});
 });
 
 async function validate_email_code(c: any, raw_email: string, raw_code: string) {
-  const e = c.env as Env;
-  const results = await e
+  const results = await c.env
   .LOGIN_CODE_DB
   .prepare(update_code_sql as string)
   .bind(CODE_USED, raw_code, raw_email, CODE_UNUSED)
@@ -109,7 +120,7 @@ async function validate_email_code(c: any, raw_email: string, raw_code: string) 
     return {success: true, fields: {the_code: 'valid'}};
   }
 
-  const tries = await e
+  const tries = await c.env
   .LOGIN_CODE_DB
   .prepare(update_tries_sql)
   .bind(raw_email)

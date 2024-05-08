@@ -1,7 +1,3 @@
-
-/*
-SELECT COUNT(id) as COUNT_EMAIL FROM email;
-SELECT COUNT(id) as COUNT_CODE FROM codes;
-*/
-
-SELECT COUNT(*) as CODE_COUNT FROM email LEFT JOIN codes ON email.id = codes.email_id;
+-- SELECT COUNT(email.id) as EMAIL_COUNT FROM email;
+SELECT * FROM email;
+SELECT COUNT(codes.id) as CODE_COUNT FROM codes;

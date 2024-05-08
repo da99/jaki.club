@@ -1,3 +1,3 @@
-INSERT INTO email(email, display) VALUES(?, ?)
-  ON CONFLICT(email) DO NOTHING
+INSERT INTO email(upcase, downcase) VALUES(?, ?)
+  ON CONFLICT(upcase) DO NOTHING
 RETURNING *;

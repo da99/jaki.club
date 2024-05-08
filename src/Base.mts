@@ -8,5 +8,6 @@ export const SETTINGS = settings;
 
 export type Bindings = {
   IS_DEV: | string,
-  IS_PROD: | string
+  IS_PROD: | string,
+  LOGIN_CODE_DB: D1Database
 }
