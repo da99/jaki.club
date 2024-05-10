@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS email (
   id INTEGER PRIMARY KEY,
   upcase TEXT NOT NULL UNIQUE,
   downcase TEXT NOT NULL UNIQUE,
+  origin TEXT NOT NULL,
   date_created INTEGER(4) NOT NULL DEFAULT (strftime('%s', 'now'))
 );
 
