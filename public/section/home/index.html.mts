@@ -16,6 +16,8 @@ console.log(
           E('h2', 'Login or Create an account.'),
           E('fieldset',
             E('label', {htmlFor: 'login-email'}, 'Email:'),
+            E('div', '.email-invalid.invalid', 'Email address not accepted. Check your spelling.'),
+            E('div', '.email-too_long.invalid', 'Email address too long. Use a shorter address.'),
             E('input', {type: 'email', name: 'email', id: "login-email", required: true, autocomplete: 'email'}),
            ),
            E('button', '.submit', 'Enter')

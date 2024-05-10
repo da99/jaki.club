@@ -10,7 +10,7 @@ import { is_email_valid } from '/apps/www/src/base.mts';
 export type Invalid_Email = {
   valid: false,
   value: string | {upcase: string, downcase: string},
-  msg: "empty" | "invalid"
+  msg: "empty" | "invalid" | "too_long"
 };
 
 export type Valid_Email = {
@@ -29,6 +29,8 @@ export function validate_email(raw_email: string): Invalid_Email | Valid_Email {
   let email = raw_email.trim();
   if (email.length === 0)
     return {valid: false, value: email, msg: "empty"}
+  if (email.length > 100)
+    return {valid: false, value: email, msg: "too_long"}
   if (!is_email_valid(email))
     return {valid: false, value: email, msg: "invalid"}
   return {valid: true, value: {upcase: email.toUpperCase(), downcase: email.toLowerCase()}, msg: "valid"}
