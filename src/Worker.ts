@@ -12,7 +12,7 @@ import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
 
 // import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { static_fetch } from '/apps/jaki.club/src/Static.mts';
-import { validate_email, upsert_email, insert_code } from './LOGIN_CODE_DB.mts';
+import { validate_email, upsert_email, upsert_code } from './LOGIN_CODE_DB.mts';
 
 // import { Client, fql, FaunaError } from "fauna";
 // // configure your client
@@ -42,6 +42,7 @@ const CODE_MAX_USE = 4;
 function err500(msg: string) {
   return new Response(msg, {status: 500, statusText: msg});
 }
+
 // app.get('/', serveStatic({ path: "./build/index.html"}));
 app.get('/', async function (c) {
   return static_fetch(c, '/section/home/index.html');
@@ -71,12 +72,12 @@ function new_otp() {
   const human = otp.split('').join(' ');
   return {otp, human};
 }
+
 app.post('/login', async (c) => {
   const json = await c.req.json();
   const dom_id = c.req.header(X_SENT_FROM);
-  if (!dom_id) {
-    return c.notFound();
-  }
+  if (!dom_id) { return c.notFound(); }
+
   // const hash = await Bun.password.hash(json.pswd);
   const raw_email = (json['email'] || '').toString();
 
@@ -92,7 +93,8 @@ app.post('/login', async (c) => {
 
   const otp = new_otp();
   console.log(otp.human)
-  const code_row = await insert_code(c.env.LOGIN_CODE_DB, email_row, otp.otp);
+
+  const code_row = await upsert_code(c.env.LOGIN_CODE_DB, email_row, otp.otp);
   if (!code_row)
     return err500(`Unable to generate code for player.`);
 

@@ -50,9 +50,15 @@ export async function upsert_email(db: D1Database, email_stat: Valid_Email): Pro
     return selected as Email_Row;
 } // === export
 
-export async function insert_code(db: D1Database, email: Email_Row, code: string) {
+export async function upsert_code(db: D1Database, email: Email_Row, code: string) {
+  /*
+    * Find existing code.
+    * If not found, create and insert new code.
+    * Return code row.
+    */
   const code_row = await db.prepare(insert_code_sql).bind(email.id, code).first();
   if (!code_row)
     throw new Error(`Code could not be inserted: ${email.upcase}/${email.downcase} -> ${code}`);
   return code_row;
 }
+
