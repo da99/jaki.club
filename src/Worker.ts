@@ -12,7 +12,7 @@ import { X_SENT_FROM, is_email_valid } from '/apps/www/src/base.mts';
 
 // import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import { static_fetch } from '/apps/jaki.club/src/Static.mts';
-import { validate_email, upsert_email, upsert_code } from './LOGIN_CODE_DB.mts';
+import { Email, Login_Code } from './LOGIN_CODE_DB.mts';
 
 // import { Client, fql, FaunaError } from "fauna";
 // // configure your client
@@ -21,9 +21,6 @@ import { validate_email, upsert_email, upsert_code } from './LOGIN_CODE_DB.mts';
 // });
 
 const app = new Hono<{ Bindings: Bindings }>()
-const CODE_UNUSED = 0;
-const CODE_USED = 1;
-const CODE_MAX_USE = 4;
 
 // const store = new CookieStore();
 // import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
@@ -65,36 +62,27 @@ app.get('/', async function (c) {
 //   // return new Response(Bun.file("./build/Public/section/admin/index.html"));
 // });
 
-const THE_CODE_LENGTH = 6;
-
-function new_otp() {
-  const otp = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,THE_CODE_LENGTH);
-  const human = otp.split('').join(' ');
-  return {otp, human};
-}
 
 app.post('/login', async (c) => {
   const json = await c.req.json();
   const dom_id = c.req.header(X_SENT_FROM);
   if (!dom_id) { return c.notFound(); }
 
-  // const hash = await Bun.password.hash(json.pswd);
-  const raw_email = (json['email'] || '').toString();
+  const email = new Email((json['email'] || '').toString());
 
-  const email_stat = validate_email(raw_email);
-
-  if (!email_stat.valid) {
-    return Response.json({success: false, fields: {email: email_stat.msg}});
+  if (!email.is_valid) {
+    return Response.json({success: false, fields: {email: email.state}});
   }
 
-  const email_row = await upsert_email(c.env.LOGIN_CODE_DB, email_stat);
+  const email_row = await email.upsert(c.env.LOGIN_CODE_DB);
   if (!email_row)
     return err500('Email unabled to be saved.');
 
-  const otp = new_otp();
-  console.log(otp.human)
 
-  const code_row = await upsert_code(c.env.LOGIN_CODE_DB, email_row, otp.otp);
+  const login_code = new Login_Code();
+  console.log(login_code.human);
+
+  const code_row = await login_code.upsert(c.env.LOGIN_CODE_DB, email_row);
   if (!code_row)
     return err500(`Unable to generate code for player.`);
 
