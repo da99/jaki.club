@@ -11,3 +11,18 @@ export type Bindings = {
   IS_PROD: | string,
   LOGIN_CODE_DB: D1Database
 }
+
+export interface EmailMessageEvent {
+  readonly from: string;
+  readonly to: string;
+  readonly headers: Headers;
+  readonly raw: ReadableStream;
+  readonly rawSize: number;
+
+  constructor(from: string, to: string, raw: ReadableStream | string): EmailMessage;
+
+  setReject(reason: string): void;
+  forward(rcptTo: string, headers?: Headers): Promise<void>;
+  reply(message: EmailMessage): Promise<void>;
+}
+

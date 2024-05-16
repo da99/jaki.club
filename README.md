@@ -11,3 +11,8 @@
 
 # Options:
   * https://www.novo.co/ Banking
+
+
+# Workarounds:
+  * use `mimetext/browser` for now:
+  https://github.com/muratgozel/MIMEText/issues/64#issuecomment-2094925196

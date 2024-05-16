@@ -19,6 +19,8 @@
   "dependencies": {
     "fauna": "latest",
     "hono": "latest",
-    "hono-sessions": "latest"
+    "hono-sessions": "latest",
+    "mimetext": "latest",
+    "postal-mime": "latest"
   }
 }

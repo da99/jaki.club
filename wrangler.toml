@@ -1,7 +1,8 @@
 name = "jaki-club"
-main = "src/Worker.ts"
-compatibility_date = "2023-08-21"
+main = "src/Temp.Worker.ts"
+compatibility_date = "2024-05-01"
 compatibility_flags = [ "nodejs_compat" ]
+
 workers_dev = false
 send_metrics = false
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
@@ -10,10 +11,13 @@ rules = [
   { type = "Text", globs = ["**/*.sql"], fallthrough = true }
 ]
 
+
 [[env.dev.d1_databases]]
 binding = "LOGIN_CODE_DB" # i.e. available in your Worker on env.DB
 database_name = "login-code-db"
 database_id = "462e4fbe-865a-49a4-be63-afdbe4840490"
+
+
 
 [env.dev.vars]
 IS_DEV = "yes"
