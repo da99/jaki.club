@@ -12,18 +12,22 @@ rules = [
 ]
 
 
-[[env.dev.d1_databases]]
-binding = "LOGIN_CODE_DB" # i.e. available in your Worker on env.DB
-database_name = "login-code-db"
-database_id = "462e4fbe-865a-49a4-be63-afdbe4840490"
 
 
-
-[env.dev.vars]
-IS_DEV = "yes"
+[env.dev]
+vars = { IS_DEV = "yes" }
+d1_databases = [
+  { binding = "LOGIN_CODE_DB", database_name = "login-code-db", database_id = "462e4fbe-865a-49a4-be63-afdbe4840490" }
+]
 
 [env.prod.vars]
 IS_PROD = "yes"
+
+[env.the_stage]
+name = "jaki-club-the-stage"
+vars = { IS_PROD = "yes" }
+route = { pattern = "the-stage.jaki.club/*", zone_name = "jaki.club" }
+
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
