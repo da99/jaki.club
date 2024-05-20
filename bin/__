@@ -15,7 +15,16 @@ case "$*" in
     echo "$0 upload"
     echo "$0 upgrade"
     echo "$0 prune files"
+    echo "$0 deploy prod|dev"
     echo
+    ;;
+
+  "deploy prod"|"deploy dev"|"deploy prod "*|"deploy dev "*|"deploy the_stage"|"deploy the_stage "*)
+    shift
+    target="$1"
+    shift
+    set -x
+    bun x wrangler deploy --env "$target" "$@"
     ;;
 
   "serve static")

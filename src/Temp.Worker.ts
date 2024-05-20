@@ -38,25 +38,22 @@ export default {
     const from    = (message.from).trim();
 
     switch (to) {
-      case 'enter@jaki.club':
-      case 'enter@the-stage.jaki.club':
+      case 'ENTER@JAKI.CLUB':
+      case 'ENTER@THE-STAGE.JAKI.CLUB':
         // Everything is ok. continue.
         break;
-
-      default:
-        // FORWARD this message to errors @ jaki.club
-        return;
     } // switch
 
     const msg = createMimeMessage();
     const msg_id = message.headers.get("Message-ID") || "unknown";
     msg.setHeader('In-Reply-To', msg_id);
-    msg.setSender({ name: (to.split('@')[0] || 'unknown').toUpperCase(), addr: to });
+    msg.setSender({ name: (to.split('@')[0] || 'unknown').toUpperCase(), addr: message.to });
     msg.setRecipient(message.from);
     msg.setSubject(`Pong: Origin Subject: ${email.subject}`);
+    const new_body = `You wrote: ${ email.text || '[NOTHING]' }`
     msg.addMessage({
       contentType: 'text/plain',
-      data: `You wrote: ${ email.text || '[NOTHING]' }`
+      data: new_body
     });
 
     await message.reply(new EmailMessage(
