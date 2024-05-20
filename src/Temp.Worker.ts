@@ -30,19 +30,19 @@ export default {
     //  Send code to FROM:
     //    include message: FROM, IP ADDRESS
     //
-    const staging_computer_email = 'computer@the-stage.jaki.club';
+    const staging_computer_email = 'enter@the-stage.jaki.club';
 
-    const email = await PostalMime.parse(message.raw);
-    const subject = (email.subject || '').trim().toUpperCase();
-    const to      = (message.to).trim().toUpperCase();
-    const from    = (message.from).trim();
-
-    switch (to) {
-      case 'ENTER@JAKI.CLUB':
-      case 'ENTER@THE-STAGE.JAKI.CLUB':
-        // Everything is ok. continue.
-        break;
-    } // switch
+    // const email = await PostalMime.parse(message.raw);
+    // const subject = (email.subject || '').trim().toUpperCase();
+    // const to      = (message.to).trim().toUpperCase();
+    // const from    = (message.from).trim();
+    //
+    // switch (to) {
+    //   case 'ENTER@JAKI.CLUB':
+    //   case 'ENTER@THE-STAGE.JAKI.CLUB':
+    //     // Everything is ok. continue.
+    //     break;
+    // } // switch
 
     const msg = createMimeMessage();
     const msg_id = message.headers.get("Message-ID") || "unknown";
@@ -50,8 +50,8 @@ export default {
     // msg.setSender({ name: (to.split('@')[0] || 'unknown').toUpperCase(), addr: message.to });
     msg.setSender(message.to);
     msg.setRecipient(message.from);
-    msg.setSubject(`Pong: Origin Subject: ${email.subject}`);
-    const new_body = `You wrote: ${ email.text || '[NOTHING]' }`
+    msg.setSubject(`Pong: Origin Subject: {email.subject}`);
+    const new_body = `You wrote: { email.text || '[NOTHING]' }`
     msg.addMessage({
       contentType: 'text/plain',
       data: new_body
