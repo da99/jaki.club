@@ -3,7 +3,7 @@ import { EmailMessage } from "cloudflare:email";
 // import type { ForwardableEmailMessage } from "cloudflare:email";
 
 import { createMimeMessage } from "mimetext/browser";
-import PostalMime from 'postal-mime';
+// import PostalMime from 'postal-mime';
 import type { Bindings, EmailMessageEvent } from '/apps/jaki.club/src/Base.mts';
 
 export default {
@@ -30,7 +30,7 @@ export default {
     //  Send code to FROM:
     //    include message: FROM, IP ADDRESS
     //
-    const staging_computer_email = 'enter@the-stage.jaki.club';
+    // const staging_computer_email = 'enter@the-stage.jaki.club';
 
     // const email = await PostalMime.parse(message.raw);
     // const subject = (email.subject || '').trim().toUpperCase();
