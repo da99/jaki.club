@@ -44,11 +44,12 @@ export default {
     //     break;
     // } // switch
 
+    const x = "enter@jaki.club"
     const msg = createMimeMessage();
     const msg_id = message.headers.get("Message-ID") || "unknown";
     msg.setHeader('In-Reply-To', msg_id);
     // msg.setSender({ name: (to.split('@')[0] || 'unknown').toUpperCase(), addr: message.to });
-    msg.setSender(message.to);
+    msg.setSender({ name: "x", addr: x });
     msg.setRecipient(message.from);
     msg.setSubject(`Pong: Origin Subject: {email.subject}`);
     const new_body = `You wrote: { email.text || '[NOTHING]' }`
@@ -57,8 +58,11 @@ export default {
       data: new_body
     });
 
+    console.log(message.from)
+    console.log(message.to)
+    console.log(x)
     await message.reply(new EmailMessage(
-      message.to,
+      x,
       message.from,
       msg.asRaw()
     ));
