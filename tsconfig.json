@@ -4,7 +4,7 @@
       "@cloudflare/workers-types"
     ],
         // Enable latest features
-    "lib": ["ESNext"],
+    "lib": ["dom", "ESNext"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",

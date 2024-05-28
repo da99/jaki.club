@@ -1,4 +1,4 @@
-import { Classy_Events } from "/apps/www/src/html.mts";
+import { Setup_Submit_Buttons } from "/apps/www/src/html.mts";
 // import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
 // body(
@@ -17,14 +17,20 @@ import { Classy_Events } from "/apps/www/src/html.mts";
 //   e('footer', e('span.copyright', '(c) 2024. All rights reserved.'))
 // );
 
-Classy_Events();
+Setup_Submit_Buttons();
 
 const THE_BODY = document.body;
 
-THE_BODY.addEventListener('login success', function (ev: Event)  {
+THE_BODY.addEventListener('start_the_wait_success', function (ev: Event)  {
   const ce = ev as CustomEvent;
-  document.body.classList.remove('stranger');
-  THE_BODY.dispatchEvent(new CustomEvent('waiting_for_code', {detail: ce.detail }));
+  // Start a countdown timer.
+  // Update the count_down value.
+  // Wait 5 seconds.
+  //   Keep checking every 5 seconds for receipt of email.
+  // When received:
+  //   send success of form: #start_the_wait
+  // When count_down finished:
+  //   Show: email not received. start over.
 });
 
 THE_BODY.addEventListener('waiting_for_code', function (_ev: Event) {
