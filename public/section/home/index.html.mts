@@ -4,6 +4,19 @@ import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
 const Home = new Static('home');
 
+/*
+* Show ENTER button.
+* Click ENTER button.
+*   send POST to /login
+* Show instructions to person.
+* Start countdown: 5 minutes.
+* Check every 10 seconds.
+* If received:
+*   Show message: You are now logged in.
+* Refresh page.
+* If not received: Expired. Show Login button.
+*/
+
 console.log(
   html5(
     default_head(Home.name, `${SETTINGS.SITE_NAME} homepage`),
@@ -14,13 +27,7 @@ console.log(
       E('main',
         E('form', '#login', {action: '/login', method: "post"},
           E('h2', 'Login or Create an account.'),
-          E('fieldset',
-            E('label', {htmlFor: 'login-email'}, 'Email:'),
-            E('div', '.email-invalid.invalid', 'Email address not accepted. Check your spelling.'),
-            E('div', '.email-too_long.invalid', 'Email address too long. Use a shorter address.'),
-            E('input', {type: 'email', name: 'email', id: "login-email", required: true, autocomplete: 'email'}),
-           ),
-           E('button', '.submit', 'Enter')
+          E('button', '.submit', 'Enter')
          ), // form
          E('form', '#enter_the_code', {action: '/login-otp', method: 'post'},
            E('div', '.the_code.invalid', 'Incorrent code. Try again.'),
