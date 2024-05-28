@@ -20,31 +20,31 @@ const Home = new Static('home');
 console.log(
   html5(
     default_head(Home.name, `${SETTINGS.SITE_NAME} homepage`),
-    E('body', '.init',
-      E('div', '.network-error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
-      E('div', '.server-error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
+    E('body',
+      E('div', '.hidden#network_error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
+      E('div', '.hidden#server_error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
       E('h1', `Storage Closet`),
       E('main',
         E('form', '#login', {action: '/login', method: "post"},
-          E('h2', 'Login or Create an account.'),
           E('button', '.submit', 'Enter')
          ), // form
-         E('form', '#enter_the_code', {action: '/login-otp', method: 'post'},
-           E('div', '.the_code.invalid', 'Incorrent code. Try again.'),
-           E('h2', 'Enter the 6 digit code sent to your email:'),
-           E('fieldset',
-             E('label', {htmlFor: 'the_code'}, '{{EMAIL}}'),
-             E('input', {type: 'text', id: 'the_code', name: 'the_code',  required: true, maxLength: 6, minLength: 6}),
+         E('form', '.hidden#start_the_wait', {action: '#start_the_wait', method: 'post'},
+           E('div',
+             'Send an email with the following values:',
+             E('div',
+               E('span', 'TO:'), E('span', '.email_value', '{ENTER@EMAIL}'),
+               E('span', 'SUBJECT:'), E('span', '.code_value', '{{CODE_VALUE}}')
+              ),
             ),
-            E('button', '.submit', 'Enter')
-         ), // form
-         E('div', '#locked_out',
-           E('p', 'Too many failed attempts.',),
-           E('p', 'Try again in ', E('span', '#try_again_time', '10 minutes.'))
-         ),
-         E('div', '#user_is_in',
+            E('button', '.submit', 'I have sent the email.')
+          ), // form
+         E('div', '.hidden.#wait',
+           E('p', "Once the email you sent is received and processed, you can continue:"),
+           E('div', '.count_down_value', '{COUNT_DOWN_VALUE}')
+          ),
+         E('div', '.hidden.show_on_wait_success#user_is_in',
            E('p', 'You are now logged in as: ',
-             E('span', '.email', '{{EMAIL}}')
+             E('span', '.user_email', '{{EMAIL}}')
            ),
            E('p', 'Please wait as the page loads...')
          )
