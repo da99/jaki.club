@@ -1,5 +1,5 @@
 name = "jaki-club"
-main = "src/Temp.Worker.ts"
+main = "src/Worker.ts"
 compatibility_date = "2024-05-01"
 compatibility_flags = [ "nodejs_compat" ]
 
@@ -13,6 +13,7 @@ rules = [
 
 
 [env.dev]
+main = "src/Dev.Worker.ts"
 vars = { IS_DEV = "yes" }
 d1_databases = [
   { binding = "LOGIN_CODE_DB", database_name = "login-code-db", database_id = "462e4fbe-865a-49a4-be63-afdbe4840490" }

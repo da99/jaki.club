@@ -21,14 +21,14 @@ console.log(
   html5(
     default_head(Home.name, `${SETTINGS.SITE_NAME} homepage`),
     E('body',
-      E('div', '.hidden#network_error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
-      E('div', '.hidden#server_error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
-      E('h1', `Storage Closet`),
+      E('div', '.hide.error_msg#network_error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
+      E('div', '.hide.error_msg#server_error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
+      E('h1', 'Storage Closet'),
       E('main',
         E('form', '#login', {action: '/login', method: "post"},
           E('button', '.submit', 'Enter')
          ), // form
-         E('form', '.hidden#start_the_wait', {action: '#start_the_wait', method: 'post'},
+         E('form', '.hide#start_the_wait', {action: '#start_the_wait', method: 'post'},
            E('div',
              'Send an email with the following values:',
              E('div',
@@ -38,11 +38,11 @@ console.log(
             ),
             E('button', '.submit', 'I have sent the email.')
           ), // form
-         E('div', '.hidden.#wait',
+         E('div', '.hide.#wait',
            E('p', "Once the email you sent is received and processed, you can continue:"),
            E('div', '.count_down_value', '{COUNT_DOWN_VALUE}')
           ),
-         E('div', '.hidden.show_on_wait_success#user_is_in',
+         E('div', '.hide.show_on_wait_success#user_is_in',
            E('p', 'You are now logged in as: ',
              E('span', '.user_email', '{{EMAIL}}')
            ),
