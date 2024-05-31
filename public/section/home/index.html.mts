@@ -26,6 +26,7 @@ console.log(
       E('h1', 'Storage Closet'),
       E('main',
         E('form', '#login', {action: '/login', method: "post"},
+          E('div', '.hide.error_msg.session_invalid', 'Your browser is not compatitable with this site.'),
           E('button', '.submit', 'Enter')
          ), // form
          E('form', '.hide#start_the_wait', {action: '#start_the_wait', method: 'post'},
@@ -38,7 +39,7 @@ console.log(
             ),
             E('button', '.submit', 'I have sent the email.')
           ), // form
-         E('div', '.hide.#wait',
+         E('form', '.hide.#wait', {action: '/login/check_receipt', method: 'post'}, 
            E('p', "Once the email you sent is received and processed, you can continue:"),
            E('div', '.count_down_value', '{COUNT_DOWN_VALUE}')
           ),

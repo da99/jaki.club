@@ -1,4 +1,11 @@
-import { Setup_Submit_Buttons } from "/apps/www/src/html.mts";
+import {
+  use_default_forms, on, err, on_all, unhide, hide,
+  wait_until_ok,
+  reload_page,
+  sleep
+} from "/apps/www/src/html.mts";
+import type { Fields_State } from "/apps/www/src/html.mts";
+
 // import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
 // body(
@@ -17,12 +24,36 @@ import { Setup_Submit_Buttons } from "/apps/www/src/html.mts";
 //   e('footer', e('span.copyright', '(c) 2024. All rights reserved.'))
 // );
 
-Setup_Submit_Buttons();
+use_default_forms();
 
 const THE_BODY = document.body;
 
-THE_BODY.addEventListener('start_the_wait_success', function (ev: Event)  {
-  const ce = ev as CustomEvent;
+on('request', 'all', function () {
+  hide('#network_error', '#server_error');
+})
+
+on('#login', 'network_error', function (_f: HTMLElement, _data: Fields_State ) {
+  unhide('#network_error');
+});
+
+on('#login', 'server_error', function (_f: HTMLElement, _data: Fields_State) {
+  unhide('#server_error');
+});
+
+on('#login', 'ok', function (f: HTMLElement) { hide(f); unhide('#start_the_wait'); });
+
+on('#start_the_wait', 'ok', function (f: HTMLElement) {
+  hide(f);
+  unhide('#wait');
+  wait_until_ok('#wait');
+});
+
+on('#wait', 'ok', function (f: HTMLElement) {
+  hide(f); unhide('#user_is_in');
+  sleep(2, reload_page);
+});
+
+on('#user_is_in', 'wait_to_get_email', function (_f: HTMLElement, _data: Fields_State) {
   // Start a countdown timer.
   // Update the count_down value.
   // Wait 5 seconds.
