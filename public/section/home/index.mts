@@ -1,11 +1,13 @@
 import {
   use_default_forms,
+  dom_it, unhide, hide,
+  reload_in,
+  e_id,
   on,
-  unhide, hide,
-  retry_until_ok,
-  reload_in
+  retry_until_ok
 } from "/apps/www/src/html.mts";
-import type { Fields_State } from "/apps/www/src/html.mts";
+
+import type { Request_Origin, Response_Origin, Fields_State } from "/apps/www/src/html.mts";
 
 // import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
@@ -27,35 +29,36 @@ import type { Fields_State } from "/apps/www/src/html.mts";
 
 use_default_forms();
 
-const THE_BODY = document.body;
-
-on('request', function () {
-  hide('#network_error', '#server_error');
-})
-
-on('login/network_error', function (_f: HTMLElement, _data: Fields_State ) {
-  unhide('#network_error');
+on.request('*', function () {
+  dom_it(hide, '#network_error', '#server_error');
 });
 
-on('login/server_error', function (_f: HTMLElement, _data: Fields_State) {
-  unhide('#server_error');
+on.network_error('*', function () {
+  dom_it(hide, '#network_error');
 });
 
-on('login/ok', function (f: HTMLElement) { hide(f); unhide('#start_the_wait'); });
-
-on('start_the_wait/ok', function (f: HTMLElement) {
-  hide(f);
-  unhide('#wait');
-  retry_until_ok(5, 'wait');
+on.server_error('*', function () {
+  dom_it(unhide, '#server_error');
 });
 
-on('wait/ok', function (f: HTMLElement) {
-  hide(f);
-  unhide('user_is_in');
+on.ok('#login', function (_resp, req: Request_Origin) {
+  dom_it(hide, `#${req.element_id}`);
+  dom_it(unhide, '#start_the_wait');
+});
+
+on.ok('#start_the_wait', function (_resp, req: Request_Origin) {
+  dom_it(hide, `#${req.element_id}`);
+  dom_it(unhide, '#wait');
+  retry_until_ok(5, '#wait');
+});
+
+on.ok('#wait', function (_resp, req: Request_Origin) {
+  dom_it(hide, `#${req.element_id}`);
+  dom_it(unhide, 'user_is_in');
   reload_in(2);
 });
 
-on('#user_is_in', 'wait_to_get_email', function (_f: HTMLElement, _data: Fields_State) {
+// on.ok('#user_is_in', function (_f: Element, _data: Fields_State) {
   // Start a countdown timer.
   // Update the count_down value.
   // Wait 5 seconds.
@@ -64,7 +67,7 @@ on('#user_is_in', 'wait_to_get_email', function (_f: HTMLElement, _data: Fields_
   //   send success of form: #start_the_wait
   // When count_down finished:
   //   Show: email not received. start over.
-});
+// });
 
 
 // input_numbers_only('input[name="the_code"]');
