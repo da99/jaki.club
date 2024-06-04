@@ -1,9 +1,7 @@
 import {
   use_default_forms,
-  dom, css,
-  reload_in,
-  on,
-  retry_until_ok
+  css, page, on,
+  http
 } from "/apps/www/src/html.mts";
 
 import type { Request_Origin, Response_Origin, Fields_State } from "/apps/www/src/html.mts";
@@ -48,13 +46,13 @@ on.ok('#login', function (_resp, req: Request_Origin) {
 on.ok('#start_the_wait', function (_resp, req: Request_Origin) {
   css.hide(`#${req.element_id}`);
   css.unhide('#wait');
-  retry_until_ok(5, '#wait');
+  http.retry_until_ok(5, '#wait');
 });
 
 on.ok('#wait', function (_resp, req: Request_Origin) {
   css.hide(`#${req.element_id}`);
   css.unhide('user_is_in');
-  setTimeout(() => window.location.reload(), 2000);
+  page.reload(2);
 });
 
 // on.ok('#user_is_in', function (_f: Element, _data: Fields_State) {
