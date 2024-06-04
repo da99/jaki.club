@@ -1,6 +1,6 @@
 import {
   use_default_forms,
-  dom_it, unhide, hide,
+  dom, css,
   reload_in,
   on,
   retry_until_ok
@@ -29,32 +29,32 @@ import type { Request_Origin, Response_Origin, Fields_State } from "/apps/www/sr
 use_default_forms();
 
 on.request('*', function () {
-  dom_it(hide, '#network_error', '#server_error');
+  css.hide('#network_error', '#server_error');
 });
 
 on.network_error('*', function () {
-  dom_it(hide, '#network_error');
+  css.hide('#network_error');
 });
 
 on.server_error('*', function () {
-  dom_it(unhide, '#server_error');
+  css.unhide('#server_error');
 });
 
 on.ok('#login', function (_resp, req: Request_Origin) {
-  dom_it(hide, `#${req.element_id}`);
-  dom_it(unhide, '#start_the_wait');
+  css.hide(`#${req.element_id}`);
+  css.unhide('#start_the_wait');
 });
 
 on.ok('#start_the_wait', function (_resp, req: Request_Origin) {
-  dom_it(hide, `#${req.element_id}`);
-  dom_it(unhide, '#wait');
+  css.hide(`#${req.element_id}`);
+  css.unhide('#wait');
   retry_until_ok(5, '#wait');
 });
 
 on.ok('#wait', function (_resp, req: Request_Origin) {
-  dom_it(hide, `#${req.element_id}`);
-  dom_it(unhide, 'user_is_in');
-  reload_in(2);
+  css.hide(`#${req.element_id}`);
+  css.unhide('user_is_in');
+  setTimeout(() => window.location.reload(), 2000);
 });
 
 // on.ok('#user_is_in', function (_f: Element, _data: Fields_State) {
