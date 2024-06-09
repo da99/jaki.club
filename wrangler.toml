@@ -1,7 +1,7 @@
 name = "jaki-club"
-main = "src/Worker.ts"
 compatibility_date = "2024-05-01"
 compatibility_flags = [ "nodejs_compat" ]
+main = "src/Worker.ts"
 
 workers_dev = false
 send_metrics = false
@@ -9,7 +9,6 @@ send_metrics = false
 rules = [
   { type = "Text", globs = ["**/*.sql"], fallthrough = true }
 ]
-
 
 
 [env.dev]
@@ -20,7 +19,6 @@ d1_databases = [
 ]
 
 [env.prod]
-IS_PROD = "yes"
 vars = { IS_PROD = "yes" }
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 

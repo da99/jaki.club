@@ -1,21 +1,13 @@
 
 @import '../base/base.css';
 
+/* *************** */
+body {
+  text-align: center;
+}
+
 form {
   font-size: 1em;
-}
-
-a {
-  color: orange;
-}
-
-h1 {
-  text-align: center;
-}
-
-footer {
-  text-align: center;
-  padding: 1em;
 }
 
 main {
@@ -24,83 +16,39 @@ main {
   text-align: center;
 }
 
+footer {
+  padding: 1em;
+}
+/* *************** */
+
+
+/* *************** */
+/* ERROR MESSAGES: */
+/* *************** */
 #login div.error {
   font-family: serif;
   color: #cb000e;
 }
 
-#enter_the_code,
-#locked_out,
-#user_is_in {
-  display: none;
+#network_error {
+  background: #cb000e;
+  color: #fff;
+  font-weight: bold;
 }
 
-body.stranger #login { display: block; }
-body.locked_out #locked_out,
-body.user_is_in #user_is_in { display: block; }
-
-#enter_the_code div.invalid { display: none; }
-#enter_the_code.invalid div.the_code {
-  display: block;
+#server_error {
+  background: #fff;
   color: #cb000e;
-  font-family: serif;
+  font-weight: bold;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='number'],
-input[type='password'] {
-  text-align: center;
-  font-family: serif;
-}
-
-input[type='number'] {
-  letter-spacing: 0.5em;
-}
-
-#enter_the_code div.try_again {
-  font-family: serif;
-  color: #cb000e;
-}
-#enter_the_code label {
-  display: block;
-  padding: 0.25em;
-  font-family: sans-serif;
-  font-size: 2em;
-}
-#enter_the_code input[type='text'] {
-  font-size: 3em;
-  font-family: monospace;
-  text-align: center;
-  letter-spacing: 0.5em;
-}
-
-#locked_out {
-  padding: 0.5em;
-  font-size: 2em;
-  font-family: serif;
-  color: orange;
-  background-color: black;
-  margin: 1em;
-}
-
-#user_is_in {
-  padding: 0.5em;
-  font-size: 2em;
-  font-family: serif;
+#network-error, #server-error {
   color: white;
-  background-color: black;
-  margin: 1em;
-}
-
-#user_is_in span.email {
-  color: orange;
-}
-
-body.waiting_for_code #login {
+  text-align: center;
+  padding: 1em;
+  margin: 0.5em;
+  font-weight: bold;
   display: none;
 }
+/* *************** */
 
-body.waiting_for_code #enter_the_code {
-  display: inherit;
-}

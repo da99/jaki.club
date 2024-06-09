@@ -6,8 +6,7 @@ set -u -e -o pipefail
 case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
-    echo "$0 serve"
-    echo "$0 serve static"
+    echo "$0 serve dev|static"
     echo "$0 build dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
@@ -36,8 +35,8 @@ case "$*" in
     www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
     ;;
 
-  "serve"|"serve "*)
-    shift
+  "serve dev")
+    shift; shift
     # bunx wrangler dev
     # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
     dev_port="$(jq --raw-output .DEV_PORT < settings.json)"

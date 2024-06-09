@@ -13,8 +13,8 @@
     "@types/bun": "latest",
     "jest": "latest",
     "lightningcss-cli": "latest",
-    "miniflare": "^3.20240419.0",
-    "wrangler": "^3.52.0"
+    "miniflare": "^3.20240605.0",
+    "wrangler": "^3.60.0"
   },
   "dependencies": {
     "fauna": "latest",

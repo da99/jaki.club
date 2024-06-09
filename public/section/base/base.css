@@ -12,16 +12,10 @@ form div.invalid {
   display: none;
 }
 
-div.network-error,
-div.server-error {
-  color: white;
-  text-align: center;
-  padding: 1em;
-  margin: 0.5em;
-  font-weight: bold;
-  display: none;
-}
 
+/* *************** */
+/* ERROR MESSAGES: */
+/* *************** */
 div.network-error {
   background-color: #f18d00;
 }
@@ -29,13 +23,41 @@ div.network-error {
 div.server-error {
   background-color: #fa5749;
 }
+/* *************** */
 
-body[class*="-server-error"] div.server-error {
-  display: block;
+
+
+.hide {
+  display: none;
 }
 
-body[class*="-network-error"] div.network-error {
-  display: block;
+/* *************** */
+/*   FORMS:        */
+/* *************** */
+input[type='text'],
+input[type='email'],
+input[type='number'],
+input[type='password'] {
+  text-align: center;
+  font-family: serif;
 }
 
+input[type='number'] {
+  letter-spacing: 0.5em;
+}
+
+label {
+  display: block;
+  padding: 0.25em;
+  font-family: sans-serif;
+  font-size: 2em;
+}
+
+input[type='text'] {
+  font-size: 3em;
+  font-family: monospace;
+  text-align: center;
+  letter-spacing: 0.5em;
+}
+/* *************** */
 
