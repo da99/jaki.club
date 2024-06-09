@@ -27,7 +27,7 @@ console.log(
             ),
             E('button', '.submit', 'I have sent the email.')
           ), // form
-         E('form', '.hide.#wait', {action: '/login/check_receipt', method: 'post'}, 
+         E('form', '.hide#wait', {action: '/login/check_receipt', method: 'post'}, 
            E('p', "Once the email you sent is received and processed, you can continue:"),
            E('div', '.count_down_value', '{COUNT_DOWN_VALUE}')
           ),
