@@ -1,6 +1,8 @@
 
 import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 import { Hono } from 'hono';
+import { createMiddleware } from 'hono/factory';
+
 import { static_fetch } from '/apps/jaki.club/src/Static.mts';
 
 function err500(msg: string) { return new Response(msg, {status: 500, statusText: msg}); }
@@ -13,20 +15,25 @@ function err500(msg: string) { return new Response(msg, {status: 500, statusText
 //
 import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 
-const app = new Hono<{ Bindings: Bindings }>()
-const store = new CookieStore();
+const app = new Hono<{ Bindings: Bindings, Variables: { session: Session } }>()
 
-app.use('*', sessionMiddleware({
-  store,
-  encryptionKey: process.env['PSWD_SALT'],
-  expireAfterSeconds: (60 * 60 * 24 * 14),
-  cookieOptions: {
-    sameSite: 'Lax',
-    path: '/',
-    httpOnly: true
-  }
-})
-);
+const cookieSessionMiddleware = createMiddleware(async (c, next) => {
+  const store = new CookieStore();
+  const m = sessionMiddleware({
+    store,
+    encryptionKey: c.env['PSWD_SALT'],
+    expireAfterSeconds: (60 * 60 * 24 * 14),
+    cookieOptions: {
+      sameSite: 'Lax',
+      path: '/',
+      httpOnly: true
+    }
+  });
+  return m(c, next);
+});
+
+app.use('*', cookieSessionMiddleware);
+
 app.get('/', async function (c) {
   return static_fetch(c, '/section/home/index.html');
   // return new Response(file.value.base64, {headers: {'Content-Type': file.value.mime_type}});
@@ -49,7 +56,7 @@ app.get('/*', async function (c) {
 
 app.post('/login', async (c) => {
   const json = await c.req.json();
-  const dom_id = c.req.header(X_SENT_FROM);
+  const dom_id = c.req.header('X_SENT_FROM');
   if (!dom_id) { return c.notFound(); }
 
   const email = new Email((json['email'] || '').toString());
