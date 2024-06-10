@@ -34,12 +34,16 @@ footer {
   background: #cb000e;
   color: #fff;
   font-weight: bold;
+  padding: 1em;
 }
 
 #server_error {
   background: #fff;
   color: #cb000e;
   font-weight: bold;
+  padding: 1em;
+  border: 1px dashed #cb000e;
+  border-width: 1px 0;
 }
 
 #network-error, #server-error {
