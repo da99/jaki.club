@@ -11,7 +11,8 @@ import type {
 use.default_forms();
 
 on.request('*', function () {
-  css.by_id.hide('network_error', 'server_error');
+  css.by_id.hide('network_error')
+  css.by_id.hide('server_error');
 });
 
 on.network_error('*', function () {
