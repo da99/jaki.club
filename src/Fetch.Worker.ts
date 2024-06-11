@@ -1,10 +1,9 @@
 
 import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 import { Hono } from 'hono';
-import { createMiddleware } from 'hono/factory';
 
-import { static_fetch } from '/apps/jaki.club/src/Static.mts';
-
+import { JAKI } from '/apps/jaki.club/src/jaki.mts';
+import type { Context, Next } from 'hono';
 function err500(msg: string) { return new Response(msg, {status: 500, statusText: msg}); }
 
 // import { Client, fql, FaunaError } from "fauna";
@@ -20,7 +19,7 @@ const app = new Hono<{ Bindings: Bindings, Variables: { session: Session } }>()
 function is_logged_in(s: Session) {
   return s.sessionValid() && s.get('email');
 }
-const cookieSessionMiddleware = createMiddleware(async (c, next) => {
+const cookieSessionMiddleware = (async (c: Context, next: Next) => {
   const store = new CookieStore();
   const m = sessionMiddleware({
     store,
@@ -35,16 +34,16 @@ const cookieSessionMiddleware = createMiddleware(async (c, next) => {
   return m(c, next);
 });
 
-app.use('*', cookieSessionMiddleware);
+app.use('*').use(cookieSessionMiddleware);
 
 app.get('/', async function (c) {
-  return static_fetch(c, '/section/home/index.html');
+  return JAKI.static.fetch_copy(c, '/section/home/index.html')
 } );
 
 app.get('/*', async function (c) {
 
   if (c.req.method === 'GET') {
-    return static_fetch(c as any, c.req.path);
+    return JAKI.static.fetch_copy(c as any, c.req.path);
   }
 
   return new Response(`Method ${c.req.method} not allowed.`, {
