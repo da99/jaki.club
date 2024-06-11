@@ -34,7 +34,7 @@ const cookieSessionMiddleware = (async (c: Context, next: Next) => {
   return m(c, next);
 });
 
-app.use('*').use(cookieSessionMiddleware);
+app.use('*', cookieSessionMiddleware);
 
 app.get('/', async function (c) {
   return JAKI.static.fetch_copy(c, '/section/home/index.html')
