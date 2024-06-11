@@ -17,6 +17,9 @@ import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 
 const app = new Hono<{ Bindings: Bindings, Variables: { session: Session } }>()
 
+function is_logged_in(s: Session) {
+  return s.sessionValid() && s.get('email');
+}
 const cookieSessionMiddleware = createMiddleware(async (c, next) => {
   const store = new CookieStore();
   const m = sessionMiddleware({
@@ -36,7 +39,6 @@ app.use('*', cookieSessionMiddleware);
 
 app.get('/', async function (c) {
   return static_fetch(c, '/section/home/index.html');
-  // return new Response(file.value.base64, {headers: {'Content-Type': file.value.mime_type}});
 } );
 
 app.get('/*', async function (c) {
@@ -82,7 +84,6 @@ app.post('/login', async (c) => {
 
 
 app.post('/login', async function (c) {
-
   if (c.req.method === 'GET') {
     return static_fetch(c as any, c.req.path);
   }
@@ -107,10 +108,17 @@ app.get('/session-data', async (c) => {
 
 app.get('/admin', async (c) => {
   const session = c.get('session');
-
-  return Static.fetch('/section/admin/index.html');
-  // return new Response(Bun.file("./build/Public/section/admin/index.html"));
+  if (is_logged_in(session))
+    return static_fetch(c, '/section/admin/index.html');
+  return c.redirect('/', 302);
 });
+
+app.get('/logout', async (c) => {
+  const session = c.get('session');
+  session.deleteSession();
+  return c.redirect('/', 302);
+});
+
 
 
 export default app;
