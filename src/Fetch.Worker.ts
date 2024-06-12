@@ -55,60 +55,30 @@ app.get('/*', async function (c) {
   });
 });
 
-app.post('/login', async (c) => {
-  const json = await c.req.json();
-  const dom_id = c.req.header('X_SENT_FROM');
-  if (!dom_id) { return c.notFound(); }
-
-  const email = new Email((json['email'] || '').toString());
-
-  if (!email.is_valid) {
-    return Response.json({success: false, fields: {email: email.state}});
-  }
-
-  const email_row = await email.upsert(c.env.LOGIN_CODE_DB);
-  if (!email_row)
-    return err500('Email unabled to be saved.');
-
-
-  const login_code = new Login_Code();
-  console.log(login_code.human);
-
-  const code_row = await login_code.upsert(c.env.LOGIN_CODE_DB, email_row);
-  if (!code_row)
-    return err500(`Unable to generate code for player.`);
-
-  return Response.json({X_SENT_FROM: dom_id, success: true, fields: {email: "inserted"}});
+app.post('/log-in', async (c) => {
+  const session = c.get('session');
+  session.set('email', 'j@j')
+  session.setExpiration()
 });
 
-
-app.post('/login', async function (c) {
-  if (c.req.method === 'GET') {
-    return static_fetch(c as any, c.req.path);
-  }
-
-  return new Response(`Method ${c.req.method} not allowed.`, {
-    status: 405,
-    statusText: 'Only GET alllowed.',
-    headers: {
-      Allow: "GET",
-    },
-  });
+app.post('/log-out', async (c) => {
+  const session = c.get('session');
+  session.deleteSession();
+  return c.redirect('/', 302);
 });
 
 app.get('/session-data', async (c) => {
   const session = c.get('session');
   const screen_name = session.get('screen_name');
-  if (screen_name) {
+  if (screen_name)
     return c.json({screen_name, logged_in: true});
-  }
   return c.json({screen_name: undefined, logged_in: false});
 })
 
 app.get('/admin', async (c) => {
   const session = c.get('session');
   if (is_logged_in(session))
-    return static_fetch(c, '/section/admin/index.html');
+    return JAKI.static.fetch_copy(c, '/section/admin/index.html');
   return c.redirect('/', 302);
 });
 
