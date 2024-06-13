@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS email (
   date_created INTEGER(4) NOT NULL DEFAULT (strftime('%s', 'now'))
 );
 
-CREATE TABLE IF NOT EXISTS codes (
+CREATE TABLE IF NOT EXISTS session (
   id INTEGER PRIMARY KEY,
   email_id INTEGER NOT NULL,
-  code INTEGER NOT NULL UNIQUE,
-  date_created INTEGER(4) NOT NULL DEFAULT (strftime('%s', 'now')) ,
-  tries INTEGER(1) NOT NULL DEFAULT 0,
-  status INTEGER DEFAULT '0' NOT NULL
+  otp TEXT NOT NULL,
+  date_created INTEGER(4) NOT NULL DEFAULT (strftime('%s', 'now'))
 );
+
+DROP TABLE IF EXISTS codes;

@@ -19,6 +19,7 @@ export const JAKI = {
         return fetch(`${SETTINGS.STATIC_URL}${sPath}`);
       }
     },
+
     fetch_copy(ctx: Context, sPath: string) {
       return JAKI.static.fetch(ctx, sPath)
       .then((resp: Response) => new Response(resp.body, { headers: resp.headers }));

@@ -1,7 +1,7 @@
 
 import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 import { Hono } from 'hono';
-
+import { Login_Code } from './LOGIN_CODE_DB.mts';
 import { JAKI } from '/apps/jaki.club/src/jaki.mts';
 import type { Context, Next } from 'hono';
 function err500(msg: string) { return new Response(msg, {status: 500, statusText: msg}); }
@@ -11,6 +11,13 @@ function err500(msg: string) { return new Response(msg, {status: 500, statusText
 // const client = new Client({
 //   secret: process.env.FAUNA_SECRET
 // });
+  // return new Response(`Method ${c.req.method} not allowed.`, {
+  //   status: 405,
+  //   statusText: 'Only GET alllowed.',
+  //   headers: {
+  //     Allow: "GET",
+  //   },
+  // });
 //
 import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 
@@ -41,39 +48,39 @@ app.get('/', async function (c) {
 } );
 
 app.get('/*', async function (c) {
-
-  if (c.req.method === 'GET') {
-    return JAKI.static.fetch_copy(c as any, c.req.path);
-  }
-
-  return new Response(`Method ${c.req.method} not allowed.`, {
-    status: 405,
-    statusText: 'Only GET alllowed.',
-    headers: {
-      Allow: "GET",
-    },
-  });
+  return JAKI.static.fetch_copy(c, c.req.path);
 });
 
 app.post('/log-in', async (c) => {
   const session = c.get('session');
-  session.set('email', 'j@j')
-  session.setExpiration()
+  let otp_id = session.get('otp_id');
+  let otp_code = null;
+
+  // Generate OTP
+  if (!otp_id) {
+    const login_code = new Login_Code();
+    otp_code = login_code.code;
+
+    // Store it in database.
+    // Store id to cookie.
+  }
+
+  // Send OK to client.
 });
 
-app.post('/log-out', async (c) => {
+app.post('/session-status', async (c) => {
+  const session = c.get('session');
+  const otp_id = session.get('otp_id');
+  // Check database if otp_id is approved.
+  // if true, send OK => fields email
+  // else: send 're-try' => fields seconds 10
+});
+
+app.get('/log-out', async (c) => {
   const session = c.get('session');
   session.deleteSession();
   return c.redirect('/', 302);
 });
-
-app.get('/session-data', async (c) => {
-  const session = c.get('session');
-  const screen_name = session.get('screen_name');
-  if (screen_name)
-    return c.json({screen_name, logged_in: true});
-  return c.json({screen_name: undefined, logged_in: false});
-})
 
 app.get('/admin', async (c) => {
   const session = c.get('session');
@@ -81,13 +88,6 @@ app.get('/admin', async (c) => {
     return JAKI.static.fetch_copy(c, '/section/admin/index.html');
   return c.redirect('/', 302);
 });
-
-app.get('/logout', async (c) => {
-  const session = c.get('session');
-  session.deleteSession();
-  return c.redirect('/', 302);
-});
-
 
 
 export default app;
