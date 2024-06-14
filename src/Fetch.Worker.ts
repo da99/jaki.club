@@ -62,6 +62,8 @@ app.post('/log-in', async (c) => {
     otp_code = login_code.code;
 
     // Store it in database.
+    c.env.LOGIN_CODE_DB
+
     // Store id to cookie.
   }
 
