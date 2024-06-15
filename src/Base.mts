@@ -26,3 +26,26 @@ export interface EmailMessageEvent {
   reply(message: EmailMessage): Promise<void>;
 }
 
+export interface TryAgain {
+  readonly status: 'try_again',
+  readonly fields : {
+    readonly wait: number
+  }
+}
+
+export const StatusDB = { status: 'db_error' };
+export const StatusOK = { status: 'ok' };
+export const StatusNotYet = { status: 'not_yet' };
+export const StatusReset = { status: 'reset' };
+
+export interface FieldsData {
+    [index: string]: string | number,
+}
+export interface StatusOKData  {
+  status: 'ok_data',
+  fields: FieldsData
+};
+
+export function ok_data(x: FieldsData): StatusOKData {
+  return {status: 'ok_data', fields: x};
+};

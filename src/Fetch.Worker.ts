@@ -1,16 +1,13 @@
 
-import type { Bindings } from '/apps/jaki.club/src/Base.mts';
+import type { Bindings, StatusOKData } from '/apps/jaki.club/src/Base.mts';
+import { StatusDB, StatusOK, ok_data, StatusNotYet, StatusReset } from '/apps/jaki.club/src/Base.mts';
 import { Hono } from 'hono';
 import { Login_Code } from './LOGIN_CODE_DB.mts';
 import { JAKI } from '/apps/jaki.club/src/jaki.mts';
 import type { Context, Next } from 'hono';
-function err500(msg: string) { return new Response(msg, {status: 500, statusText: msg}); }
 
-// import { Client, fql, FaunaError } from "fauna";
-// // configure your client
-// const client = new Client({
-//   secret: process.env.FAUNA_SECRET
-// });
+// function err500(msg: string) { return new Response(msg, {status: 500, statusText: msg}); }
+
   // return new Response(`Method ${c.req.method} not allowed.`, {
   //   status: 405,
   //   statusText: 'Only GET alllowed.',
@@ -53,29 +50,36 @@ app.get('/*', async function (c) {
 
 app.post('/log-in', async (c) => {
   const session = c.get('session');
-  let otp_id = session.get('otp_id');
-  let otp_code = null;
 
-  // Generate OTP
-  if (!otp_id) {
-    const login_code = new Login_Code();
-    otp_code = login_code.code;
+  // Generate OTP:
+  const login_code = new Login_Code();
+  const code = login_code.code;
 
-    // Store it in database.
-    c.env.LOGIN_CODE_DB
+  // Save it to session:
+  session.set('login_code', code);
 
-    // Store id to cookie.
-  }
+  // Store it in database.
+  const result = await login_code.db_save(c.env.LOGIN_CODE_DB);
+  if (!result)
+    return c.json(StatusDB);
 
-  // Send OK to client.
+  return c.json(StatusOK);
 });
 
 app.post('/session-status', async (c) => {
   const session = c.get('session');
-  const otp_id = session.get('otp_id');
+  const code = session.get('login_code');
+  if (typeof code !== 'string') {
+    return c.json(StatusReset);
+  }
+
   // Check database if otp_id is approved.
-  // if true, send OK => fields email
-  // else: send 're-try' => fields seconds 10
+  const email = await Login_Code.get_email(c.env.LOGIN_CODE_DB, code);
+
+  if (!email)
+    return c.json(StatusNotYet);
+
+  return c.json(ok_data({email: email['email'] as string}));
 });
 
 app.get('/log-out', async (c) => {

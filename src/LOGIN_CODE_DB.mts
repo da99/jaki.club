@@ -71,13 +71,24 @@ export class Email {
 //
 
 const THE_CODE_LENGTH = 6;
-const CODE_UNUSED = 0;
-const CODE_USED = 1;
-const CODE_MAX_USE = 4;
+// const CODE_UNUSED = 0;
+// const CODE_USED = 1;
+// const CODE_MAX_USE = 4;
 
 export class Login_Code {
   readonly code: string;
   readonly human: string;
+
+  static get_email(db: D1Database, raw_code: string) {
+    const code = raw_code.trim().toLocaleUpperCase();
+    return db.prepare(`
+      SELECT email, code
+      FROM sessions INNER JOIN
+           login_codes ON sessions.code_id = login_codes.id
+           INNER JOIN
+           email ON sessions.email_id = email.id
+      WHERE code = ?;`).bind(code).first();
+  }
 
   constructor() {
     this.code = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,THE_CODE_LENGTH);
@@ -94,6 +105,10 @@ export class Login_Code {
     if (!code_row)
       throw new Error(`Code could not be inserted: ${email.upcase}/${email.downcase} -> ${this.code}`);
     return code_row;
+  }
+
+  db_save(db: D1Database) {
+    return db.prepare(`INSERT INTO login_codes(code) VALUES (?1) RETURNINIG *;`).bind(this.code).first();
   }
 }
 // === class
