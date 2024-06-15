@@ -33,19 +33,32 @@ export interface TryAgain {
   }
 }
 
-export const StatusDB = { status: 'db_error' };
-export const StatusOK = { status: 'ok' };
-export const StatusNotYet = { status: 'not_yet' };
-export const StatusReset = { status: 'reset' };
-
 export interface FieldsData {
     [index: string]: string | number,
 }
+
 export interface StatusOKData  {
   status: 'ok_data',
   fields: FieldsData
 };
 
-export function ok_data(x: FieldsData): StatusOKData {
-  return {status: 'ok_data', fields: x};
+export interface StatusNotYet  {
+  status: 'not_yet',
+  fields: {
+    seconds: number
+  }
 };
+
+export const Status = {
+  DB: { status: 'db_error' },
+  OK: { status: 'ok' },
+  Reset: { status: 'reset' },
+  not_yet(x: number): StatusNotYet {
+    return {status: 'not_yet', fields: {seconds: x}}
+  },
+  ok_data(x: FieldsData): StatusOKData {
+    return {status: 'ok_data', fields: x};
+  }
+};
+
+

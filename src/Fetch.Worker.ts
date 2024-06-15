@@ -1,6 +1,6 @@
 
 import type { Bindings, StatusOKData } from '/apps/jaki.club/src/Base.mts';
-import { StatusDB, StatusOK, ok_data, StatusNotYet, StatusReset } from '/apps/jaki.club/src/Base.mts';
+import { Status } from '/apps/jaki.club/src/Base.mts';
 import { Hono } from 'hono';
 import { Login_Code } from './LOGIN_CODE_DB.mts';
 import { JAKI } from '/apps/jaki.club/src/jaki.mts';
@@ -61,25 +61,25 @@ app.post('/log-in', async (c) => {
   // Store it in database.
   const result = await login_code.db_save(c.env.LOGIN_CODE_DB);
   if (!result)
-    return c.json(StatusDB);
+    return c.json(Status.DB);
 
-  return c.json(StatusOK);
+  return c.json(Status.OK);
 });
 
 app.post('/session-status', async (c) => {
   const session = c.get('session');
   const code = session.get('login_code');
   if (typeof code !== 'string') {
-    return c.json(StatusReset);
+    return c.json(Status.Reset);
   }
 
   // Check database if otp_id is approved.
   const email = await Login_Code.get_email(c.env.LOGIN_CODE_DB, code);
 
   if (!email)
-    return c.json(StatusNotYet);
+    return c.json(Status.not_yet(15));
 
-  return c.json(ok_data({email: email['email'] as string}));
+  return c.json(Status.ok_data({email: email['email'] as string}));
 });
 
 app.get('/log-out', async (c) => {
