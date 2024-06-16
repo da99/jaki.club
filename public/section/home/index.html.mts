@@ -10,33 +10,34 @@ console.log(
     default_head(Home.name, `${SETTINGS.SITE_NAME} homepage`),
     E('body',
       E('div', '.hide#network_error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
-      E('div', '.hide#server_error', E('span', 'Server error. '), E('span', '.msg', 'Try again later.')),
+      E('div', '.hide#server_error', E('span', 'Server error. '), E('span', '.msg', 'Server error. Try again later.')),
       E('h1', 'Storage Closet'),
       E('main',
         E('form', '#login', {action: '/login', method: "post"},
           E('div', '.hide.error_msg.session_invalid', 'Your browser is not compatitable with this site.'),
           E('button', '.submit', 'Enter')
-         ), // form
-         E('form', '.hide#start_the_wait', {action: '#start_the_wait', method: 'post'},
-           E('div',
-             'Send an email with the following values:',
-             E('div',
-               E('span', 'TO:'), E('span', '.email_value', '{ENTER@EMAIL}'),
-               E('span', 'SUBJECT:'), E('span', '.code_value', '{{CODE_VALUE}}')
-              ),
-            ),
-            E('button', '.submit', 'I have sent the email.')
-          ), // form
-         E('form', '.hide#wait', {action: '/login/check_receipt', method: 'post'}, 
-           E('p', "Once the email you sent is received and processed, you can continue:"),
-           E('div', '.count_down_value', '{COUNT_DOWN_VALUE}')
-          ),
-         E('div', '.hide.show_on_wait_success#user_is_in',
-           E('p', 'You are now logged in as: ',
-             E('span', '.user_email', '{{EMAIL}}')
+        ), // form
+        E('div', '.hide#wait',
+          E('div',
+            'Send an email with the following values:',
+            E('div',
+              E('span', 'TO:'), E('span', '#login_email', '{ENTER@EMAIL}'),
+              E('span', 'SUBJECT:'), E('span', '#login_code', '{CODE_VALUE}')
+             ),
            ),
-           E('p', 'Please wait as the page loads...')
-         )
+           E('p', "Once the email you sent is received and processed, you can continue"),
+           E('div', '#count_down_value', '{COUNT_DOWN_VALUE}')
+        ), // form
+        E('div', '.hide#user_is_in',
+          E('p', 'Is this your email address?',
+            E('span', '#user_email', '{{EMAIL}}')
+          ),
+          E('p',
+            E('button', {type: 'button'}, '#yes_and_reload', 'Yes'),
+            E('button', {type: 'button'}, '#no_and_logout', 'No!')
+          )
+        ),
+        E('div', '.hide#reloading_now', 'Reloading this page. Please wait a few seconds...')
        ), // main
        E('footer', E('span', '.copyright', '(c) 2024. All rights reserved.')),
       E('script', {type: 'module', src: Home.index_mjs})
