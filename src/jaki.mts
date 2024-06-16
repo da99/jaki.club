@@ -2,12 +2,20 @@
 import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 import type { Context } from 'hono';
+import { Session } from 'hono-sessions';
 
 // const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
 
 // type CTX = { req: Request, env: Bindings };
 
 export const JAKI = {
+  is_user(s: Session) {
+    return s.sessionValid() && s.get('email');
+  },
+  is_admin(s: Session) {
+    return JAKI.is_user(s) && s.get('is_admin') === 'yes';
+  },
+
   static: {
     fetch(raw_c: Context, sPath: string) {
       const c = raw_c;

@@ -20,9 +20,6 @@ import { sessionMiddleware, CookieStore, Session } from 'hono-sessions';
 
 const app = new Hono<{ Bindings: Bindings, Variables: { session: Session } }>()
 
-function is_logged_in(s: Session) {
-  return s.sessionValid() && s.get('email');
-}
 const cookieSessionMiddleware = (async (c: Context, next: Next) => {
   const store = new CookieStore();
   const m = sessionMiddleware({
@@ -90,7 +87,7 @@ app.get('/log-out', async (c) => {
 
 app.get('/admin', async (c) => {
   const session = c.get('session');
-  if (is_logged_in(session))
+  if (JAKI.is_admin(session))
     return JAKI.static.fetch_copy(c, '/section/admin/index.html');
   return c.redirect('/', 302);
 });
