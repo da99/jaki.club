@@ -7,6 +7,8 @@ import type {
   Response_Origin
 } from "/apps/www/src/html.mts";
 
+import SETTINGS from '../../../settings.json';
+
 use.default_forms();
 
 on.request('*', function () {
@@ -32,16 +34,34 @@ on.ok('login', function (_resp, _req) {
   setTimeout(fetch_login_is_ready, 10000)
 });
 
+let time_ends_at = 0;
+
+function wait_another_second() {
+  if (time_ends_at < 1000)
+    return false;
+  const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
+  if (seconds_left < 2)
+    return page.go_to('/logout');
+  dom.update_text_by_id({'count_down_value': seconds_left});
+  setTimeout(wait_another_second, 1000);
+}
+
 on.try_again('wait', function (_resp, _req) {
+  if (time_ends_at === 0) {
+    time_ends_at = Date.now() + (SETTINGS.LOGIN_WAIT_TIME * 60 * 1000);
+    setTimeout(wait_another_second, 1000);
+  }
   setTimeout(fetch_login_is_ready, 5000);
 });
 
 on.expired('wait', function (_resp, _req) {
+  time_ends_at = 0;
   css.by_id.hide('wait');
   css.by_id.unhide('wait_expired');
 });
 
 on.ok('wait', function (resp: Response_Origin, _req) {
+  time_ends_at = 0;
   css.by_id.hide('wait');
   dom.update_text_by_id(resp.fields);
   css.by_id.unhide('user_is_in');

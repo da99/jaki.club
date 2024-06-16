@@ -1,5 +1,5 @@
 import { html5, element as E, Static } from '/apps/www/src/bsr.mts';
-import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
+import SETTINGS from "/apps/jaki.club/settings.json";
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
 const Home = new Static('home');
@@ -26,7 +26,10 @@ console.log(
              ),
            ),
            E('p', "Once the email you sent is received and processed, you can continue"),
-           E('div', '#count_down_value', '{COUNT_DOWN_VALUE}')
+           E('div',
+             E('span', '#count_down_value', '{COUNT_DOWN_VALUE}'),
+             E('span', ' seconds left')
+           )
         ), // form
         E('div', '.hide#user_is_in',
           E('p', 'Is this your email address?',
