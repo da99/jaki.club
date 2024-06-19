@@ -70,13 +70,13 @@ app.post('/session-status', async (c) => {
     return c.json(Status.Reset);
   }
 
-  // Check database if otp_id is approved.
-  const email = await Login_Code.get_email(c.env.LOGIN_CODE_DB, code);
+  // Check database if user sent in code:
+  const email_session = await Login_Code.get_email(c.env.LOGIN_CODE_DB, code);
 
-  if (!email)
-    return c.json(Status.not_yet(15));
+  if (!email_session)
+    return c.json(Status.not_yet(5));
 
-  return c.json(Status.ok_data({email: email['email'] as string}));
+  return c.json(Status.ok_data({email: email_session['email_origin'] as string}));
 });
 
 app.get('/log-out', async (c) => {

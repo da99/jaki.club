@@ -10,15 +10,28 @@ export class Login_Code {
   readonly code: string;
   readonly human: string;
 
-  static get_email(db: D1Database, raw_code: string) {
-    const code = raw_code.trim().toLocaleUpperCase();
-    return db.prepare(`
-      SELECT email.origin AS email_origin, code
+  static async get_email(db: D1Database, raw_code: string) {
+    const up_code = raw_code.trim().toLocaleUpperCase();
+    const result = await db.prepare(`
+      SELECT
+        email.origin AS email_origin,
+        login_codes.code AS code,
+        login_codes.date_created AS code_date
       FROM sessions INNER JOIN
            login_codes ON sessions.code_id = login_codes.id
            INNER JOIN
            email ON sessions.email_id = email.id
-      WHERE code = ?;`).bind(code).first();
+      WHERE code = ?;`).bind(up_code).first();
+
+      if (!result)
+        return null;
+
+      const { email_origin, code_date } = result;
+
+      if (Login_Code.date_expired(code_date))
+        return false;
+
+      return email_origin;
   }
 
   constructor() {
