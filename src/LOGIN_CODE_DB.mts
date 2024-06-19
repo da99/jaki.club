@@ -13,7 +13,7 @@ export class Login_Code {
   static get_email(db: D1Database, raw_code: string) {
     const code = raw_code.trim().toLocaleUpperCase();
     return db.prepare(`
-      SELECT email, code
+      SELECT email.origin AS email_origin, code
       FROM sessions INNER JOIN
            login_codes ON sessions.code_id = login_codes.id
            INNER JOIN
