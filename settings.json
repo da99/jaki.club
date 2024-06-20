@@ -12,5 +12,6 @@
   "STATIC_URL": "https://static.jaki.club/public",
   "BUCKET_NAME": "jaki",
   "STORAGE_API_URL": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki",
-  "LOGIN_WAIT_TIME": 5
+  "LOGIN_WAIT_TIME": 5,
+  "LOGIN_CODE_LENGTH": 8
 }

@@ -1,8 +1,9 @@
 
 // import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 
-const THE_CODE_LENGTH = 8;
-// const CODE_UNUSED = 0;
+import { LOGIN_CODE_LENGTH } from '../settings.json';
+
+
 // const CODE_USED = 1;
 // const CODE_MAX_USE = 4;
 
@@ -35,7 +36,7 @@ export class Login_Code {
   }
 
   constructor() {
-    this.code = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,THE_CODE_LENGTH);
+    this.code = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,LOGIN_CODE_LENGTH);
     this.human = this.code.split(/(..)/).filter(x => x !== '').join('-');
   }
 
