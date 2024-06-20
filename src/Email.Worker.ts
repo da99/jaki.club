@@ -2,10 +2,13 @@
 // import { EmailMessage } from 'cloudflare:email';
 // import type { ForwardableEmailMessage } from "cloudflare:email";
 
+import { JAKI } from './jaki.mts';
+import { Login_Code } from './LOGIN_CODE_DB.mts';
+
 import PostalMime from 'postal-mime';
 import type { Bindings, EmailMessageEvent } from '/apps/jaki.club/src/Base.mts';
 
-export async function email(message: EmailMessageEvent, _env: Bindings, _ctx: any) {
+export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
 
   const email = await PostalMime.parse(message.raw);
   const subject = (email.subject || '').trim().toUpperCase();
@@ -21,15 +24,25 @@ export async function email(message: EmailMessageEvent, _env: Bindings, _ctx: an
       return message.setReject(`Unknown address: ${to}`);
   } // switch
 
+  if (!from)
+    return message.setReject(`Invalid from: address.`);
+
   // Check if subject confirms to code.
-  // if not
-  //    return reject: Only code subjects allowed.
+  if (!JAKI.is_valid_code(subject)) {
+    return message.setReject(`A valid code must be the subject line.`);
+  }
+
   // Lookup code in database.
-  // if not found:
-  //    return reject: Code not found.
-  // if expired:
-  //    return reject: Code has expired.
-  // Update code: accepted
+  const result = await Login_Code.get_email(env.LOGIN_CODE_DB, from);
+
+  if (!result)
+    return message.setReject(`Login code does not exist: ${subject}. Start over.`);
+
+  if (Login_Code.is_expired(env.LOGIN_CODE_DB, result.date_created)) {
+     return message.setReject(`Login code is expired. Start over.`);
+  }
+ 
+  await Login_Code.accept(env.LOGIN_CODE_DB, result.session_id);
 } // email
 
 

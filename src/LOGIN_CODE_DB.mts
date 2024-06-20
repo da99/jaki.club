@@ -13,8 +13,9 @@ export class Login_Code {
 
   static async get_email(db: D1Database, raw_code: string) {
     const up_code = raw_code.trim().toLocaleUpperCase();
-    const result = await db.prepare(`
+    return db.prepare(`
       SELECT
+        sessions.id as session_id,
         email.origin AS email_origin,
         login_codes.code AS code,
         login_codes.date_created AS code_date
@@ -23,16 +24,6 @@ export class Login_Code {
            INNER JOIN
            email ON sessions.email_id = email.id
       WHERE code = ?;`).bind(up_code).first();
-
-      if (!result)
-        return null;
-
-      const { email_origin, code_date } = result;
-
-      if (Login_Code.date_expired(code_date))
-        return false;
-
-      return email_origin;
   }
 
   constructor() {
