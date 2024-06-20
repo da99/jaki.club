@@ -1,7 +1,7 @@
 
 // import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 
-import { LOGIN_CODE_LENGTH } from '../settings.json';
+import { LOGIN_CODE_LENGTH, LOGIN_WAIT_TIME } from '../settings.json';
 
 
 // const CODE_USED = 1;
@@ -10,6 +10,11 @@ import { LOGIN_CODE_LENGTH } from '../settings.json';
 export class Login_Code {
   readonly code: string;
   readonly human: string;
+
+  static is_expired(i: number) {
+    const limit = i + (LOGIN_WAIT_TIME * 60)
+    return Math.ceil(Date.now() / 1000) <= limit;
+  }
 
   static async get_email(db: D1Database, raw_code: string) {
     const up_code = raw_code.trim().toLocaleUpperCase();

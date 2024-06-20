@@ -38,7 +38,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   if (!result)
     return message.setReject(`Login code does not exist: ${subject}. Start over.`);
 
-  if (Login_Code.is_expired(env.LOGIN_CODE_DB, result.date_created)) {
+  if (Login_Code.is_expired(result.date_created)) {
      return message.setReject(`Login code is expired. Start over.`);
   }
  
