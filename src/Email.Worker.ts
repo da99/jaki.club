@@ -42,7 +42,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
      return message.setReject(`Login code is expired. Start over.`);
   }
  
-  await Login_Code.accept(env.LOGIN_CODE_DB, result.session_id);
+  await Login_Code.accept(env.LOGIN_CODE_DB, result['session_id'] as number);
 } // email
 
 

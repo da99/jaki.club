@@ -31,6 +31,14 @@ export class Login_Code {
       WHERE code = ?;`).bind(up_code).first();
   }
 
+  static accept(db: D1Database, session_id: number) {
+    return db.prepare(`
+      UPDATE sessions
+      SET accepted = true
+      WHERE sessions.id = ? ;
+    `).bind(session_id).run();
+  }
+
   constructor() {
     this.code = crypto.randomUUID().replace(/[^0-9]+/g, '').substring(0,LOGIN_CODE_LENGTH);
     this.human = this.code.split(/(..)/).filter(x => x !== '').join('-');
