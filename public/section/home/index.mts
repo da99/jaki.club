@@ -42,7 +42,7 @@ function wait_another_second() {
   const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
   if (seconds_left < 2)
     return page.go_to('/logout');
-  dom.update_text_by_id({'count_down_value': seconds_left});
+  dom.update_values({'count_down_value': seconds_left});
   setTimeout(wait_another_second, 1000);
 }
 
@@ -63,7 +63,7 @@ on.expired('wait', function (_resp, _req) {
 on.ok('wait', function (resp: Response_Origin, _req) {
   time_ends_at = 0;
   css.by_id.hide('wait');
-  dom.update_text_by_id(resp.fields);
+  dom.update_values(resp.fields);
   css.by_id.unhide('user_is_in');
 });
 
