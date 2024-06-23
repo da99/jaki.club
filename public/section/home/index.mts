@@ -28,8 +28,11 @@ function fetch_login_is_ready() {
   return http.fetch('wait', '/login/is_ready', 'POST');
 }
 
-on.ok('login', function (_resp, _req) {
+on.ok('login', function (json, req) {
   css.by_id.hide('login');
+  console.warn(json)
+  console.warn(req.dom_id)
+  dom.update_values('wait', json.data);
   css.by_id.unhide('wait');
   setTimeout(fetch_login_is_ready, 10000)
 });
@@ -42,7 +45,7 @@ function wait_another_second() {
   const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
   if (seconds_left < 2)
     return page.go_to('/logout');
-  dom.update_values({'count_down_value': seconds_left});
+  dom.update_values('wait', {'count_down': seconds_left});
   setTimeout(wait_another_second, 1000);
 }
 

@@ -45,7 +45,7 @@ export class Login_Code {
   }
 
   db_save(db: D1Database) {
-    return db.prepare(`INSERT INTO login_codes(code) VALUES (?1) RETURNINIG *;`).bind(this.human).first();
+    return db.prepare(`INSERT INTO login_codes(code) VALUES (?) RETURNING *;`).bind(this.human).first();
   }
 }
 // === class

@@ -35,7 +35,18 @@ const cookieSessionMiddleware = (async (c: Context, next: Next) => {
   return m(c, next);
 });
 
+const require_post_x_sent_from = (async (c: Context, next: Next) => {
+  if (c.req.method !== 'POST')
+    return await next();
+  const x = c.req.header('X_SENT_FROM');
+  if (!x)
+    return c.json(Status.invalid({X_SENT_FROM: 'missing'}));
+  c.res.headers.set('X_SENT_FROM', x);
+  await next();
+})
+
 app.use('*', cookieSessionMiddleware);
+app.use(require_post_x_sent_from);
 
 app.get('/', async function (c) {
   return JAKI.static.fetch_copy(c, '/section/home/index.html')
@@ -55,15 +66,16 @@ app.post('/log-in', async (c) => {
   // Save it to session:
   session.set('login_code', code);
 
+
   // Store it in database.
   const result = await login_code.db_save(c.env.LOGIN_CODE_DB);
   if (!result)
     return c.json(Status.DB);
 
-  return c.json(Status.OK);
+  return c.json({status: 'ok', data: {login_email: '_@_', login_code: '11-1223'}});
 });
 
-app.post('/session-status', async (c) => {
+app.post('/login/is_ready', async (c) => {
   const session = c.get('session');
   const code = session.get('login_code');
   if (typeof code !== 'string') {

@@ -28,7 +28,7 @@ export interface EmailMessageEvent {
 
 export interface TryAgain {
   readonly status: 'try_again',
-  readonly fields : {
+  readonly data : {
     readonly wait: number
   }
 }
@@ -39,12 +39,12 @@ export interface FieldsData {
 
 export interface StatusOKData  {
   status: 'ok_data',
-  fields: FieldsData
+  data: FieldsData
 };
 
 export interface StatusNotYet  {
   status: 'not_yet',
-  fields: {
+  data: {
     seconds: number
   }
 };
@@ -54,10 +54,14 @@ export const Status = {
   OK: { status: 'ok' },
   Reset: { status: 'reset' },
   not_yet(x: number): StatusNotYet {
-    return {status: 'not_yet', fields: {seconds: x}}
+    return {status: 'not_yet', data: {seconds: x}};
   },
   ok_data(x: FieldsData): StatusOKData {
-    return {status: 'ok_data', fields: x};
+    return {status: 'ok_data', data: x};
+  },
+
+  invalid(x: FieldsData) {
+    return {status: 'invalid', data: x}
   }
 };
 

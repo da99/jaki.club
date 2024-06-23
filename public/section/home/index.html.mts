@@ -10,10 +10,10 @@ console.log(
     default_head(Home.name, `${SETTINGS.SITE_NAME} homepage`),
     E('body',
       E('div', '.hide#network_error', E('span', 'Network error. '), E('span', '.msg', 'Check your Internet connection or try again later.')),
-      E('div', '.hide#server_error', E('span', 'Server error. '), E('span', '.msg', 'Server error. Try again later.')),
+      E('div', '.hide#server_error',  E('span', '.msg', 'Server error. Try again later.')),
       E('h1', 'Storage Closet'),
       E('main',
-        E('form', '#login', {action: '/login', method: "post"},
+        E('form', '#login', {action: '/log-in', method: "post"},
           E('div', '.hide.error_msg.session_invalid', 'Your browser is not compatitable with this site.'),
           E('button', '.submit', 'Enter')
         ), // form
@@ -21,8 +21,8 @@ console.log(
           E('div',
             'Send an email with the following values:',
             E('div',
-              E('span', 'TO:'), E('span', '#login_email', '{ENTER@EMAIL}'),
-              E('span', 'SUBJECT:'), E('span', '#login_code', '{CODE_VALUE}')
+              E('span', 'TO:'), E('span', '.login_email_value', '{ENTER@EMAIL}'),
+              E('span', 'SUBJECT:'), E('span', '.login_code_value', '{CODE_VALUE}')
              ),
            ),
            E('p', "Once the email you sent is received and processed, you can continue"),
