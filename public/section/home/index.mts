@@ -1,6 +1,7 @@
 import {
   use,
-  css, dom, page, on, http
+  css, dom, page, on, http,
+  dispatch
 } from "/apps/www/src/html.mts";
 
 import type {
@@ -8,6 +9,29 @@ import type {
 } from "/apps/www/src/html.mts";
 
 import SETTINGS from '../../../settings.json';
+
+/* ********************************************* */
+let time_ends_at = 0;
+
+function fetch_login_is_ready() { return http.fetch('wait', '/login/is_ready', 'POST'); }
+
+function wait_another_second() {
+  if (time_ends_at < 1000)
+    return false;
+  const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
+  if (seconds_left < 2) {
+    return on_expired();
+  }
+  dom.update_values('wait', {'count_down': seconds_left});
+  setTimeout(wait_another_second, 1000);
+}
+
+function on_expired() {
+  time_ends_at = 0;
+  css.by_id.hide('wait');
+  css.by_id.unhide('expired');
+}
+/* ********************************************* */
 
 use.default_forms();
 
@@ -24,32 +48,14 @@ on.server_error('*', function () {
   css.by_id.unhide('server_error');
 });
 
-function fetch_login_is_ready() {
-  return http.fetch('wait', '/login/is_ready', 'POST');
-}
-
-on.ok('login', function (json, req) {
+on.ok('login', function (json, _req) {
   css.by_id.hide('login');
-  console.warn(json)
-  console.warn(req.dom_id)
   dom.update_values('wait', json.data);
   css.by_id.unhide('wait');
   setTimeout(fetch_login_is_ready, 10000)
 });
 
-let time_ends_at = 0;
-
-function wait_another_second() {
-  if (time_ends_at < 1000)
-    return false;
-  const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
-  if (seconds_left < 2)
-    return page.go_to('/logout');
-  dom.update_values('wait', {'count_down': seconds_left});
-  setTimeout(wait_another_second, 1000);
-}
-
-on.try_again('wait', function (_resp, _req) {
+on.not_yet('wait', function (_resp, _req) {
   if (time_ends_at === 0) {
     time_ends_at = Date.now() + (SETTINGS.LOGIN_WAIT_TIME * 60 * 1000);
     setTimeout(wait_another_second, 1000);
@@ -57,17 +63,17 @@ on.try_again('wait', function (_resp, _req) {
   setTimeout(fetch_login_is_ready, 5000);
 });
 
-on.expired('wait', function (_resp, _req) {
-  time_ends_at = 0;
-  css.by_id.hide('wait');
-  css.by_id.unhide('wait_expired');
-});
+on.expired('wait', on_expired);
 
 on.ok('wait', function (resp: Response_Origin, _req) {
   time_ends_at = 0;
   css.by_id.hide('wait');
-  dom.update_values(resp.fields);
+  dom.update_values('user_is_in', resp.data);
   css.by_id.unhide('user_is_in');
+});
+
+on.by_id.click('start_over', function (_ev) {
+  page.go_to('/logout');
 });
 
 on.by_id.click('yes_and_reload', function(_ev) {

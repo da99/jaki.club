@@ -52,11 +52,7 @@ app.get('/', async function (c) {
   return JAKI.static.fetch_copy(c, '/section/home/index.html')
 } );
 
-app.get('/*', async function (c) {
-  return JAKI.static.fetch_copy(c, c.req.path);
-});
-
-app.post('/log-in', async (c) => {
+app.post('/login', async (c) => {
   const session = c.get('session');
 
   // Generate OTP:
@@ -91,7 +87,7 @@ app.post('/login/is_ready', async (c) => {
   return c.json(Status.ok_data({email: email_session['email_origin'] as string}));
 });
 
-app.get('/log-out', async (c) => {
+app.get('/logout', async (c) => {
   const session = c.get('session');
   session.deleteSession();
   return c.redirect('/', 302);
@@ -104,6 +100,12 @@ app.get('/admin', async (c) => {
   return c.redirect('/', 302);
 });
 
+
+// ===========================================================================
+app.get('/*', async function (c) {
+  return JAKI.static.fetch_copy(c, c.req.path);
+});
+// ===========================================================================
 
 export default app;
 

@@ -13,7 +13,7 @@ console.log(
       E('div', '.hide#server_error',  E('span', '.msg', 'Server error. Try again later.')),
       E('h1', 'Storage Closet'),
       E('main',
-        E('form', '#login', {action: '/log-in', method: "post"},
+        E('form', '#login', {action: '/login', method: "post"},
           E('div', '.hide.error_msg.session_invalid', 'Your browser is not compatitable with this site.'),
           E('button', '.submit', 'Enter')
         ), // form
@@ -25,9 +25,9 @@ console.log(
               E('span', 'SUBJECT:'), E('span', '.login_code_value', '{CODE_VALUE}')
              ),
            ),
-           E('p', "Once the email you sent is received and processed, you can continue"),
+           E('p', "Once the email you sent is received and processed, you can continue."),
            E('div',
-             E('span', '#count_down_value', '{COUNT_DOWN_VALUE}'),
+             E('span', '.count_down_value', '{COUNT_DOWN_VALUE}'),
              E('span', ' seconds left')
            )
         ), // form
@@ -40,6 +40,10 @@ console.log(
             E('button', {type: 'button'}, '#no_and_logout', 'No!')
           )
         ),
+        E('div', '.hide#expired',
+         E('p', 'Time has expired.'),
+         E('button', {type: 'button'}, '#start_over', 'Start Over'),
+         ),
         E('div', '.hide#reloading_now', 'Reloading this page. Please wait a few seconds...')
        ), // main
        E('footer', E('span', '.copyright', '(c) 2024. All rights reserved.')),
