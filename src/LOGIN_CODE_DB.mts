@@ -3,6 +3,7 @@
 
 import { LOGIN_CODE_LENGTH, LOGIN_WAIT_TIME } from '../settings.json';
 
+const HUMAN_CODE_PATTERN = /^([a-z0-9\-]{8,})$/i;
 
 // const CODE_USED = 1;
 // const CODE_MAX_USE = 4;
@@ -16,15 +17,59 @@ export class Login_Code {
     return Math.ceil(Date.now() / 1000) <= limit;
   }
 
+  static async get(db: D1Database, s: string) {
+    const len = LOGIN_CODE_LENGTH + ((LOGIN_CODE_LENGTH / 2) - 1)
+    if (s.length != len)
+      return false;
+    if (!!s.match(HUMAN_CODE_PATTERN))
+      return false;
+    return await db.prepare(`SELECT * FROM login_codes WHERE code = ?;`).bind(s).first();
+  }
+
+  static async save_email(db: D1Database, raw_email: string) {
+    const email = raw_email.trim();
+    const up = email.toLocaleUpperCase();
+    const down = email.toLocaleLowerCase();
+    const result = await db.prepare(`
+       INSERT INTO email (upcase, downcase, origin)
+       VALUES (?, ?, ?)
+       ON CONFLICT (upcase, downcase) DO NOTHING
+       RETURNING *;
+    `).bind(up, down, email).first();
+
+    if (result)
+      return result;
+
+    return await db.prepare(`SELECT * FROM email WHERE upcase = ? AND downcase = ?;`).bind(up, down).first();
+  }
+
+  static async save_session(db: D1Database, email_id: number, code_id: number) {
+    const row = await db.prepare(`
+      INSERT INTO sessions (email_id, code_id)
+      VALUES (?, ?)
+      ON CONFLICT (email_id, code_id) DO NOTHING
+      RETURNING *;
+    `).bind(email_id, code_id).first();
+
+    if (row)
+      return row;
+    return await db.prepare(`
+      SELECT * FROM sessions
+      WHERE email_id = ? AND code_id = ?;
+    `).bind(email_id, code_id).first();
+  }
+
   static async get_email(db: D1Database, raw_code: string) {
     const up_code = raw_code.trim().toLocaleUpperCase();
     return db.prepare(`
       SELECT
         sessions.id as session_id,
+        email.upcase AS email_upcase,
         email.origin AS email_origin,
         login_codes.code AS code,
         login_codes.date_created AS code_date
-      FROM sessions INNER JOIN
+      FROM sessions
+           INNER JOIN
            login_codes ON sessions.code_id = login_codes.id
            INNER JOIN
            email ON sessions.email_id = email.id
@@ -35,8 +80,9 @@ export class Login_Code {
     return db.prepare(`
       UPDATE sessions
       SET accepted = true
-      WHERE sessions.id = ? ;
-    `).bind(session_id).run();
+      WHERE sessions.id = ?
+      RETURNING *;
+    `).bind(session_id).first();
   }
 
   constructor() {
@@ -45,7 +91,10 @@ export class Login_Code {
   }
 
   db_save(db: D1Database) {
-    return db.prepare(`INSERT INTO login_codes(code) VALUES (?) RETURNING *;`).bind(this.human).first();
+    return db.prepare(`
+      INSERT INTO login_codes(code)
+      VALUES (?)
+      RETURNING *;`).bind(this.human).first();
   }
 }
 // === class

@@ -1,3 +1,3 @@
--- SELECT COUNT(email.id) as EMAIL_COUNT FROM email;
-SELECT * FROM email;
-SELECT * FROM codes;
+-- SELECT * FROM email;
+-- SELECT * FROM login_codes;
+SELECT * FROM sessions;

@@ -4,7 +4,7 @@ import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
 import type { Context } from 'hono';
 import { Session } from 'hono-sessions';
 
-const HUMAN_CODE_PATTERN = /^([a-z0-9\-]{8,})$/i;
+const DOMAIN = 'JAKI.CLUB';
 // const THE_SOURCE = (SETTINGS.IS_DEV) ? `http://localhost:${SETTINGS.static_port}` : SETTINGS.static_url;
 
 // type CTX = { req: Request, env: Bindings };
@@ -17,11 +17,18 @@ export const JAKI = {
     return JAKI.is_user(s) && s.get('is_admin') === 'yes';
   },
 
-  is_valid_code(s: string) {
-    const len = SETTINGS.LOGIN_CODE_LENGTH + ((SETTINGS.LOGIN_CODE_LENGTH / 2) - 1)
-    if (s.length != len)
-      return false;
-    return !!s.match(HUMAN_CODE_PATTERN);
+  email: {
+    addr(x: 'ENTER', e: 'DEV' | 'PROD' | 'STAGE') {
+      switch (e) {
+        case 'STAGE':
+          return `${x}@THE-STAGE.${DOMAIN}`;
+        default:
+          return `${x}@${DOMAIN}`;
+      }
+    },
+    is_official(x: string) {
+      return x === JAKI.email.addr('ENTER', 'PROD') || x === JAKI.email.addr('ENTER', 'STAGE');
+    }
   },
 
   static: {

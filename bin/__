@@ -7,7 +7,8 @@ case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 serve dev|static"
-    echo "$0 setup db"
+    echo "$0 dev db setup|drop|reset|inspect"
+    echo "$0 stage db setup|drop|inspect"
     echo "$0 build dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
@@ -165,9 +166,41 @@ case "$*" in
     secrets JAKI_DEV www "$@"
     ;;
 
-  "setup db")
+  "stage db setup")
+    set -x
+    npx wrangler d1 execute login-code-db --env the_stage --local --file=./d1/setup.sql
+    ;;
+
+  "stage db drop")
+    set -x
+    npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS email;"
+    npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS login_codes;"
+    npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS sessions;"
+    ;;
+
+  "dev db setup")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --file=./d1/setup.sql
+    ;;
+
+  "dev db drop")
+    set -x
+    npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS email;"
+    npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS login_codes;"
+    npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS sessions;"
+    ;;
+
+  "dev db reset")
+    set -x
+    "$0" db drop
+    "$0" db setup
+    ;;
+
+  "dev db inspect")
+    set -x
+    npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from email;"
+    npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from login_codes;"
+    npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from sessions;"
     ;;
 
   *)

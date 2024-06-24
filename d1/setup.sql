@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS sessions (
   email_id INTEGER NOT NULL,
   code_id INTEGER NOT NULL,
   accepted BOOLEAN NOT NULL DEFAULT FALSE,
-  date_created INTEGER(4) NOT NULL DEFAULT (strftime('%s', 'now'))
+  date_created INTEGER(4) NOT NULL DEFAULT (strftime('%s', 'now')),
+  UNIQUE (email_id, code_id)
 );
 

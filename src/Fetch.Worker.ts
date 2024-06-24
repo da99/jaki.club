@@ -78,12 +78,21 @@ app.post('/login/is_ready', async (c) => {
     return c.json(Status.Reset);
   }
 
+  const old_email = session.get('email_upcase');
+  if (old_email)
+    return c.json(Status.ok_data({email: old_email as string}));
+
   // Check database if user sent in code:
   const email_session = await Login_Code.get_email(c.env.LOGIN_CODE_DB, code);
 
   if (!email_session)
     return c.json(Status.not_yet(5));
 
+  const session_row = await Login_Code.accept(c.env.LOGIN_CODE_DB, email_session['session_id'] as number)
+  if (!session_row)
+    return c.json(Status.DB);
+
+  session.set('email_origin', email_session['email_origin']);
   return c.json(Status.ok_data({email: email_session['email_origin'] as string}));
 });
 

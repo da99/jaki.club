@@ -14,35 +14,29 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   const subject = (email.subject || '').trim().toUpperCase();
   const to      = (message.to).trim().toLocaleUpperCase();
   const from = email.from.address;
+  const db = env.LOGIN_CODE_DB;
 
-  switch (to) {
-    case 'ENTER@JAKI.CLUB':
-    case 'ENTER@THE-STAGE.JAKI.CLUB':
-      true; // Everything is ok. continue.
-      break;
-    default:
+  if (!JAKI.email.is_official(to))
       return message.setReject(`Unknown address: ${to}`);
-  } // switch
 
   if (!from)
     return message.setReject(`Invalid from: address.`);
 
   // Check if subject confirms to code.
-  if (!JAKI.is_valid_code(subject)) {
-    return message.setReject(`A valid code must be the subject line.`);
-  }
-
-  // Lookup code in database.
-  const result = await Login_Code.get_email(env.LOGIN_CODE_DB, from);
-
-  if (!result)
+  const code_row = await Login_Code.get(db, subject);
+  if (!code_row)
     return message.setReject(`Login code does not exist: ${subject}. Start over.`);
 
-  if (Login_Code.is_expired(result['date_created'] as number)) {
-     return message.setReject(`Login code is expired. Start over.`);
-  }
- 
-  await Login_Code.accept(env.LOGIN_CODE_DB, result['session_id'] as number);
+  if (Login_Code.is_expired(code_row['date_created'] as number))
+    return message.setReject(`Login code is expired. Start over.`);
+
+  const email_row = await Login_Code.save_email(db, from);
+  if (!email_row)
+    return message.setReject(`Server error. Try again later.`);
+
+  const session_row = await Login_Code.save_session(db, email_row['id'] as number, code_row['id'] as number);
+  if (!session_row)
+    return message.setReject(`Server error. Try again later.`);
 } // email
 
 
