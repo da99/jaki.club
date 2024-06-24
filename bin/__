@@ -8,7 +8,8 @@ case "$*" in
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 serve dev|static"
     echo "$0 dev db setup|drop|reset|inspect"
-    echo "$0 stage db setup|drop|inspect"
+    echo "$0 the_stage db setup|drop|inspect"
+    echo "$0 the_stage up"
     echo "$0 build dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
@@ -16,11 +17,11 @@ case "$*" in
     echo "$0 upload"
     echo "$0 upgrade"
     echo "$0 prune files"
-    echo "$0 deploy prod|dev"
+    echo "$0 production deploy"
     echo
     ;;
 
-  "deploy prod"|"deploy dev"|"deploy prod "*|"deploy dev "*|"deploy the_stage"|"deploy the_stage "*)
+  "production deploy")
     shift
     target="$1"
     shift
@@ -166,12 +167,17 @@ case "$*" in
     secrets JAKI_DEV www "$@"
     ;;
 
-  "stage db setup")
+  "the_stage up")
     set -x
-    npx wrangler d1 execute login-code-db --env the_stage --local --file=./d1/setup.sql
+    bun x wrangler deploy --env "the_stage"
     ;;
 
-  "stage db drop")
+  "the_stage db setup")
+    set -x
+    npx wrangler d1 execute db-stage --env the_stage --remote --file=./d1/setup.sql
+    ;;
+
+  "the_stage db drop")
     set -x
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS email;"
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS login_codes;"
