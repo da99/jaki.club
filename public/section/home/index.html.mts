@@ -30,7 +30,7 @@ console.log(
              E('span', '.count_down_value', '{COUNT_DOWN_VALUE}'),
              E('span', ' seconds left')
            )
-        ), // form
+        ), // #wait
         E('div', '.hide#user_is_in',
           E('p', 'Is this your email address?',
             E('span', '#user_email', '{{EMAIL}}')
