@@ -86,6 +86,40 @@ on.by_id.click('no_and_logout', function(_ev) {
   page.go_to('/logout');
 });
 
+const TMPL_MATCH = /^\{([a-zA-Z0-9\.\-\_]+)\}$/ ;
+
+function compile(df : DocumentFragment | null, values: { [key: string]: | string | number}) {
+  if (!df)
+    return null;
+  const doc = df.cloneNode(true);
+  const nodes = document.createNodeIterator(doc, NodeFilter.SHOW_ELEMENT);
+
+  let n;
+  while (n = nodes.nextNode()) {
+    const e = n as HTMLElement;
+    if (e.hasAttributes()) { 
+      for (const a of e.attributes) {
+        const m = a.value.match(TMPL_MATCH);
+        if (!m)
+          continue;
+        a.value = values[m[1]].toLocaleString();
+      }
+    }
+    if (e.childNodes.length == 1 && e.childNodes[0].nodeType === Node.TEXT_NODE) {
+      const match = e.innerHTML.match(TMPL_MATCH)
+      if (!match)
+        continue;
+      const val = values[match[1]];
+      if (!val)
+        e.textContent = val.toLocaleString();
+    }
+  }
+  return doc;
+}
+
+const new_content = compile((document.querySelector('template') as HTMLTemplateElement).content, {LINK: '/a', msg: 'Hello, World.'})
+if (new_content)
+  document.body.appendChild(new_content);
 
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />

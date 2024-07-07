@@ -1,15 +1,7 @@
 #
-require 'markaby'
-require 'json'
+require '../src/JAKI'
 
-require './src/JAKI'
-
-
-mab = Markaby::Builder.new
-
-mab.html5 do
-  extend JAKI
-
+JAKI.html5! do
   default_head('home', "#{SETTINGS['SITE_NAME']} Homepage")
 
   body do
@@ -69,10 +61,15 @@ mab.html5 do
     end # main
 
     footer { span.copyright '(c) 2024. All rights reserved.' }
-    script(type: 'module', src: '/section/home/index.mjs')
+    script(type: 'module', src: '/section/home/index.mjs') { "" }
+
+    template.sample! do
+      p {
+        span "My link is: "
+        a(href: "{LINK}") { span "{LINK}" }
+      }
+    end
 
   end # body
 
-end # mab
-
-puts mab.to_s
+end # html5
