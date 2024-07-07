@@ -27,14 +27,14 @@ JAKI.html5! do
           p 'Send an e-mail with the following values:'
           div do
             span 'TO:'
-            span.login_email_value '{ENTER@EMAIL}'
+            span.key(data: {key: 'login_email'}) { '{ENTER@EMAIL}' }
             span 'SUBJECT:'
-            span.login_code_value '{CODE_VALUE}'
+            span.key(data: {key: 'login_code'}) { '{CODE_VALUE}' }
           end
         end
         p 'Once the e-mail you sent is received, you can continue.'
         div do
-          span.count_down_value '{COUNT_DOWN_VALUE}'
+          span.key(data: {key: 'count_down'}) { '{COUNT_DOWN_VALUE}' }
           span 'seconds left'
         end
       end # wait!
@@ -64,11 +64,29 @@ JAKI.html5! do
     script(type: 'module', src: '/section/home/index.mjs') { "" }
 
     template.sample! do
-      p {
-        span "My link is: "
-        a(href: "{LINK}") { span "{LINK}" }
+      div {
+        p {
+          span "My link is: "
+          a(href: "{LINK}") { span "{msg}" }
+        }
+        template(data: {loop: 'links'}) {
+          pre {
+            span '{name}'
+            span ': '
+            span '{href}'
+          }
+        }
+        template(data: {id: 'big', key: 'hope'}) { }
       }
     end
+
+    template.big! {
+      div {
+        h3 '{first}'
+        span ': '
+        h3 '{last}'
+      }
+    }
 
   end # body
 

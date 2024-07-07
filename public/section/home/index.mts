@@ -1,7 +1,7 @@
 import {
   use,
   css, dom, page, on, http,
-  dispatch
+  template
 } from "/apps/www/src/html.mts";
 
 import type {
@@ -22,7 +22,7 @@ function wait_another_second() {
   if (seconds_left < 2) {
     return on_expired();
   }
-  dom.update_values('wait', {'count_down': seconds_left});
+  template.update.by_keys('wait', {'count_down': seconds_left});
   setTimeout(wait_another_second, 1000);
 }
 
@@ -50,7 +50,7 @@ on.server_error('*', function () {
 
 on.ok('login', function (json, _req) {
   css.by_id.hide('login');
-  dom.update_values('wait', json.data);
+  template.update.by_keys('wait', json.data);
   css.by_id.unhide('wait');
   setTimeout(fetch_login_is_ready, 10000)
 });
@@ -68,7 +68,7 @@ on.expired('wait', on_expired);
 on.ok('wait', function (resp: Response_Origin, _req) {
   time_ends_at = 0;
   css.by_id.hide('wait');
-  dom.update_values('user_is_in', resp.data);
+  template.update.by_keys('user_is_in', resp.data);
   css.by_id.unhide('user_is_in');
 });
 
@@ -86,38 +86,14 @@ on.by_id.click('no_and_logout', function(_ev) {
   page.go_to('/logout');
 });
 
-const TMPL_MATCH = /^\{([a-zA-Z0-9\.\-\_]+)\}$/ ;
 
-function compile(df : DocumentFragment | null, values: { [key: string]: | string | number}) {
-  if (!df)
-    return null;
-  const doc = df.cloneNode(true);
-  const nodes = document.createNodeIterator(doc, NodeFilter.SHOW_ELEMENT);
-
-  let n;
-  while (n = nodes.nextNode()) {
-    const e = n as HTMLElement;
-    if (e.hasAttributes()) { 
-      for (const a of e.attributes) {
-        const m = a.value.match(TMPL_MATCH);
-        if (!m)
-          continue;
-        a.value = values[m[1]].toLocaleString();
-      }
-    }
-    if (e.childNodes.length == 1 && e.childNodes[0].nodeType === Node.TEXT_NODE) {
-      const match = e.innerHTML.match(TMPL_MATCH)
-      if (!match)
-        continue;
-      const val = values[match[1]];
-      if (!val)
-        e.textContent = val.toLocaleString();
-    }
+const new_content = template.compile(
+  document.querySelector('template') as HTMLTemplateElement,
+  {LINK: '/THE-LINK', msg: 'Hello, World.',
+    links: [{name: 'a1', href: '/a1'}, {name: 'a2', href: '/a2'}],
+    hope: {first: 'Hans', last: 'Hoppe'}
   }
-  return doc;
-}
-
-const new_content = compile((document.querySelector('template') as HTMLTemplateElement).content, {LINK: '/a', msg: 'Hello, World.'})
+);
 if (new_content)
   document.body.appendChild(new_content);
 
