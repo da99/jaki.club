@@ -10,7 +10,7 @@ case "$*" in
     echo "$0 dev db setup|drop|reset|inspect"
     echo "$0 the_stage db setup|drop|inspect"
     echo "$0 the_stage up"
-    echo "$0 build dev|prod"
+    echo "$0 build stage|dev|prod"
     echo "$0 build watch"
     echo "$0 build dir"
     echo "$0 section new [SECTION-NAME]"
@@ -80,6 +80,11 @@ case "$*" in
     cp -r public build
     ;;
 
+  "build stage")
+    echo "--- Building for stage..." >&2
+    BUILD_TARGET="stage" "$0" __build
+    ;;
+
   "build dev")
     echo "--- Building for development..." >&2
     BUILD_TARGET="dev" "$0" __build
@@ -120,9 +125,6 @@ case "$*" in
       dev)
         rm -f public_files.json
         ln -s tmp/public_files.json public_files.json
-        ;;
-      prod)
-        echo "{}" > public_files.json
         ;;
     esac
 
@@ -169,6 +171,7 @@ case "$*" in
 
   "the_stage up")
     set -x
+    "$0" build stage
     secrets jaki.club s3api list-objects > public_files_uploaded.json
     www public upload
     bun x wrangler deploy --env "the_stage"
