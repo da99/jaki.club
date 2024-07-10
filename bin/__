@@ -169,6 +169,8 @@ case "$*" in
 
   "the_stage up")
     set -x
+    secrets jaki.club s3api list-objects > public_files_uploaded.json
+    www public upload
     bun x wrangler deploy --env "the_stage"
     ;;
 
