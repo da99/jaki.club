@@ -22,12 +22,6 @@ case "$*" in
     echo
     ;;
 
-  "public upload list")
-    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    www update file manifest
-    www public upload list
-    ;;
-
   "production deploy")
     shift
     target="$1"
@@ -187,6 +181,16 @@ case "$*" in
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS email;"
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS login_codes;"
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS sessions;"
+    ;;
+
+  "the_stage public upload")
+    "$0" "$@" list
+    ;;
+
+  "the_stage public upload list")
+    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
+    www update file manifest
+    www public upload list
     ;;
 
   "dev db setup")
