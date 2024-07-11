@@ -8,6 +8,7 @@ case "$*" in
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 serve dev|static"
     echo "$0 dev db setup|drop|reset|inspect"
+    echo "$0 public upload list"
     echo "$0 the_stage db setup|drop|inspect"
     echo "$0 the_stage up"
     echo "$0 build stage|dev|prod"
@@ -19,6 +20,12 @@ case "$*" in
     echo "$0 prune files"
     echo "$0 production deploy"
     echo
+    ;;
+
+  "public upload list")
+    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
+    www update file manifest
+    www public upload list
     ;;
 
   "production deploy")
@@ -121,13 +128,6 @@ case "$*" in
     echo "=== Updating file manifest..."
     www update file manifest
 
-    case "$BUILD_TARGET" in
-      dev)
-        rm -f public_files.json
-        ln -s tmp/public_files.json public_files.json
-        ;;
-    esac
-
     echo "=== Done building. ===" >&2
     echo
     ;;
@@ -173,7 +173,6 @@ case "$*" in
     set -x
     "$0" build stage
     mkdir -p tmp
-    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     www public upload
     bun x wrangler deploy --env "the_stage"
     ;;
