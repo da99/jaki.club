@@ -172,7 +172,8 @@ case "$*" in
   "the_stage up")
     set -x
     "$0" build stage
-    secrets jaki.club s3api list-objects > public_files_uploaded.json
+    mkdir -p tmp
+    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     www public upload
     bun x wrangler deploy --env "the_stage"
     ;;
