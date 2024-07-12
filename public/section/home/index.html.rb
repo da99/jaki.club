@@ -61,7 +61,7 @@ JAKI.html5! do
     end # main
 
     footer { span.copyright '(c) 2024. All rights reserved.' }
-    script(type: 'module', src: '/section/home/index.mjs') { "" }
+    script(type: 'module', src: JAKI.static_url('/section/home/index.mjs')) { "" }
 
     template.sample! do
       div {

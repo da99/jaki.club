@@ -114,12 +114,17 @@ case "$*" in
     echo "=== Building .mjs scripts"
     www build mjs
 
+
+    echo "=== Updating file manifest..."
+    cd ..
+    www update file manifest
+    cd build
+
     echo "=== Building html"
     www build html
 
+    echo "=== Updating file manifest to remove transitional files..."
     cd ..
-
-    echo "=== Updating file manifest..."
     www update file manifest
 
     echo "=== Done building. ===" >&2
