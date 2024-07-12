@@ -184,12 +184,14 @@ case "$*" in
     ;;
 
   "the_stage public upload")
-    "$0" "$@" list
+    "$0" build stage
+    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
+    www public upload to the_stage
     ;;
 
   "the_stage public upload list")
+    "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    www update file manifest
     www public upload list
     ;;
 
