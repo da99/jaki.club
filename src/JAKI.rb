@@ -4,8 +4,14 @@ require 'json'
 
 SETTINGS = JSON.parse(File.read('../settings.json'))
 
-IS_DEV = !!ENV['IS_DEV']
-IS_DEV_BUILD = ENV['BUILD_TARGET'] == 'dev'
+module BUILD_TARGET
+  extend self
+
+  def name; ENV['BUILD_TARGET']; end
+  def dev?; name == 'dev'; end
+  def stage?; name == 'stage'; end
+  def prod?; name == 'prod'; end
+end # module
 
 PUBLIC_FILES = JSON.parse File.read('../tmp/public_files.json')
 
@@ -24,13 +30,13 @@ module JAKI
   extend self
 
   def static_url(sPath)
-    if (IS_DEV_BUILD)
+    if (BUILD_TARGET.dev?)
       return "http://localhost:#{SETTINGS['STATIC_PORT']}#{sPath}"
     end
 
     file = PUBLIC_FILES[sPath]
     raise "File not found: #{sPath}" unless file
-    "#{SETTINGS['STATIC_URL']}#{file['Key']}";
+    "#{SETTINGS['STATIC_URL']}#{BUILD_TARGET.name}#{file['Key']}";
   end
 
   def default_head(section, s_title)
