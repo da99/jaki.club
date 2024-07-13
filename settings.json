@@ -9,7 +9,7 @@
   "BUILD_CMD": "bin/__ build",
   "BUILD_CMD_DEV": "bin/__ build dev",
   "BUILD_DIR": "build",
-  "STATIC_URL": "https://static.jaki.club/public",
+  "STATIC_URL": "https://static.jaki.club",
   "BUCKET_NAME": "jaki",
   "STORAGE_API_URL": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki",
   "LOGIN_WAIT_TIME": 5,

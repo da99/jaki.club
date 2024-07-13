@@ -13,18 +13,18 @@ rules = [
 
 [env.dev]
 main = "src/Dev.Worker.ts"
-vars = { IS_DEV = "yes" }
+vars = { IS_DEV = "yes", BUILD_TARGET="dev" }
 d1_databases = [
   { binding = "LOGIN_CODE_DB", database_name = "login-code-db", database_id = "462e4fbe-865a-49a4-be63-afdbe4840490" }
 ]
 
 [env.prod]
-vars = { IS_PROD = "yes" }
+vars = { IS_PROD = "yes", BUILD_TARGET="prod" }
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 
 [env.the_stage]
 name = "jaki-club-the-stage"
-vars = { IS_PROD = "yes" }
+vars = { IS_PROD = "yes", BUILD_TARGET="stage" }
 route = { pattern = "the-stage.jaki.club/*", zone_name = "jaki.club" }
 d1_databases = [
  { binding = "LOGIN_CODE_DB", database_name = "db-stage", database_id = "9579589f-64fd-4ff9-a5b0-867db1390340" }

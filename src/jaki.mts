@@ -34,13 +34,17 @@ export const JAKI = {
   static: {
     fetch(raw_c: Context, sPath: string) {
       const c = raw_c;
-      if (c.env['IS_DEV']) {
-        const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
-          console.log(`--- Fetching: ${new_url}`);
-        return fetch(new_url);
-      } else {
-        return fetch(`${SETTINGS.STATIC_URL}${sPath}`);
-      }
+      const build_target = c.env['BUILD_TARGET'] || 'stage';
+      switch (build_target) {
+        case 'dev':
+          const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
+          console.log(`--- Fetching from localhost: ${new_url}`);
+          return fetch(new_url);
+        default: // prod
+          const fin_url = `${SETTINGS.STATIC_URL}/${build_target}${sPath}`;
+          console.log(`--- Fetching: ${fin_url}`);
+          return fetch(fin_url);
+      } // switch
     },
 
     fetch_copy(ctx: Context, sPath: string) {
