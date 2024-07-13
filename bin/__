@@ -195,7 +195,7 @@ case "$*" in
   "the_stage public upload list")
     "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    www public upload list
+    BUILD_TARGET=stage www public upload list
     ;;
 
   "dev db setup")
