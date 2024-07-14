@@ -36,7 +36,7 @@ case "$*" in
     static_dir="$(echo "$settings" | jq --raw-output .STATIC_DIR)"
     build_dir="$(echo "$settings" | jq --raw-output .BUILD_DIR)"
     set -x
-    www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
+    da www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
     ;;
 
   "serve dev")
@@ -104,28 +104,28 @@ case "$*" in
     "$this_bin" build dir
     # "$this_bin" download pure.css
 
-    www update raw file manifest
+    da www update raw file manifest
 
     cd build
 
     echo "=== Building css"
-    www build css
+    da www build css
 
     echo "=== Building .mjs scripts"
-    www build mjs
+    da www build mjs
 
 
     echo "=== Updating file manifest..."
     cd ..
-    www update file manifest
+    da www update file manifest
     cd build
 
     echo "=== Building html"
-    www build html
+    da www build html
 
     echo "=== Updating file manifest to remove transitional files..."
     cd ..
-    www update file manifest
+    da www update file manifest
 
     echo "=== Done building. ===" >&2
     echo
@@ -153,9 +153,9 @@ case "$*" in
     ;;
 
   "upload")
-    www setup bucket
-    www write file manifest
-    www upload to bucket
+    da www setup bucket
+    da www write file manifest
+    da www upload to bucket
     ;;
 
   upgrade)
@@ -165,7 +165,7 @@ case "$*" in
 
   "prune files")
     set -x
-    secrets JAKI_DEV www "$@"
+    secrets JAKI_DEV da www "$@"
     ;;
 
   "the_stage up")
@@ -189,13 +189,13 @@ case "$*" in
   "the_stage public upload")
     "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    BUILD_TARGET=stage www public upload
+    BUILD_TARGET=stage da www public upload
     ;;
 
   "the_stage public upload list")
     "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    BUILD_TARGET=stage www public upload list
+    BUILD_TARGET=stage da www public upload list
     ;;
 
   "dev db setup")

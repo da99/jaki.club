@@ -2,11 +2,11 @@ import {
   use,
   css, dom, page, on, http,
   template
-} from "/apps/www/src/html.mts";
+} from "/apps/da/src/www/src/html.mts";
 
 import type {
   Response_Origin
-} from "/apps/www/src/html.mts";
+} from "/apps/da/src/www/src/html.mts";
 
 import SETTINGS from '../../../settings.json';
 

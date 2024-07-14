@@ -1,4 +1,4 @@
-import { html5, element as E, Static } from '/apps/www/src/bsr.mts';
+import { html5, element as E, Static } from '/apps/da/src/www/src/bsr.mts';
 import SETTINGS from "/apps/jaki.club/settings.json";
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
