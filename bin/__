@@ -5,20 +5,19 @@ set -u -e -o pipefail
 
 case "$*" in
   "-h"|"--help"|"help")
-    echo "$0 -h|--help|help -- Show this message."
-    echo "$0 serve dev|static"
-    echo "$0 dev db setup|drop|reset|inspect"
-    echo "$0 public upload list"
-    echo "$0 the_stage db setup|drop|inspect"
-    echo "$0 the_stage up"
-    echo "$0 build stage|dev|prod"
-    echo "$0 build watch"
-    echo "$0 build dir"
-    echo "$0 section new [SECTION-NAME]"
-    echo "$0 upload"
-    echo "$0 upgrade"
-    echo "$0 prune files"
-    echo "$0 production deploy"
+    echo "__ -h|--help|help -- Show this message."
+    echo "__ serve dev|static"
+    echo "__ dev db setup|drop|reset|inspect"
+    echo "__ public upload list"
+    echo "__ build stage|dev|prod"
+    echo "__ build watch"
+    echo "__ build dir"
+    echo "__ section new [SECTION-NAME]"
+    echo "__ upload"
+    echo "__ upgrade"
+    echo "__ prune files"
+    echo "__ production deploy"
+    CMD=__ da string doc "$0"
     echo
     ;;
 
@@ -168,17 +167,20 @@ case "$*" in
     secrets JAKI_DEV da www "$@"
     ;;
 
+  # doc: CMD the_stage up
   "the_stage up")
     set -x
     "$0" the_stage public upload
     bun x wrangler deploy --env "the_stage"
     ;;
 
+  # doc: CMD the_stage db setup
   "the_stage db setup")
     set -x
     npx wrangler d1 execute db-stage --env the_stage --remote --file=./d1/setup.sql
     ;;
 
+  # doc: CMD the_stage db drop
   "the_stage db drop")
     set -x
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS email;"
@@ -186,6 +188,7 @@ case "$*" in
     npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS sessions;"
     ;;
 
+  # doc: CMD the_stage public upload (list)
   "the_stage public upload")
     "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
