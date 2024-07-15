@@ -10,7 +10,6 @@ case "$*" in
     echo "__ dev db setup|drop|reset|inspect"
     echo "__ public upload list"
     echo "__ build stage|dev|prod"
-    echo "__ build watch"
     echo "__ build dir"
     echo "__ section new [SECTION-NAME]"
     echo "__ upload"
@@ -69,10 +68,6 @@ case "$*" in
     done < <(inotifywait -r -m -e MODIFY public)
     ;;
 
-  "build")
-    "$0" build "${BUILD_TARGET:-prod}"
-    ;;
-
   "build dir")
     set -x
     cd "$(dirname "$0")"/..
@@ -81,21 +76,19 @@ case "$*" in
     ;;
 
   "build stage")
-    echo "--- Building for stage..." >&2
     BUILD_TARGET="stage" "$0" __build
     ;;
 
   "build dev")
-    echo "--- Building for development..." >&2
     BUILD_TARGET="dev" "$0" __build
     ;;
 
   "build prod")
-    echo "--- Building for production..." >&2
     BUILD_TARGET="prod" "$0" __build
     ;;
 
   __build)
+    echo "--- Building for: ${BUILD_TARGET} ---" >&2
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
 
