@@ -4,8 +4,8 @@
 set -u -e -o pipefail
 
 case "$*" in
+  # doc: CMD -h|--help|help -- Show this message.
   "-h"|"--help"|"help")
-    echo "__ -h|--help|help -- Show this message."
     CMD=__ da string doc "$0"
     ;;
 
@@ -154,19 +154,21 @@ case "$*" in
     bun x wrangler deploy --env "stage"
     ;;
 
-  # doc: CMD stage db setup
+
+  # =============================================================================
+  # doc: CMD stage db setup|drop
   "stage db setup")
     set -x
     npx wrangler d1 execute db-stage --env stage --remote --file=./d1/setup.sql
     ;;
 
-  # doc: CMD stage db drop
   "stage db drop")
     set -x
     npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS email;"
     npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS login_codes;"
     npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS sessions;"
     ;;
+  # =============================================================================
 
   # doc: CMD stage public upload (list)
   "stage public upload")
