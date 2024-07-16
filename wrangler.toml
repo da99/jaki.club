@@ -22,7 +22,7 @@ d1_databases = [
 vars = { IS_PROD = "yes", BUILD_TARGET="prod" }
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 
-[env.the_stage]
+[env.stage]
 name = "jaki-club-the-stage"
 vars = { IS_PROD = "yes", BUILD_TARGET="stage" }
 route = { pattern = "the-stage.jaki.club/*", zone_name = "jaki.club" }

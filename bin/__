@@ -6,20 +6,15 @@ set -u -e -o pipefail
 case "$*" in
   "-h"|"--help"|"help")
     echo "__ -h|--help|help -- Show this message."
-    echo "__ serve dev|static"
-    echo "__ dev db setup|drop|reset|inspect"
-    echo "__ public upload list"
-    echo "__ build stage|dev|prod"
-    echo "__ build dir"
-    echo "__ section new [SECTION-NAME]"
-    echo "__ upload"
-    echo "__ upgrade"
-    echo "__ prune files"
-    echo "__ production deploy"
     CMD=__ da string doc "$0"
-    echo
     ;;
 
+  # doc: CMD production build
+  "build prod")
+    BUILD_TARGET="prod" "$0" __build
+    ;;
+
+  # doc: CMD production deploy
   "production deploy")
     shift
     target="$1"
@@ -28,6 +23,7 @@ case "$*" in
     bun x wrangler deploy --env "$target" "$@"
     ;;
 
+  # doc: CMD serve static|dev
   "serve static")
     settings="$(cat settings.json)"
     static_port="$(echo "$settings" | jq --raw-output .STATIC_PORT)"
@@ -68,23 +64,12 @@ case "$*" in
     done < <(inotifywait -r -m -e MODIFY public)
     ;;
 
+  # doc: build dir
   "build dir")
     set -x
     cd "$(dirname "$0")"/..
     rm -rf build
     cp -r public build
-    ;;
-
-  "build stage")
-    BUILD_TARGET="stage" "$0" __build
-    ;;
-
-  "build dev")
-    BUILD_TARGET="dev" "$0" __build
-    ;;
-
-  "build prod")
-    BUILD_TARGET="prod" "$0" __build
     ;;
 
   __build)
@@ -131,6 +116,7 @@ case "$*" in
     wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
     ;;
 
+  # doc: section new [SECTION-NAME]
   "section new "*)
     new_name="$3"
 
@@ -144,56 +130,63 @@ case "$*" in
     tree "$new_dir"
     ;;
 
-  "upload")
-    da www setup bucket
-    da www write file manifest
-    da www upload to bucket
-    ;;
-
+  # doc: upgrade
   upgrade)
     bun update
     "$0" download pure.css
     ;;
 
+  # doc: prune files
   "prune files")
     set -x
     secrets JAKI_DEV da www "$@"
     ;;
 
-  # doc: CMD the_stage up
-  "the_stage up")
-    set -x
-    "$0" the_stage public upload
-    bun x wrangler deploy --env "the_stage"
+  # doc: stage build
+  "stage build")
+    BUILD_TARGET="stage" "$0" __build
     ;;
 
-  # doc: CMD the_stage db setup
-  "the_stage db setup")
+  # doc: CMD stage up
+  "stage up")
     set -x
-    npx wrangler d1 execute db-stage --env the_stage --remote --file=./d1/setup.sql
+    "$0" stage public upload
+    bun x wrangler deploy --env "stage"
     ;;
 
-  # doc: CMD the_stage db drop
-  "the_stage db drop")
+  # doc: CMD stage db setup
+  "stage db setup")
     set -x
-    npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS email;"
-    npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS login_codes;"
-    npx wrangler d1 execute login-code-db --env the_stage --local --command="DROP TABLE IF EXISTS sessions;"
+    npx wrangler d1 execute db-stage --env stage --remote --file=./d1/setup.sql
     ;;
 
-  # doc: CMD the_stage public upload (list)
-  "the_stage public upload")
+  # doc: CMD stage db drop
+  "stage db drop")
+    set -x
+    npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS email;"
+    npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS login_codes;"
+    npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS sessions;"
+    ;;
+
+  # doc: CMD stage public upload (list)
+  "stage public upload")
     "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     BUILD_TARGET=stage da www public upload
     ;;
 
-  "the_stage public upload list")
+  "stage public upload list")
     "$0" build stage
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     BUILD_TARGET=stage da www public upload list
     ;;
 
+  # doc: dev build
+  "dev build")
+    BUILD_TARGET="dev" "$0" __build
+    ;;
+
+  # doc: dev db setup|drop|reset|inspect
   "dev db setup")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --file=./d1/setup.sql
