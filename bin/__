@@ -42,25 +42,6 @@ case "$*" in
     bun x wrangler deploy --env "$target" "$@"
     ;;
 
-  # doc: CMD serve static|dev
-  "serve static")
-    settings="$(cat settings.json)"
-    static_port="$(echo "$settings" | jq --raw-output .STATIC_PORT)"
-    static_dir="$(echo "$settings" | jq --raw-output .STATIC_DIR)"
-    build_dir="$(echo "$settings" | jq --raw-output .BUILD_DIR)"
-    set -x
-    da www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
-    ;;
-
-  "serve dev")
-    shift; shift
-    # bunx wrangler dev
-    # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
-    dev_port="$(jq --raw-output .DEV_PORT < settings.json)"
-    set -x
-    bun x wrangler dev --env dev --port "$dev_port" "$@"
-    ;;
-
   "build watch")
     content=""
     while read -r LINE ; do
@@ -163,15 +144,19 @@ case "$*" in
     secrets JAKI_DEV da www "$@"
     ;;
 
-  # doc: CMD stage up
-  "stage up")
+  # =============================================================================
+  # doc: CMD stage deploy (now)
+  "stage deploy")
     set -x
     "$0" stage public upload
+    "$0" stage deploy now
+    ;;
+
+  "stage deploy now")
+    set -x
     bun x wrangler deploy --env "stage"
     ;;
 
-
-  # =============================================================================
   # doc: CMD stage db setup|drop
   "stage db setup")
     set -x
@@ -184,7 +169,6 @@ case "$*" in
     npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS login_codes;"
     npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS sessions;"
     ;;
-  # =============================================================================
 
   # doc: CMD stage public upload (list)
   "stage public upload")
@@ -198,13 +182,17 @@ case "$*" in
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     BUILD_TARGET=stage da www public upload list
     ;;
+  # =============================================================================
+  # =============================================================================
 
+  # =============================================================================
   # doc: dev db setup|drop|reset|inspect
   "dev db setup")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --file=./d1/setup.sql
     ;;
 
+  # doc: CMD dev db drop
   "dev db drop")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS email;"
@@ -212,18 +200,43 @@ case "$*" in
     npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS sessions;"
     ;;
 
+  # doc: CMD dev db reset
   "dev db reset")
     set -x
     "$0" db drop
     "$0" db setup
     ;;
 
+  # doc: CMD dev db inspect
   "dev db inspect")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from email;"
     npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from login_codes;"
     npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from sessions;"
     ;;
+
+  # doc: CMD dev static
+  "dev static")
+    settings="$(cat settings.json)"
+    static_port="$(echo "$settings" | jq --raw-output .STATIC_PORT)"
+    static_dir="$(echo "$settings" | jq --raw-output .STATIC_DIR)"
+    build_dir="$(echo "$settings" | jq --raw-output .BUILD_DIR)"
+    set -x
+    da www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
+    ;;
+
+  # doc: CMD dev serve
+  "dev serve")
+    shift; shift
+    # bunx wrangler dev
+    # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
+    dev_port="$(jq --raw-output .DEV_PORT < settings.json)"
+    set -x
+    bun x wrangler dev --env dev --port "$dev_port" "$@"
+    ;;
+  # =============================================================================
+  # =============================================================================
+
 
   *)
     echo "!!! Unknown command: $*" >&2
