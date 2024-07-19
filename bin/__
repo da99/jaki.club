@@ -3,15 +3,34 @@
 #
 set -u -e -o pipefail
 
+validate_build_target () {
+  case "$BUILD_TARGET" in
+    production|stage|dev)
+      :
+      ;;
+    *)
+      echo "!!! Invalid BUILD_TARGET: $BUILD_TARGET" >&2
+      exit 2
+      ;;
+  esac
+}
+
+case "$*" in
+  "stage "*)
+    export BUILD_TARGET="stage"
+    ;;
+  "dev "*)
+    export BUILD_TARGET="dev"
+    ;;
+  "prod "*|"production "*)
+    export BUILD_TARGET="production"
+    ;;
+esac
+
 case "$*" in
   # doc: CMD -h|--help|help -- Show this message.
   "-h"|"--help"|"help")
     CMD=__ da string doc "$0"
-    ;;
-
-  # doc: CMD production build
-  "build prod")
-    BUILD_TARGET="prod" "$0" __build
     ;;
 
   # doc: CMD production deploy
@@ -72,7 +91,9 @@ case "$*" in
     cp -r public build
     ;;
 
-  __build)
+  #doc: BUILD_TARGET="..." CMD build
+  build)
+    validate_build_target
     echo "--- Building for: ${BUILD_TARGET} ---" >&2
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
@@ -142,11 +163,6 @@ case "$*" in
     secrets JAKI_DEV da www "$@"
     ;;
 
-  # doc: stage build
-  "stage build")
-    BUILD_TARGET="stage" "$0" __build
-    ;;
-
   # doc: CMD stage up
   "stage up")
     set -x
@@ -172,20 +188,15 @@ case "$*" in
 
   # doc: CMD stage public upload (list)
   "stage public upload")
-    "$0" build stage
+    "$0" build
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    BUILD_TARGET=stage da www public upload
+    da www public upload
     ;;
 
   "stage public upload list")
-    "$0" build stage
+    "$0" build
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     BUILD_TARGET=stage da www public upload list
-    ;;
-
-  # doc: dev build
-  "dev build")
-    BUILD_TARGET="dev" "$0" __build
     ;;
 
   # doc: dev db setup|drop|reset|inspect
