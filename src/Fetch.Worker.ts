@@ -43,7 +43,7 @@ const require_post_x_sent_from = (async (c: Context, next: Next) => {
     return c.json(Status.invalid({X_SENT_FROM: 'missing'}));
   c.res.headers.set('X_SENT_FROM', x);
   await next();
-})
+});
 
 app.use('*', cookieSessionMiddleware);
 app.use(require_post_x_sent_from);
