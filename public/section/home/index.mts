@@ -1,6 +1,6 @@
 import {
   use,
-  css, dom, page, on, http,
+  css, page, on, http,
   template
 } from "/apps/da/src/www/src/html.mts";
 
@@ -86,7 +86,6 @@ on.by_id.click('no_and_logout', function(_ev) {
   page.go_to('/logout');
 });
 
-
 const new_content = template.compile(
   document.querySelector('template') as HTMLTemplateElement,
   {LINK: '/THE-LINK', msg: 'Hello, World.',
@@ -97,9 +96,7 @@ const new_content = template.compile(
 if (new_content)
   document.body.appendChild(new_content);
 
+console.log('done')
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />
 /// <reference lib="dom" />
-// window.addEventListener('load', (__event) => {
-//   document.body.classList.remove('loading');
-// });

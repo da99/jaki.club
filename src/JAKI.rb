@@ -36,7 +36,7 @@ module JAKI
 
     file = PUBLIC_FILES[sPath]
     raise "File not found: #{sPath}" unless file
-    "#{SETTINGS['STATIC_URL']}#{BUILD_TARGET.name}#{file['Key']}";
+    "#{SETTINGS['STATIC_URL']}#{File.join '/', BUILD_TARGET.name, file['Key']}";
   end
 
   def default_head(section, s_title)
