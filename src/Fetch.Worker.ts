@@ -69,7 +69,7 @@ app.post('/login', async (c) => {
     return c.json(Status.DB);
 
   const login_email = c.env.IS_STAGE ? '@THE-STAGE.' : '@' ;
-  return c.json({status: 'ok', data: {login_email: `ENTER${login_email}jaki.club`, login_code}});
+  return c.json({status: 'ok', data: {login_email: `ENTER${login_email}jaki.club`, login_code: login_code.human}});
 });
 
 app.post('/login/is_ready', async (c) => {
