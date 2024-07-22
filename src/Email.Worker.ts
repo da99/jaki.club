@@ -1,5 +1,6 @@
 
-// import { EmailMessage } from 'cloudflare:email';
+import { EmailMessage } from 'cloudflare:email';
+import { createMimeMessage } from "mimetext";
 // import type { ForwardableEmailMessage } from "cloudflare:email";
 
 import { JAKI } from './jaki.mts';
@@ -7,6 +8,21 @@ import { Login_Code } from './LOGIN_CODE_DB.mts';
 
 import PostalMime from 'postal-mime';
 import type { Bindings, EmailMessageEvent } from '/apps/jaki.club/src/Base.mts';
+
+async function reply(email: EmailMessageEvent, msg: string) {
+  const new_msg = createMimeMessage();
+  const jaki_from = email.to.trim().toLocaleUpperCase();
+  new_msg.setHeader('In-Reply-To', email.headers.get('Message-ID') || "0");
+  new_msg.setSender({ name: "JAKI.club Computer", addr: jaki_from})
+  new_msg.setRecipient(email.from);
+  new_msg.setSubject(msg);
+  new_msg.addMessage({
+    contentType: 'text/plain',
+    data: msg
+  });
+  const replyMessage = new EmailMessage( jaki_from, email.from, new_msg.asRaw());
+  return email.reply(replyMessage);
+}
 
 export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
 
@@ -24,8 +40,9 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
 
   // Check if subject confirms to code.
   const code_row = await Login_Code.get(db, subject);
-  if (!code_row)
-    return message.setReject(`Login code does not exist: ${subject}. Start over.`);
+  if (!code_row) {
+    return await reply(message, `Login code does not exist: ${subject}. Start over.`);
+  }
 
   if (Login_Code.is_expired(code_row['date_created'] as number))
     return message.setReject(`Login code is expired. Start over.`);
