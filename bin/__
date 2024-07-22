@@ -172,7 +172,9 @@ case "$*" in
 
   "stage db inspect")
     set -x
-    bun x wrangler d1 execute db-stage --env stage --remote --file=./d1/inspect.sql
+    for table in sessions email login_codes ; do
+      bun x wrangler d1 execute db-stage --env stage --remote --command="SELECT * FROM $table;"
+    done
     ;;
 
   # doc: CMD stage public upload (list)
