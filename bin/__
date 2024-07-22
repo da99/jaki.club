@@ -157,17 +157,22 @@ case "$*" in
     bun x wrangler deploy --env "stage"
     ;;
 
-  # doc: CMD stage db setup|drop
+  # doc: CMD stage db setup|drop|inspect
   "stage db setup")
     set -x
-    npx wrangler d1 execute db-stage --env stage --remote --file=./d1/setup.sql
+    bun x wrangler d1 execute db-stage --env stage --remote --file=./d1/setup.sql
     ;;
 
   "stage db drop")
     set -x
-    npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS email;"
-    npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS login_codes;"
-    npx wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS sessions;"
+    bun x wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS email;"
+    bun x wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS login_codes;"
+    bun x wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS sessions;"
+    ;;
+
+  "stage db inspect")
+    set -x
+    bun x wrangler d1 execute db-stage --env stage --remote --file=./d1/inspect.sql
     ;;
 
   # doc: CMD stage public upload (list)
