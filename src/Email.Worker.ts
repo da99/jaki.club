@@ -9,27 +9,12 @@ import { Login_Code } from './LOGIN_CODE_DB.mts';
 import PostalMime from 'postal-mime';
 import type { Bindings, EmailMessageEvent } from '/apps/jaki.club/src/Base.mts';
 
-async function reply(email: EmailMessageEvent, msg: string) {
-  const new_msg = createMimeMessage();
-  const jaki_from = email.to.trim().toLocaleUpperCase();
-  new_msg.setHeader('In-Reply-To', email.headers.get('Message-ID') || "0");
-  new_msg.setSender({ name: "JAKI.club Computer", addr: jaki_from})
-  new_msg.setRecipient(email.from);
-  new_msg.setSubject(msg);
-  new_msg.addMessage({
-    contentType: 'text/plain',
-    data: msg
-  });
-  const replyMessage = new EmailMessage( jaki_from, email.from, new_msg.asRaw());
-  return email.reply(replyMessage);
-}
-
 export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
 
-  const email = await PostalMime.parse(message.raw);
-  const subject = (email.subject || '').trim().toUpperCase();
+  const postal = await PostalMime.parse(message.raw);
+  const subject = (postal.subject || '').trim().toUpperCase();
   const to      = (message.to).trim().toLocaleUpperCase();
-  const from = email.from.address;
+  const from = postal.from.address;
   const db = env.LOGIN_CODE_DB;
 
   if (!JAKI.email.is_official(to))
@@ -41,20 +26,35 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   // Check if subject confirms to code.
   const code_row = await Login_Code.get(db, subject);
   if (!code_row) {
-    return await reply(message, `Login code does not exist: ${subject}. Start over.`);
+    return await reply(message, subject, `Login code does not exist: ${subject}. Start over.`);
   }
 
   if (Login_Code.is_expired(code_row['date_created'] as number))
-    return message.setReject(`Login code is expired. Start over.`);
+    return await reply(message, subject, `Login code, ${subject}, expired. Start over.`);
 
   const email_row = await Login_Code.save_email(db, from);
   if (!email_row)
-    return message.setReject(`Server error. Try again later.`);
+    return await reply(message, subject, `Server error. Try again later.`);
 
   const session_row = await Login_Code.save_session(db, email_row['id'] as number, code_row['id'] as number);
   if (!session_row)
-    return message.setReject(`Server error. Try again later.`);
+    return await reply(message, subject, `Server error. Try again later.`);
 } // email
+
+async function reply(message: EmailMessageEvent, subject: string, msg: string) {
+  const new_msg = createMimeMessage();
+  const jaki_from = message.to.trim().toLocaleUpperCase();
+  new_msg.setHeader('In-Reply-To', message.headers.get('Message-ID') || "0");
+  new_msg.setSender({ name: "JAKI.club Computer", addr: jaki_from})
+  new_msg.setRecipient(message.from);
+  new_msg.setSubject(`Re: ${subject}`);
+  new_msg.addMessage({
+    contentType: 'text/plain',
+    data: msg
+  });
+  const replyMessage = new EmailMessage( jaki_from, message.from, new_msg.asRaw());
+  return message.reply(replyMessage);
+}
 
 
 
