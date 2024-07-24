@@ -33,8 +33,8 @@ export class Login_Code {
     const result = await db.prepare(`
        INSERT INTO email (upcase, downcase, origin)
        VALUES (?, ?, ?)
-       ON CONFLICT (upcase) DO NOTHING
        ON CONFLICT (downcase) DO NOTHING
+       ON CONFLICT (upcase) DO NOTHING
        RETURNING *;
     `).bind(up, down, email).first();
 
@@ -94,7 +94,7 @@ export class Login_Code {
   db_save(db: D1Database, raw_id: number) {
     return db.prepare(`
       INSERT INTO login_codes(code, email_id)
-      VALUES (?)
+      VALUES (?, ?)
       RETURNING *;`).bind(this.human, raw_id).first();
   }
 }
