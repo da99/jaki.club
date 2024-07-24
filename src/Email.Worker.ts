@@ -18,10 +18,32 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   const db = env.LOGIN_CODE_DB;
 
   if (!JAKI.email.is_official(to))
-      return message.setReject(`Unknown address: ${to}`);
+    return message.setReject(`Unknown address: ${to}`);
 
   if (!from)
     return message.setReject(`Invalid from: address.`);
+
+  if (subject != 'ENTER')
+    return await reply(message, subject, `I am just a computer. I do not understand this command: ${subject}`);
+
+  const email_row = await Login_Code.save_email(db, from);
+  if (!email_row)
+    return await reply(message, subject, `Server error. Please try again later.`);
+
+  const login_code = new Login_Code();
+  const code_row = await login_code.db_save(db, email_row['id'] as number);
+  if (!code_row)
+    return await reply(message, subject, `Server error in creating code. Please try again later.`)
+
+  return await reply(message, subject, `Here are your codes:\nCode 1: ${from}\nCode 2: ${login_code.human}`)
+} // email
+
+export async function old_email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
+  const postal = await PostalMime.parse(message.raw);
+  const subject = (postal.subject || '').trim().toUpperCase();
+  // const to      = (message.to).trim().toLocaleUpperCase();
+  const from = postal.from.address;
+  const db = env.LOGIN_CODE_DB;
 
   // Check if subject confirms to code.
   const code_row = await Login_Code.get(db, subject);
@@ -32,6 +54,8 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   if (Login_Code.is_expired(code_row['date_created'] as number))
     return await reply(message, subject, `Login code, ${subject}, expired. Start over.`);
 
+  if (!from)
+    return message.setReject(`Invalid from: address.`);
   const email_row = await Login_Code.save_email(db, from);
   if (!email_row)
     return await reply(message, subject, `Server error. Try again later.`);
@@ -39,7 +63,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   const session_row = await Login_Code.save_session(db, email_row['id'] as number, code_row['id'] as number);
   if (!session_row)
     return await reply(message, subject, `Server error. Try again later.`);
-} // email
+}
 
 async function reply(message: EmailMessageEvent, subject: string, msg: string) {
   const new_msg = createMimeMessage();

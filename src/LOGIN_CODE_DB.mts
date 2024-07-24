@@ -90,11 +90,11 @@ export class Login_Code {
     this.human = this.code.split(/(..)/).filter(x => x !== '').join('-');
   }
 
-  db_save(db: D1Database) {
+  db_save(db: D1Database, raw_id: number) {
     return db.prepare(`
-      INSERT INTO login_codes(code)
+      INSERT INTO login_codes(code, email_id)
       VALUES (?)
-      RETURNING *;`).bind(this.human).first();
+      RETURNING *;`).bind(this.human, raw_id).first();
   }
 }
 // === class
