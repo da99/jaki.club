@@ -33,7 +33,8 @@ export class Login_Code {
     const result = await db.prepare(`
        INSERT INTO email (upcase, downcase, origin)
        VALUES (?, ?, ?)
-       ON CONFLICT (upcase, downcase) DO NOTHING
+       ON CONFLICT (upcase) DO NOTHING
+       ON CONFLICT (downcase) DO NOTHING
        RETURNING *;
     `).bind(up, down, email).first();
 

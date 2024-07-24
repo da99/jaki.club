@@ -26,16 +26,21 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   if (subject != 'ENTER')
     return await reply(message, subject, `I am just a computer. I do not understand this command: ${subject}`);
 
-  const email_row = await Login_Code.save_email(db, from);
-  if (!email_row)
-    return await reply(message, subject, `Server error. Please try again later.`);
+  try {
+    const email_row = await Login_Code.save_email(db, from);
+    if (!email_row)
+      return await reply(message, subject, `Server error. Please try again later.`);
 
-  const login_code = new Login_Code();
-  const code_row = await login_code.db_save(db, email_row['id'] as number);
-  if (!code_row)
+    const login_code = new Login_Code();
+    const code_row = await login_code.db_save(db, email_row['id'] as number);
+    if (!code_row)
+      return await reply(message, subject, `Server error in creating code. Please try again later.`)
+
+    return await reply(message, subject, `Here are your codes:\nCode 1: ${from}\nCode 2: ${login_code.human}`)
+  } catch (e) {
+    console.error(e);
     return await reply(message, subject, `Server error in creating code. Please try again later.`)
-
-  return await reply(message, subject, `Here are your codes:\nCode 1: ${from}\nCode 2: ${login_code.human}`)
+  }
 } // email
 
 export async function old_email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
