@@ -160,14 +160,17 @@ case "$*" in
   # doc: CMD stage db setup|drop|inspect
   "stage db setup")
     set -x
+    bun x wrangler d1 execute db-stage --env stage --local  --file=./d1/setup.sql
     bun x wrangler d1 execute db-stage --env stage --remote --file=./d1/setup.sql
     ;;
 
   "stage db drop")
     set -x
-    bun x wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS email;"
-    bun x wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS login_codes;"
-    bun x wrangler d1 execute login-code-db --env stage --local --command="DROP TABLE IF EXISTS sessions;"
+    for x in local remote ; do
+      bun x wrangler d1 execute db-stage --env stage --"$x" --command="DROP TABLE IF EXISTS email;"
+      bun x wrangler d1 execute db-stage --env stage --"$x" --command="DROP TABLE IF EXISTS login_codes;"
+      bun x wrangler d1 execute db-stage --env stage --"$x" --command="DROP TABLE IF EXISTS sessions;"
+    done
     ;;
 
   "stage db inspect")
