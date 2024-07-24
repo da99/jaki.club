@@ -189,6 +189,12 @@ case "$*" in
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
     BUILD_TARGET=stage da www public upload list
     ;;
+
+  # doc: CMD stage tail
+  "stage tail")
+    set -x
+    bun x wrangler tail -e stage
+    ;;
   # =============================================================================
   # =============================================================================
 

@@ -1,6 +1,6 @@
 
 import { EmailMessage } from 'cloudflare:email';
-import { createMimeMessage } from "mimetext";
+import { createMimeMessage } from "mimetext/browser";
 // import type { ForwardableEmailMessage } from "cloudflare:email";
 
 import { JAKI } from './jaki.mts';
@@ -43,7 +43,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
 
 async function reply(message: EmailMessageEvent, subject: string, msg: string) {
   const new_msg = createMimeMessage();
-  const jaki_from = message.to.trim().toLocaleUpperCase();
+  const jaki_from = message.to.trim();
   new_msg.setHeader('In-Reply-To', message.headers.get('Message-ID') || "0");
   new_msg.setSender({ name: "JAKI.club Computer", addr: jaki_from})
   new_msg.setRecipient(message.from);
@@ -52,6 +52,7 @@ async function reply(message: EmailMessageEvent, subject: string, msg: string) {
     contentType: 'text/plain',
     data: msg
   });
+  console.log(`Email reply: ${jaki_from} -> ${message.from} : ${subject} : ${msg}`);
   const replyMessage = new EmailMessage( jaki_from, message.from, new_msg.asRaw());
   return message.reply(replyMessage);
 }
