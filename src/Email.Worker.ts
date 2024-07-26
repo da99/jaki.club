@@ -8,6 +8,7 @@ import { Login_Code } from './LOGIN_CODE_DB.mts';
 
 import PostalMime from 'postal-mime';
 import type { Bindings, EmailMessageEvent } from '/apps/jaki.club/src/Base.mts';
+import type { Email } from 'postal-mime';
 
 export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
 
@@ -24,65 +25,73 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
     return message.setReject(`Invalid from: address.`);
 
   if (subject != 'ENTER')
-    return await reply(message, subject, `I am just a computer. I do not understand this command: ${subject}`);
+    return await reply(message, postal, `I am just a computer. I do not understand this command: ${subject}`);
 
   try {
     const email_row = await Login_Code.save_email(db, from);
     if (!email_row)
-      return await reply(message, subject, `Server error. Please try again later.`);
+      return await reply(message, postal, `Server error. Please try again later.`);
 
     const login_code = new Login_Code();
     const code_row = await login_code.db_save(db, email_row['id'] as number);
     if (!code_row)
-      return await reply(message, subject, `Server error in creating code. Please try again later.`)
+      return await reply(message, postal, `Server error in creating code. Please try again later.`)
 
-    return await reply(message, subject, `Here are your codes:\nCode 1: ${from}\nCode 2: ${login_code.human}`)
+    return await reply(message, postal, `Here are your codes:\nCode 1: ${from}\nCode 2: ${login_code.human}`)
   } catch (e) {
     console.error(e);
-    return await reply(message, subject, `Server error in creating code. Please try again later.`)
+    if (to.match(/STAGE/i))
+      return message.setReject("Unknown error. Try again later.");
+    return await reply(message, postal, `Server error in creating code. Please try again later.`)
   }
 } // email
 
-export async function old_email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
-  const postal = await PostalMime.parse(message.raw);
-  const subject = (postal.subject || '').trim().toUpperCase();
-  // const to      = (message.to).trim().toLocaleUpperCase();
-  const from = postal.from.address;
-  const db = env.LOGIN_CODE_DB;
+// export async function old_email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
+//   const postal = await PostalMime.parse(message.raw);
+//   const subject = (postal.subject || '').trim().toUpperCase();
+//   // const to      = (message.to).trim().toLocaleUpperCase();
+//   const from = postal.from.address;
+//   const db = env.LOGIN_CODE_DB;
+//
+//   // Check if subject confirms to code.
+//   const code_row = await Login_Code.get(db, subject);
+//   if (!code_row) {
+//     return await reply(message, subject, `Login code does not exist: ${subject}. Start over.`);
+//   }
+//
+//   if (Login_Code.is_expired(code_row['date_created'] as number))
+//     return await reply(message, subject, `Login code, ${subject}, expired. Start over.`);
+//
+//   if (!from)
+//     return message.setReject(`Invalid from: address.`);
+//   const email_row = await Login_Code.save_email(db, from);
+//   if (!email_row)
+//     return await reply(message, subject, `Server error. Try again later.`);
+//
+//   const session_row = await Login_Code.save_session(db, email_row['id'] as number, code_row['id'] as number);
+//   if (!session_row)
+//     return await reply(message, subject, `Server error. Try again later.`);
+// }
 
-  // Check if subject confirms to code.
-  const code_row = await Login_Code.get(db, subject);
-  if (!code_row) {
-    return await reply(message, subject, `Login code does not exist: ${subject}. Start over.`);
-  }
-
-  if (Login_Code.is_expired(code_row['date_created'] as number))
-    return await reply(message, subject, `Login code, ${subject}, expired. Start over.`);
-
-  if (!from)
-    return message.setReject(`Invalid from: address.`);
-  const email_row = await Login_Code.save_email(db, from);
-  if (!email_row)
-    return await reply(message, subject, `Server error. Try again later.`);
-
-  const session_row = await Login_Code.save_session(db, email_row['id'] as number, code_row['id'] as number);
-  if (!session_row)
-    return await reply(message, subject, `Server error. Try again later.`);
-}
-
-async function reply(message: EmailMessageEvent, subject: string, msg: string) {
+async function reply(message: EmailMessageEvent, postal: Email, msg: string) {
   const new_msg = createMimeMessage();
   const jaki_from = message.to.trim();
+  const subject = postal.subject;
+  const to = postal.from.address;
+  if (!to)
+    return false;
+  console.log('-------------------------------------------------------')
+  console.log(postal.from);
   new_msg.setHeader('In-Reply-To', message.headers.get('Message-ID') || "0");
-  new_msg.setSender({ name: "JAKI.club Computer", addr: jaki_from})
-  new_msg.setRecipient(message.from);
+  new_msg.setSender({ name: "JAKI.club Computer", addr: to})
+  new_msg.setRecipient(to);
   new_msg.setSubject(`Re: ${subject}`);
   new_msg.addMessage({
     contentType: 'text/plain',
     data: msg
   });
-  console.log(`Email reply: ${jaki_from} -> ${message.from} : ${subject} : ${msg}`);
   const replyMessage = new EmailMessage( jaki_from, message.from, new_msg.asRaw());
+  console.log(new_msg.asRaw())
   return message.reply(replyMessage);
 }
 
