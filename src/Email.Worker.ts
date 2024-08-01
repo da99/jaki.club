@@ -43,7 +43,11 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
     return await reply(message, postal, `Next, go to: https://${domain}/enter/${encodeURIComponent(from)}\nThen submit code: ${login_code.human}\nThis will log you into ${domain}`)
   } catch (e) {
     console.error(e);
-    console.error(`> ${e.name} ${e.message} <`);
+    console.log(Object.keys(message))
+    // for (let x of Object.keys(message)) {
+    //   console.log(`${x} -> ${message[x]}`)
+    // }
+
     if (to.match(/STAGE/i))
       return message.setReject(`Unknown error. Try again later.`);
     return await reply(message, postal, `Server error in creating code. Please try again later.`)
