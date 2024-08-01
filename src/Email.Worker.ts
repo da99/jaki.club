@@ -1,6 +1,8 @@
 
 import { EmailMessage } from 'cloudflare:email';
 import { createMimeMessage } from "mimetext/browser";
+import SETTINGS from "../settings.json";
+
 // import type { ForwardableEmailMessage } from "cloudflare:email";
 
 import { JAKI } from './jaki.mts';
@@ -17,6 +19,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   const to      = (message.to).trim().toLocaleUpperCase();
   const from = postal.from.address;
   const db = env.LOGIN_CODE_DB;
+  const domain = SETTINGS['DOMAIN'];
 
   if (!JAKI.email.is_official(to))
     return message.setReject(`Unknown address: ${to}`);
@@ -37,11 +40,12 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
     if (!code_row)
       return await reply(message, postal, `Server error in creating code. Please try again later.`)
 
-    return await reply(message, postal, `Here are your codes:\nCode 1: ${from}\nCode 2: ${login_code.human}`)
+    return await reply(message, postal, `Next, go to: https://${domain}/enter/${encodeURIComponent(from)}\nThen submit code: ${login_code.human}\nThis will log you into ${domain}`)
   } catch (e) {
     console.error(e);
+    console.error(`> ${e.name} ${e.message} <`);
     if (to.match(/STAGE/i))
-      return message.setReject("Unknown error. Try again later.");
+      return message.setReject(`Unknown error. Try again later.`);
     return await reply(message, postal, `Server error in creating code. Please try again later.`)
   }
 } // email
@@ -75,22 +79,21 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
 
 async function reply(message: EmailMessageEvent, postal: Email, msg: string) {
   const new_msg = createMimeMessage();
-  const jaki_from = message.to.trim();
   const subject = postal.subject;
-  const to = postal.from.address;
-  if (!to)
+  const new_to = postal.from.address;
+  if (!new_to)
     return false;
   console.log('-------------------------------------------------------')
   console.log(postal.from);
   new_msg.setHeader('In-Reply-To', message.headers.get('Message-ID') || "0");
-  new_msg.setSender({ name: "JAKI.club Computer", addr: to})
-  new_msg.setRecipient(to);
+  new_msg.setSender({ name: "JAKI.club Computer", addr: message.to})
+  new_msg.setRecipient(new_to);
   new_msg.setSubject(`Re: ${subject}`);
   new_msg.addMessage({
     contentType: 'text/plain',
     data: msg
   });
-  const replyMessage = new EmailMessage( jaki_from, message.from, new_msg.asRaw());
+  const replyMessage = new EmailMessage(message.to, message.from, new_msg.asRaw());
   console.log(new_msg.asRaw())
   return message.reply(replyMessage);
 }
