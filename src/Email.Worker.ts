@@ -44,9 +44,9 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   } catch (e) {
     console.error(e);
     console.log(Object.keys(message))
-    // for (let x of Object.keys(message)) {
-    //   console.log(`${x} -> ${message[x]}`)
-    // }
+    for (let x of Object.keys(message)) {
+      console.log(`${x} -> ${message[x]}`)
+    }
 
     if (to.match(/STAGE/i))
       return message.setReject(`Unknown error. Try again later.`);
