@@ -12,6 +12,16 @@ import PostalMime from 'postal-mime';
 import type { Bindings, EmailMessageEvent } from '/apps/jaki.club/src/Base.mts';
 import type { Email } from 'postal-mime';
 
+function inspect_header(v: string, k: string) {
+  console.log(`${k} -> ${v}`);
+}
+
+function inspect_message(m: EmailMessageEvent) {
+  console.log(`FROM: ${m.from}`)
+  console.log(`TO:   ${m.to}`)
+  m.headers.forEach(inspect_header);
+}
+
 export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
 
   const postal = await PostalMime.parse(message.raw);
@@ -40,13 +50,14 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
     if (!code_row)
       return await reply(message, postal, `Server error in creating code. Please try again later.`)
 
-    return await reply(message, postal, `Next, go to: https://${domain}/enter/${encodeURIComponent(from)}\nThen submit code: ${login_code.human}\nThis will log you into ${domain}`)
+    return await reply(message, postal, `
+      Next, go to: https://${domain}/enter/${encodeURIComponent(from)}
+      Then submit code: ${login_code.human}
+      This will log you into ${domain}
+    `);
   } catch (e) {
     console.error(e);
-    console.log(Object.keys(message))
-    for (let x of Object.keys(message)) {
-      console.log(`${x} -> ${message[x]}`)
-    }
+    inspect_message(message);
 
     if (to.match(/STAGE/i))
       return message.setReject(`Unknown error. Try again later.`);

@@ -18,6 +18,13 @@ export const JAKI = {
     return JAKI.is_user(s) && s.get('is_admin') === 'yes';
   },
 
+  time: {
+    mins_ago(n: number) {
+      const now = Math.ceil(Date.now() / 1000)
+      return now - (n * 60)
+    }
+  },
+
   email: {
     addr(x: 'ENTER', e: 'DEV' | 'PROD' | 'STAGE') {
       switch (e) {

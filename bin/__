@@ -157,7 +157,7 @@ case "$*" in
     bun x wrangler deploy --env "stage"
     ;;
 
-  # doc: CMD stage db setup|drop|inspect
+  # doc: CMD stage db setup|drop|inspect|prune
   "stage db setup")
     set -x
     bun x wrangler d1 execute db-stage --env stage --local  --file=./d1/setup.sql
@@ -178,6 +178,13 @@ case "$*" in
     for table in email login_codes ; do
       bun x wrangler d1 execute db-stage --env stage --remote --command="SELECT * FROM $table;"
     done
+    ;;
+
+  "stage db prune")
+    set -x
+    now_ts="$(date +%s)"
+    time_limit="$(( 20 * 60 ))"
+    bun x wrangler d1 execute db-stage --env stage --remote --command="DELETE FROM login_codes WHERE login_codes.date_created < '$(( now_ts - time_limit ))' ;"
     ;;
 
   # doc: CMD stage public upload (list)
