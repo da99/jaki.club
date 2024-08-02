@@ -7,7 +7,7 @@
   "STATIC_PORT": 4568,
   "STATIC_DIR": "public",
   "BUILD_CMD": "bin/__ build",
-  "BUILD_CMD_DEV": "bin/__ build dev",
+  "BUILD_CMD_DEV": "bin/__ dev build",
   "BUILD_DIR": "build",
   "STATIC_URL": "https://static.jaki.club",
   "BUCKET_NAME": "jaki",

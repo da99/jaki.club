@@ -64,7 +64,7 @@ case "$*" in
     done < <(inotifywait -r -m -e MODIFY public)
     ;;
 
-  # doc: build dir
+  # doc: CMD build dir
   "build dir")
     set -x
     cd "$(dirname "$0")"/..
@@ -72,7 +72,7 @@ case "$*" in
     cp -r public build
     ;;
 
-  #doc: BUILD_TARGET="..." CMD build
+  # doc: BUILD_TARGET="..." CMD build
   build)
     validate_build_target
     echo "--- Building for: ${BUILD_TARGET} ---" >&2
@@ -118,7 +118,7 @@ case "$*" in
     wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
     ;;
 
-  # doc: section new [SECTION-NAME]
+  # doc: CMD section new [SECTION-NAME]
   "section new "*)
     new_name="$3"
 
@@ -132,13 +132,13 @@ case "$*" in
     tree "$new_dir"
     ;;
 
-  # doc: upgrade
+  # doc: CMD upgrade
   upgrade)
     bun update
     "$0" download pure.css
     ;;
 
-  # doc: prune files
+  # doc: CMD prune files
   "prune files")
     set -x
     secrets JAKI_DEV da www "$@"
@@ -209,13 +209,16 @@ case "$*" in
   # =============================================================================
 
   # =============================================================================
-  # doc: dev db setup|drop|reset|inspect
+  # doc: CMD dev db setup|drop|reset|inspect
+  "dev build")
+  "$0" build
+  ;;
+
   "dev db setup")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --file=./d1/setup.sql
     ;;
 
-  # doc: CMD dev db drop
   "dev db drop")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS email;"
@@ -223,14 +226,12 @@ case "$*" in
     npx wrangler d1 execute login-code-db --env dev --local --command="DROP TABLE IF EXISTS sessions;"
     ;;
 
-  # doc: CMD dev db reset
   "dev db reset")
     set -x
     "$0" db drop
     "$0" db setup
     ;;
 
-  # doc: CMD dev db inspect
   "dev db inspect")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from email;"
