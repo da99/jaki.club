@@ -20,7 +20,7 @@ JAKI.html5! do
             }
             p {
               span 'SUBJECT: '
-              span.key(data: {key: 'login_code'}) { '{CODE_VALUE}' }
+              span.key { 'ENTER' }
             }
           end
         end

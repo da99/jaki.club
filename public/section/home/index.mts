@@ -4,9 +4,9 @@ import {
   template, log
 } from "/apps/da/src/www/src/html.mts";
 
-import type {
-  Response_Origin
-} from "/apps/da/src/www/src/html.mts";
+// import type {
+//   Response_Origin
+// } from "/apps/da/src/www/src/html.mts";
 
 import SETTINGS from '../../../settings.json';
 
@@ -55,4 +55,6 @@ on.ok('login', function (json, _req) {
   setTimeout(fetch_login_is_ready, 10000)
 });
 
+const login_email = 'ENTER' + '@' + SETTINGS.DOMAIN;
+document.querySelectorAll('#wait a[data-key="login_email"]').forEach((x) => { x.setAttribute('href', 'mailto:' + login_email); x.textContent = login_email });
 log('done');
