@@ -124,9 +124,12 @@ case "$*" in
 
     new_dir=public/section/"$new_name"
     mkdir -p "$new_dir"
-    for x in index.html index.mts index.css ; do
+    for x in index.html.rb index.mts index.css ; do
       if ! test -f "$new_dir"/"$x" ; then
         cp templates/"$x" "$new_dir"/"$x"
+        sed -i 's/{YEAR}/'"$(date +%Y)"'/g'  "$new_dir"/"$x"
+        sed -i 's/{NAME}/'"$new_name"'/g'  "$new_dir"/"$x"
+        echo "--- Wrote: $new_dir/$x"
       fi
     done
     tree "$new_dir"
