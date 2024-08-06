@@ -52,6 +52,10 @@ app.get('/', async function (c) {
   return JAKI.static.fetch_copy(c, '/section/home/index.html')
 } );
 
+app.get('/enter/:email', async function (c) {
+  return JAKI.static.fetch_copy(c, '/section/enter/index.html')
+} );
+
 app.post('/login', async (c) => {
   const session = c.get('session');
 
