@@ -11,26 +11,26 @@ import {
 import SETTINGS from '../../../settings.json';
 
 /* ********************************************* */
-let time_ends_at = 0;
+// let time_ends_at = 0;
 
 function fetch_login_is_ready() { return http.fetch('wait', '/login/is_ready', 'POST'); }
 
-function wait_another_second() {
-  if (time_ends_at < 1000)
-    return false;
-  const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
-  if (seconds_left < 2) {
-    return on_expired();
-  }
-  template.update.by_keys('wait', {'count_down': seconds_left});
-  setTimeout(wait_another_second, 1000);
-}
+// function wait_another_second() {
+//   if (time_ends_at < 1000)
+//     return false;
+//   const seconds_left = Math.floor((time_ends_at - Date.now()) / 1000);
+//   if (seconds_left < 2) {
+//     return on_expired();
+//   }
+//   template.update.by_keys('wait', {'count_down': seconds_left});
+//   setTimeout(wait_another_second, 1000);
+// }
 
-function on_expired() {
-  time_ends_at = 0;
-  css.by_id.hide('wait');
-  css.by_id.unhide('expired');
-}
+// function on_expired() {
+//   time_ends_at = 0;
+//   css.by_id.hide('wait');
+//   css.by_id.unhide('expired');
+// }
 /* ********************************************* */
 
 use.default_forms();
