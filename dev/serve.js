@@ -1,7 +1,7 @@
 
 import { Hono } from 'hono'
 
-import app from '../src/Fetch.Worker.ts';
+import app from './Fetch.ts';
 
 const PORT = 4567;
 
