@@ -24,7 +24,7 @@ const cookieSessionMiddleware = (async (c: Context, next: Next) => {
   const store = new CookieStore();
   const m = sessionMiddleware({
     store,
-    encryptionKey: c.env['PSWD_SALT'],
+    encryptionKey: c.env['PSWD_SALT'] || (c.env['development'] && 'abc'.repeat(11) ),
     expireAfterSeconds: (60 * 60 * 24 * 14),
     cookieOptions: {
       sameSite: 'Lax',

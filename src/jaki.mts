@@ -42,7 +42,7 @@ export const JAKI = {
   static: {
     fetch(raw_c: Context, sPath: string) {
       const c = raw_c;
-      const build_target = c.env['BUILD_TARGET'] || 'prod';
+      const build_target = c.env['BUILD_TARGET'] || (c.env['development'] && 'dev') || 'prod';
       switch (build_target) {
         case 'dev':
           const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
