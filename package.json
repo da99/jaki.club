@@ -8,13 +8,13 @@
     "dev": "bun run -p 8787 --hot src/worker.js"
   },
   "devDependencies": {
-    "@cloudflare/kv-asset-handler": "^0.3.2",
+    "@cloudflare/kv-asset-handler": "^0.3.4",
     "@cloudflare/workers-types": "latest",
     "@types/bun": "latest",
     "jest": "latest",
     "lightningcss-cli": "latest",
-    "miniflare": "^3.20240605.0",
-    "wrangler": "^3.60.1"
+    "miniflare": "^3.20240725.0",
+    "wrangler": "^3.69.1"
   },
   "dependencies": {
     "fauna": "latest",

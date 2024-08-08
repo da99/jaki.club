@@ -259,7 +259,7 @@ case "$*" in
     # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
     dev_port="$(jq --raw-output .DEV_PORT < settings.json)"
     set -x
-    bun x wrangler dev --env dev --port "$dev_port" "$@"
+    bun x wrangler dev --live-reload false --env dev --port "$dev_port" "$@"
     ;;
   # =============================================================================
   # =============================================================================

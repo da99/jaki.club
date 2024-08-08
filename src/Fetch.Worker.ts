@@ -1,5 +1,5 @@
 
-import type { Bindings, StatusOKData } from '/apps/jaki.club/src/Base.mts';
+import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 import { Status } from '/apps/jaki.club/src/Base.mts';
 import { Hono } from 'hono';
 import { Login_Code } from './LOGIN_CODE_DB.mts';
