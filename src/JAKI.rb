@@ -2,7 +2,7 @@
 require 'markaby'
 require 'json'
 
-SETTINGS = JSON.parse(File.read('../settings.json'))
+SETTINGS = JSON.parse(File.read('./settings.json'))
 
 module BUILD_TARGET
   extend self
@@ -13,7 +13,7 @@ module BUILD_TARGET
   def prod?; name == 'prod'; end
 end # module
 
-PUBLIC_FILES = JSON.parse File.read('../tmp/public_files.json')
+PUBLIC_FILES = JSON.parse File.read('./tmp/public_files.json')
 
 module Builder
   class XmlMarkup

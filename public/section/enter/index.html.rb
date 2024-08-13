@@ -1,5 +1,5 @@
 #
-require '../src/JAKI'
+require './src/JAKI'
 
 JAKI.html5! do
   default_head('enter', "Enter #{SETTINGS['SITE_NAME']} Homepage")
