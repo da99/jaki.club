@@ -85,25 +85,19 @@ case "$*" in
 
     da www update raw file manifest
 
-    cd build
-
     echo "=== Building css"
     da www build css
 
     echo "=== Building .mjs scripts"
     da www build mjs
 
-
     echo "=== Updating file manifest..."
-    cd ..
     da www update file manifest
-    cd build
 
     echo "=== Building html"
     da www build html
 
     echo "=== Updating file manifest to remove transitional files..."
-    cd ..
     da www update file manifest
 
     echo "=== Done building. ===" >&2
@@ -244,12 +238,8 @@ case "$*" in
 
   # doc: CMD dev static
   "dev static")
-    settings="$(cat settings.json)"
-    static_port="$(echo "$settings" | jq --raw-output .STATIC_PORT)"
-    static_dir="$(echo "$settings" | jq --raw-output .STATIC_DIR)"
-    build_dir="$(echo "$settings" | jq --raw-output .BUILD_DIR)"
     set -x
-    da www serve "$static_port" "$build_dir"/"$static_dir" "$0" build dev
+    da www serve # "$0" build dev
     ;;
 
   # doc: CMD dev serve
