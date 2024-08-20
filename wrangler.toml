@@ -13,7 +13,7 @@ rules = [
 
 [env.dev]
 main = "src/Dev.Worker.ts"
-vars = { IS_DEV = "yes", BUILD_TARGET="dev", PSWD_SALT = "thisisMeantForDevOnlyNotForProductionIgnoreThis@oqpasdkjkjHansAhoppEmisesORrg" }
+vars = { IS_DEV = "yes", BUILD_TARGET="dev" }
 d1_databases = [
   { binding = "LOGIN_CODE_DB", database_name = "login-code-db", database_id = "462e4fbe-865a-49a4-be63-afdbe4840490" }
 ]
