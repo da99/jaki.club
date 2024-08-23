@@ -11,16 +11,18 @@ JAKI.html5! do
       div.wait! do
         div do
           p 'Send an e-mail with the following values:'
-          div do
-            p {
-              span 'TO: '
-              a.key(href: '{MAILTO}', data: {key: 'login_email'}) {
-                '{EMAIL}'
+          div.email! do
+            p.to {
+              span.field 'To: '
+              span.value {
+                a.key(href: '{MAILTO}', data: {key: 'login_email'}) {
+                  '{EMAIL}'
+                }
               }
             }
-            p {
-              span 'SUBJECT: '
-              span.key { 'ENTER' }
+            p.subject {
+              span.field 'Subject: '
+              span.value { 'ENTER' }
             }
           end
         end

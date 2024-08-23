@@ -1,4 +1,13 @@
 
+body {
+  background-color: #f2f2f2;
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
+h1 {
+  font-family: serif;
+}
 
 form.loading > * {
   visibility: hidden;
@@ -61,3 +70,9 @@ input[type='text'] {
 }
 /* *************** */
 
+/* *************** */
+/*   Footer:       */
+/* *************** */
+footer {
+  font-size: 0.75em;
+}
