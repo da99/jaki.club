@@ -255,7 +255,8 @@ case "$*" in
   # =============================================================================
 
   "dev build file "*)
-  da www build file "$4"
+  set -x
+  exec da www build file "$4"
   ;;
 
   *)
