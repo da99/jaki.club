@@ -5,6 +5,10 @@ body {
   line-height: 1.5em;
 }
 
+.company_logo {
+  font-family: monospace;
+}
+
 h1 {
   font-family: serif;
 }

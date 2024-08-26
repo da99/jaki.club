@@ -5,7 +5,7 @@ JAKI.html5! do
   default_head('home', "#{SETTINGS['SITE_NAME']} Homepage")
 
   body do
-    h1 "Storage Closet"
+    h1.company_logo SETTINGS['SITE_NAME']
 
     main do
       div.wait! do
@@ -26,6 +26,7 @@ JAKI.html5! do
             }
           end
         end
+        p 'Then wait a few minutes to receive a reply with further instructions.'
       end # wait!
 
     end # main

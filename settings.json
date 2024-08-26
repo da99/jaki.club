@@ -2,7 +2,7 @@
   "IS_DEV": false,
   "BUILD_TARGET": "prod",
   "DOMAIN": "jaki.club",
-  "SITE_NAME": "jAki.CLUB",
+  "SITE_NAME": "jAkI.CLUB",
   "DEV_PORT": 4567,
   "STATIC_PORT": 4568,
   "STATIC_DIR": "public",
