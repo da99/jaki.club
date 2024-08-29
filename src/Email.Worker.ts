@@ -24,12 +24,12 @@ function inspect_message(m: EmailMessageEvent) {
 
 export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any) {
 
-  const postal = await PostalMime.parse(message.raw);
+  const postal  = await PostalMime.parse(message.raw);
   const subject = (postal.subject || '').trim().toUpperCase();
   const to      = (message.to).trim().toLocaleUpperCase();
-  const from = postal.from.address;
-  const db = env.LOGIN_CODE_DB;
-  const domain = SETTINGS['DOMAIN'];
+  const from    = postal.from.address;
+  const db      = env.LOGIN_CODE_DB;
+  const domain  = SETTINGS['DOMAIN'];
 
   if (!JAKI.email.is_official(to))
     return message.setReject(`Unknown address: ${to}`);
