@@ -30,6 +30,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
   const from    = postal.from.address;
   const db      = env.LOGIN_CODE_DB;
   const domain  = SETTINGS['DOMAIN'];
+  let stage_message;
 
   if (!JAKI.email.is_official(to))
     return message.setReject(`Unknown address: ${to}`);
@@ -50,6 +51,7 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
     if (!code_row)
       return await reply(message, postal, `Server error in creating code. Please try again later.`)
 
+    stage_message = `${login_code.human}: https://${domain}/enter/${encodeURIComponent(from)}`
     return await reply(message, postal, `
       Next, go to: https://${domain}/enter/${encodeURIComponent(from)}
       Then submit code: ${login_code.human}
@@ -60,7 +62,8 @@ export async function email(message: EmailMessageEvent, env: Bindings, _ctx: any
     inspect_message(message);
 
     if (to.match(/STAGE/i))
-      return message.setReject(`Unknown error. Try again later.`);
+      return message.setReject(`${(e as Error).message}. ${stage_message}`);
+
     return await reply(message, postal, `Server error in creating code. Please try again later.`)
   }
 } // email
