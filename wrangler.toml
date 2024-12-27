@@ -23,18 +23,13 @@ vars = { IS_PROD = "yes", BUILD_TARGET="prod" }
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 
 [env.stage]
-name = "jaki-club-the-stage"
+name = "da99stream"
 vars = { IS_PROD = "yes", IS_STAGE = 'yes', BUILD_TARGET="stage" }
-route = { pattern = "the-stage.jaki.club/*", zone_name = "jaki.club" }
+route = { pattern = "www.da99.stream", custom_domain = true }
 d1_databases = [
  { binding = "LOGIN_CODE_DB", database_name = "db-stage", database_id = "9579589f-64fd-4ff9-a5b0-867db1390340" }
 ]
 
-
-# d1_databases = [
-#   { binding = "LOGIN_CODE_DB", database_name = "login-code-db", database_id = "462e4fbe-865a-49a4-be63-afdbe4840490" }
-# ]
-#
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
