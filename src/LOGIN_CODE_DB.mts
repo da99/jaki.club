@@ -1,7 +1,7 @@
 
 // import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 
-import { LOGIN_CODE_LENGTH, LOGIN_WAIT_TIME } from '../settings.json';
+import { LOGIN_CODE_LENGTH, LOGIN_WAIT_TIME } from '../tmp/settings.json';
 
 const HUMAN_CODE_PATTERN = /^([a-z0-9\-]{8,})$/i;
 

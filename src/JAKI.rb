@@ -2,7 +2,7 @@
 require 'markaby'
 require 'json'
 
-SETTINGS = JSON.parse(File.read('./settings.json'))
+SETTINGS = JSON.parse(File.read('./tmp/settings.json'))
 
 module BUILD_TARGET
   extend self

@@ -1,5 +1,5 @@
 
-import { domain, site_name } from "../settings.json";
+import { domain, site_name } from "../tmp/settings.json";
 
 export async function send_via_zepto(to_email: string, body: string) {
   return fetch(

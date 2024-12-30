@@ -8,7 +8,7 @@ import {
 //   Response_Origin
 // } from "/apps/da/src/www/src/html.mts";
 
-import SETTINGS from '../../../settings.json';
+import SETTINGS from '../../../tmp/settings.json';
 
 /* ********************************************* */
 // let time_ends_at = 0;

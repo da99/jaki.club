@@ -1,7 +1,7 @@
 declare let process: any;
 
 import { element as E } from '/apps/da/src/www/src/bsr.mts';
-import SETTINGS from '/apps/jaki.club/settings.json';
+import SETTINGS from '/apps/jaki.club/tmp/settings.json';
 
 const IS_DEV = process.env['BUILD_TARGET'] == 'dev';
 
