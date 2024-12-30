@@ -86,7 +86,7 @@ case "$*" in
     cp -r public build
     ;;
 
-  # doc: BUILD_TARGET="..." CMD build
+  # doc: BUILD_TARGET="production|stage" CMD build
   build)
     validate_build_target
     echo "--- Building for: ${BUILD_TARGET} ---" >&2

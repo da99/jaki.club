@@ -1,7 +1,6 @@
 #!/usr/bin/env bun
 
 var runtime = 'server';
-var site_name = 'jAkI.CLUB';
 
 if (import.meta.main) {
   switch(Bun.argv[2]) {
@@ -9,7 +8,6 @@ if (import.meta.main) {
     case 'help':
       console.log('settings (server|www) (jaki.club|...)')
       process.exit(0)
-      break;
     case 'server':
       true;
       break;
@@ -31,21 +29,37 @@ if (import.meta.main) {
   } // switch
 } // if main
 
+function get(key: string, other: string): string {
+  if (process.env[key])
+    return process.env[key] as string;
+
+  return other;
+}
+
+function get_or_raise(key: string) {
+  if (process.env[key])
+    return process.env[key];
+
+  console.error(`!!! Key not found: ${key}`);
+  process.exit(2);
+}
+
+var site_name = get('SITE_NAME', 'jAkI.CLUB');
 export const SETTINGS = {
   "IS_DEV": false,
   "BUILD_TARGET": "prod",
-  "DOMAIN": site_name.toLowerCase(),
   "SITE_NAME": site_name,
+  "DOMAIN": site_name.toLowerCase(),
   "DEV_PORT": 4567,
   "STATIC_PORT": 4568,
   "STATIC_DIR": "public",
   "BUILD_CMD": "bin/__ build",
   "BUILD_CMD_DEV": "bin/__ dev build",
   "BUILD_DIR": "build",
-  "STATIC_URL": "https://static.jaki.club",
-    "BUCKET_NAME": "jaki",
-  "STORAGE_API_URL": "https://9c4dc75e07b3fd04442ceac71a2532be.r2.cloudflarestorage.com/jaki",
-    "LOGIN_WAIT_TIME": 5,
+  "STATIC_URL": get_or_raise('STATIC_URL'),
+  "BUCKET_NAME": "jaki",
+  "STORAGE_API_URL": get_or_raise('STORAGE_API_URL'),
+  "LOGIN_WAIT_TIME": 5,
   "LOGIN_CODE_LENGTH": 8
 };
 

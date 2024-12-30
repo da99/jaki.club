@@ -1,5 +1,5 @@
 
-import settings from "./tmp/settings.json";
+import settings from "../tmp/settings.json";
 
 // export interface Env {
 //   LOGIN_CODE_DB: D1Database
