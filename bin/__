@@ -33,6 +33,20 @@ case "$*" in
     CMD=__ da string doc "$0"
     ;;
 
+  # doc: CMD settings server|www
+  "settings server"|"settings www")
+    case "$2" in
+      server)
+        NO_COLOR=1 bin/settings.mts www > tmp/settings.json
+        cat tmp/settings.json
+        ;;
+      www)
+        NO_COLOR=1 bin/settings.mts server > tmp/www.settings.json
+        cat tmp/www.settings.json
+        ;;
+    esac
+    ;;
+
   # doc: CMD production deploy
   "production deploy")
     shift
