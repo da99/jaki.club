@@ -1,14 +1,9 @@
 declare let process: any;
 
 import { element as E } from '/apps/da/src/www/src/bsr.mts';
-import SETTINGS from '/apps/jaki.club/tmp/settings.json';
-
-const IS_DEV = process.env['BUILD_TARGET'] == 'dev';
+import SETTINGS from '../tmp/settings.json';
 
 export function static_url(sPath: string) {
-  if (IS_DEV)
-    return sPath;
-
   return `${SETTINGS.static_url}${sPath}`;
 }
 
