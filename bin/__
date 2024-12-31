@@ -33,19 +33,15 @@ case "$*" in
     CMD=__ da string doc "$0"
     ;;
 
-  # doc: CMD settings client
+  # doc: CMD build settings
   # doc: CMD settings get KEY
-  "settings "*)
+  "build settings")
+    NO_COLOR=1 bin/settings.mts build > tmp/settings.json
+    cat tmp/settings.json
+    ;;
+  "settings get "*)
     shift
-    case "$1" in
-      client)
-        NO_COLOR=1 bin/settings.mts "$@" > tmp/settings.json
-        cat tmp/settings.json
-        ;;
-      *)
-        NO_COLOR=1 bin/settings.mts "$@"
-        ;;
-    esac
+    NO_COLOR=1 bin/settings.mts "$@"
     ;;
 
   # doc: CMD production deploy
@@ -87,10 +83,11 @@ case "$*" in
     cp -r public build
     ;;
 
-  # doc: BUILD_TARGET="production|stage" CMD build
+  # doc: CMD build
   build)
-    validate_build_target
-    echo "--- Building for: ${BUILD_TARGET} ---" >&2
+    "$0" build settings
+    echo
+    echo "--- Building for: $( "$0" settings get SITE_NAME ) ---" >&2
     this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
 
@@ -117,6 +114,12 @@ case "$*" in
 
     echo "=== Done building. ===" >&2
     echo
+    ;;
+
+  "build custom "*)
+    shift; shift
+    set -x
+    "$(hostname)" "$@" "$0" build
     ;;
 
   "download pure.css")
@@ -209,7 +212,7 @@ case "$*" in
   "stage public upload list")
     "$0" build
     secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    BUILD_TARGET=stage da www public upload list
+    da www public upload list
     ;;
 
   # doc: CMD stage tail

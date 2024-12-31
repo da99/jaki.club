@@ -1,5 +1,5 @@
 
-import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
+import { SETTINGS } from './Base.mts';
 // import type { Bindings } from '/apps/jaki.club/src/Base.mts';
 import type { Context } from 'hono';
 import { Session } from 'hono-sessions';
@@ -42,10 +42,11 @@ export const JAKI = {
   static: {
     fetch(raw_c: Context, sPath: string) {
       const c = raw_c;
-      const build_target = c.env['BUILD_TARGET'] || (c.env['development'] && 'dev') || 'prod';
+      const build_target = c.env['BUILD_TARGET'] || (c.env['development'] && 'dev') || 'production';
       switch (build_target) {
         case 'dev':
-          const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
+          // const new_url = `http://localhost:${SETTINGS.STATIC_PORT}${sPath}`;
+          const new_url = sPath;
           console.log(`--- Fetching from localhost: ${new_url}`);
           return fetch(new_url);
         default: // prod
@@ -54,7 +55,7 @@ export const JAKI = {
             console.log(`--- Not found in public_files: ${sPath}`);
             return fetch(`${SETTINGS.STATIC_URL}/404`);
           }
-          const fin_url = `${SETTINGS.STATIC_URL}/${build_target}${pf['Key']}`;
+          const fin_url = `${SETTINGS.STATIC_URL}/${pf['Key']}`;
           console.log(`--- Fetching: ${fin_url}`);
           return fetch(fin_url);
       } // switch

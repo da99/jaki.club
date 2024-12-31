@@ -32,7 +32,7 @@ const SETTINGS = {
 };
 
 switch(Bun.argv[2]) {
-  case 'client':
+  case 'build':
     console.log(JSON.stringify(SETTINGS));
     break;
   case 'get':

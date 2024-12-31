@@ -5,12 +5,12 @@ require 'json'
 SETTINGS = JSON.parse(File.read('./tmp/settings.json'))
 
 module BUILD_TARGET
-  extend self
-
-  def name; ENV['BUILD_TARGET']; end
-  def dev?; name == 'dev'; end
-  def stage?; name == 'stage'; end
-  def prod?; name == 'prod'; end
+  class << self
+    def name; ENV['BUILD_TARGET'] || 'production'; end
+    def dev?; name == 'dev'; end
+    def stage?; name == 'stage'; end
+    def prod?; name == 'prod'; end
+  end # class
 end # module
 
 PUBLIC_FILES = JSON.parse File.read('./tmp/public_files.json')
@@ -36,7 +36,7 @@ module JAKI
 
     file = PUBLIC_FILES[sPath]
     raise "File not found: #{sPath}" unless file
-    "#{SETTINGS['STATIC_URL']}#{File.join '/', BUILD_TARGET.name, file['Key']}";
+    "#{SETTINGS['STATIC_URL']}#{File.join '/', file['Key']}";
   end
 
   def default_head(section, s_title)
