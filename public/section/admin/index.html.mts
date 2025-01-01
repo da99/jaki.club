@@ -1,14 +1,13 @@
-import { html5, element as E, Static } from '/apps/da/src/www/src/bsr.mts';
-import { SETTINGS } from '/apps/jaki.club/src/Base.mts';
+import { html5, element as E } from '../../../../da/src/www/src/bsr.mts';
+import { SETTINGS } from '../../../src/Base.mts';
 import { default_head } from '/apps/jaki.club/src/bsr.mts';
 
-const Admin = new Static('admin');
 
 console.log(
   html5(
-    default_head(Admin.name, `Admin: ${SETTINGS.site_name}`),
+    default_head('admin', `Admin: ${SETTINGS.SITE_NAME}`),
     E('body',
-      E('script', {type: 'module', src: Admin.index_mjs})
+      E('script', {type: 'module', src: '/section/admin/index.mjs'})
      )
   )
 );
