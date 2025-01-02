@@ -1,10 +1,10 @@
 declare let process: any;
 
-import { element as E } from '/apps/da/src/www/src/bsr.mts';
+import { element as x } from '/apps/da/src/www/src/bsr.mts';
 import SETTINGS from '../tmp/settings.json';
 
 export function static_url(sPath: string) {
-  return `${SETTINGS.static_url}${sPath}`;
+  return `${SETTINGS.STATIC_URL}${sPath}`;
 }
 
 //   <head>
@@ -20,13 +20,13 @@ export function static_url(sPath: string) {
 //   </body>
 //
 export function default_head(section: string, title: string) {
-  return E('head',
-           E('meta', {charset: "utf-8"}),
-           E('meta', {name: "viewport", content: "width=device-width, initial-scale=1"}),
-           E('title', title),
-            // <link rel='icon' type='image/png' href='/favicon.png'>
-           E('link', {rel: "stylesheet", href: static_url("/styles/reset.css") }),
-           E('link', {rel: "stylesheet", href: static_url("/styles/pure.css") }),
-           E('link', {rel: "stylesheet", href: static_url(`/section/${section}/index.css`) }),
+  return x('head',
+           x('meta', {charset: "utf-8"}),
+           x('meta', {name: "viewport", content: "width=device-width, initial-scale=1"}),
+             x('title', title),
+           // <link rel='icon' type='image/png' href='/favicon.png'>
+           x('link', {rel: "stylesheet", href: static_url("/styles/reset.css") }),
+           x('link', {rel: "stylesheet", href: static_url("/styles/pure.css") }),
+           x('link', {rel: "stylesheet", href: static_url(`/section/${section}/index.css`) }),
           );
 };
