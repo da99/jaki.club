@@ -28,12 +28,9 @@ JAKI.html5! do
         end
         p 'Then wait a few minutes to receive a reply with further instructions.'
       end # wait!
-
     end # main
 
     footer { span.copyright '(c) 2024. All rights reserved.' }
-    script(type: 'module', src: JAKI.static_url('/section/home/index.mjs')) { "" }
-
+    script(type: 'module', src: JAKI.static_url('/section/home/index.mjs')) { '' }
   end # body
-
 end # html5
