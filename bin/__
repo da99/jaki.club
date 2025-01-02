@@ -39,6 +39,7 @@ case "$*" in
     NO_COLOR=1 bin/settings.mts build > tmp/settings.json
     cat tmp/settings.json
     ;;
+
   "settings get "*)
     shift
     NO_COLOR=1 bin/settings.mts "$@"
@@ -85,17 +86,21 @@ case "$*" in
 
   # doc: CMD build
   build)
+    this_bin="$(realpath "$0")"
+    cd "$(dirname "$0")"/..
+    echo "--- in $PWD" >&2
+
     "$0" build settings
     echo
     echo "--- Building for: $( "$0" settings get SITE_NAME ) ---" >&2
-    this_bin="$(realpath "$0")"
-    cd "$(dirname "$0")"/..
 
-    echo "--- in $PWD" >&2
     "$this_bin" build dir
     # "$this_bin" download pure.css
 
-    da www update raw file manifest
+    www static build
+
+    exit 0
+    # da www update raw file manifest
 
     echo "=== Building css"
     da www build css
