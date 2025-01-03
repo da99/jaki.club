@@ -33,6 +33,16 @@ case "$*" in
     CMD=__ da string doc "$0"
     ;;
 
+  # doc: CMD setup
+  setup)
+    bun install --save-dev \
+      lightningcss \
+      wrangler \
+      @cloudflare/workers-types \
+      @types/bun \
+      hono hono-sessions
+    ;;
+
   # doc: CMD build settings
   # doc: CMD settings get KEY
   "build settings")
