@@ -91,7 +91,7 @@ case "$*" in
     set -x
     cd "$(dirname "$0")"/..
     rm -rf build
-    cp -r public build
+    cp --archive public build
     ;;
 
   # doc: CMD build
