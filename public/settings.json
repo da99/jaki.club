@@ -1,0 +1,7 @@
+{
+  "SITE_NAME": "jAki.CLUB",
+  "DOMAIN": "jaki.club",
+  "STATIC_URL": "https://static.jaki.club",
+  "LOGIN_WAIT_TIME": 5,
+  "LOGIN_CODE_LENGTH": 8
+}

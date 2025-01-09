@@ -43,18 +43,6 @@ case "$*" in
       hono hono-sessions
     ;;
 
-  # doc: CMD build settings
-  # doc: CMD settings get KEY
-  "build settings")
-    NO_COLOR=1 bin/settings.mts build > tmp/settings.json
-    cat tmp/settings.json
-    ;;
-
-  "settings get "*)
-    shift
-    NO_COLOR=1 bin/settings.mts "$@"
-    ;;
-
   # doc: CMD production deploy
   "production deploy")
     shift
