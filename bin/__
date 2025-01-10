@@ -33,9 +33,11 @@ case "$*" in
     cd "$(dirname "$0")"/..
     echo "--- in $PWD" >&2
 
-    "$this_bin" build dir
+    www_static download pure.css to public/section/base
 
+    "$this_bin" build dir
     www_static build settings
+
     site_name="$( jq .SITE_NAME build/settings.json )"
     echo
     echo "--- Building for: ${site_name} ---" >&2
