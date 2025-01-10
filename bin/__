@@ -3,30 +3,6 @@
 #
 set -u -e -o pipefail
 
-validate_build_target () {
-  case "$BUILD_TARGET" in
-    production|stage|dev)
-      :
-      ;;
-    *)
-      echo "!!! Invalid BUILD_TARGET: $BUILD_TARGET" >&2
-      exit 2
-      ;;
-  esac
-}
-
-case "$*" in
-  "stage "*)
-    export BUILD_TARGET="stage"
-    ;;
-  "dev "*)
-    export BUILD_TARGET="dev"
-    ;;
-  "prod "*|"production "*)
-    export BUILD_TARGET="production"
-    ;;
-esac
-
 case "$*" in
   # doc: CMD -h|--help|help -- Show this message.
   "-h"|"--help"|"help")
@@ -43,37 +19,6 @@ case "$*" in
       hono hono-sessions
     ;;
 
-  # doc: CMD production deploy
-  "production deploy")
-    shift
-    target="$1"
-    shift
-    set -x
-    bun x wrangler deploy --env "$target" "$@"
-    ;;
-
-  "build watch")
-    content=""
-    while read -r LINE ; do
-      echo "--- $LINE"
-      filename="$(echo "$LINE" | cut -d' ' -f3-)"
-      dir="$(echo "$LINE" | cut -d' ' -f1)"
-      file="$dir$filename"
-      case "$file" in
-        *.css|*.html|*.js)
-          new_content="$(cat "$file")"
-          if ! test "$new_content" == "$content" ; then
-            echo "--- $file"
-            "$0" build
-            content="$new_content"
-          else
-            echo "skipping: $file"
-          fi
-          ;;
-      esac
-    done < <(inotifywait -r -m -e MODIFY public)
-    ;;
-
   # doc: CMD build dir
   "build dir")
     set -x
@@ -88,41 +33,20 @@ case "$*" in
     cd "$(dirname "$0")"/..
     echo "--- in $PWD" >&2
 
-    "$0" build settings
-    echo
-    echo "--- Building for: $( "$0" settings get SITE_NAME ) ---" >&2
-
     "$this_bin" build dir
+
+    www_static build settings
+    site_name="$( jq .SITE_NAME build/settings.json )"
+    echo
+    echo "--- Building for: ${site_name} ---" >&2
+
     # "$this_bin" download pure.css
 
-    www static build
+    www_static build
 
-    exit 0
-    # da www update raw file manifest
-
-    echo "=== Building css"
-    da www build css
-
-    echo "=== Building .mjs scripts"
-    da www build mjs
-
-    echo "=== Updating file manifest..."
-    da www update file manifest
-
-    echo "=== Building html"
-    da www build html
-
-    echo "=== Updating file manifest to remove transitional files..."
-    da www update file manifest
-
-    echo "=== Done building. ===" >&2
     echo
-    ;;
-
-  "build custom "*)
-    shift; shift
-    set -x
-    "$(hostname)" "$@" "$0" build
+    echo -e "\e[1;32m====== Done building: ${site_name} ======\e[0m" >&2
+    echo
     ;;
 
   "download pure.css")
