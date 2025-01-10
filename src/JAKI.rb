@@ -43,8 +43,7 @@ module JAKI
     head {
       meta name: 'viewport', content: 'width=device-width, initial-scale=1'
       title s_title
-      link rel: "stylesheet", href: static_url('/styles/reset.css')
-      link rel: "stylesheet", href: static_url('/styles/pure.css')
+      link rel: "stylesheet", href: static_url('/section/base/pure.css')
       link rel: "stylesheet", href: static_url("/section/#{section}/index.css")
       yield if block_given?
     }

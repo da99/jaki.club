@@ -11,8 +11,7 @@ export function static_url(sPath: string) {
 //     <meta charset="utf-8">
 //     <meta name="viewport" content="width=device-width, initial-scale=1">
 //     <title>Loading...</title>
-//     <link rel="stylesheet" href="/styles/reset.css">
-//     <link rel="stylesheet" href="/styles/pure.css">
+//     <link rel="stylesheet" href="/section/base/pure.css">
 //     <link rel="stylesheet" href="/section/home/index.css">
 //   </head>
 //   <body>
@@ -25,8 +24,7 @@ export function default_head(section: string, title: string) {
            x('meta', {name: "viewport", content: "width=device-width, initial-scale=1"}),
              x('title', title),
            // <link rel='icon' type='image/png' href='/favicon.png'>
-           x('link', {rel: "stylesheet", href: "/styles/reset.css" }),
-           x('link', {rel: "stylesheet", href: "/styles/pure.css" }),
+           x('link', {rel: "stylesheet", href: "/section/base/pure.css" }),
            x('link', {rel: "stylesheet", href: `/section/${section}/index.css` }),
           );
 };

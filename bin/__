@@ -49,14 +49,6 @@ case "$*" in
     echo
     ;;
 
-  "download pure.css")
-    set -x
-    cd public/styles
-    wget -O pure.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css"
-    wget -O pure-grids.css "https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"
-    wget -O reset.css "https://meyerweb.com/eric/tools/css/reset/reset.css"
-    ;;
-
   # doc: CMD section new [SECTION-NAME]
   "section new "*)
     new_name="$3"
