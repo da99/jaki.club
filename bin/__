@@ -53,13 +53,11 @@ case "$*" in
 
   # doc: CMD section new [SECTION-NAME]
   "section new "*)
-    new_name="$3"
-
     for x in index.html.mts index.mts index.css ; do
       www_static template \
         from templates/"$x" \
-        to "public/section/$new_name" \
-        with YEAR="$(date +%Y)",NAME="$new_name"
+        to "public/section/$3" \
+        with YEAR="$(date +%Y)",NAME="$3"
     done
     ;;
 
