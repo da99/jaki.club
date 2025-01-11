@@ -116,19 +116,6 @@ case "$*" in
     bun x wrangler d1 execute db-stage --env stage --remote --command="DELETE FROM login_codes WHERE login_codes.date_created < '$(( now_ts - time_limit ))' ;"
     ;;
 
-  # doc: CMD stage public upload (list)
-  "stage public upload")
-    "$0" build
-    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    da www public upload
-    ;;
-
-  "stage public upload list")
-    "$0" build
-    secrets jaki.club s3api list-objects > tmp/public_files_uploaded.json
-    da www public upload list
-    ;;
-
   # doc: CMD stage tail
   "stage tail")
     set -x
@@ -168,28 +155,7 @@ case "$*" in
     npx wrangler d1 execute login-code-db --env dev --local --command="SELECT * from sessions;"
     ;;
 
-  # doc: CMD dev static
-  "dev static")
-    set -x
-    da www serve # "$0" build dev
-    ;;
-
-  # doc: CMD dev serve
-  "dev serve")
-    shift; shift
-    # bunx wrangler dev
-    # IS_DEV='YES' secrets JAKI_DEV bun run --hot src/worker.js
-    dev_port="$(jq --raw-output .DEV_PORT < settings.json)"
-    set -x
-    bun x wrangler dev --live-reload false --env dev --port "$dev_port" "$@"
-    ;;
   # =============================================================================
-  # =============================================================================
-
-  "dev build file "*)
-  set -x
-  exec da www build file "$4"
-  ;;
 
   *)
     echo "!!! Unknown command: $*" >&2
