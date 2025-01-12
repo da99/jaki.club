@@ -64,7 +64,6 @@ case "$*" in
   # doc: CMD upgrade
   upgrade)
     bun update
-    "$0" download pure.css
     ;;
 
   # doc: CMD prune files
