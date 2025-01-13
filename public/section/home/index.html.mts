@@ -9,7 +9,7 @@ const HTML = html5((x) => {
   x('body', () => {
     x('h1', '.company_logo', SETTINGS.SITE_NAME)
     x('main', () => {
-      x('div', '#wait', {data: {target: 'any window'}}, () => {
+      x('div', '#wait', () => {
         x('div', () => {
           x('p', 'Send an e-mail with the following values:')
           x('div', '#email', () => {
