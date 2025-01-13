@@ -1,5 +1,5 @@
 
-import { html5, element as x } from '../../../../www/html.js/build.html.mts';
+import { html5 } from '../../../../www/html.js/build.html.mts';
 import { SETTINGS } from '../../../src/Base.mts';
 import { default_head } from '../../../src/bsr.mts';
 
@@ -9,7 +9,7 @@ const HTML = html5((x) => {
   x('body', () => {
     x('h1', '.company_logo', SETTINGS.SITE_NAME)
     x('main', () => {
-      x('div', '#wait', () => {
+      x('div', '#wait', {data: {target: 'any window'}}, () => {
         x('div', () => {
           x('p', 'Send an e-mail with the following values:')
           x('div', '#email', () => {
