@@ -25,6 +25,7 @@ case "$*" in
     cd "$(dirname "$0")"/..
     rm -rf build
     cp --archive public build
+    www_static build settings
     ;;
 
   # doc: CMD build
@@ -36,7 +37,6 @@ case "$*" in
     www_static download pure.css to public/section/base
 
     "$this_bin" build dir
-    www_static build settings
 
     site_name="$( jq .SITE_NAME build/settings.json )"
     echo

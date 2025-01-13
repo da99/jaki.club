@@ -4,7 +4,7 @@ import { SETTINGS } from '../../../src/Base.mts';
 import { default_head } from '../../../src/bsr.mts';
 
 const HTML = html5((x) => {
-  default_head('home', `${SETTINGS.SITE_NAME} Homepage`);
+  default_head('home', `${SETTINGS.SITE_NAME} Homepage`, x);
 
   x('body', () => {
     x('h1', '.company_logo', SETTINGS.SITE_NAME)
@@ -18,7 +18,7 @@ const HTML = html5((x) => {
               x('span', '.value', x('a', '.login_email', {href: '{MAILTO}'}, '{login_email}'))
             }) // x p
             x('p', '.subject', x('span', '.field', 'Subject: '), x('span', '.value', 'ENTER'))
-           }) // x div#email
+          }) // x div#email
          }) // x div,
 
          x('p', 'Then wait a few minutes to receive a reply with further instructions.')
