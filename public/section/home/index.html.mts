@@ -7,23 +7,23 @@ print_html((x) => {
   default_head('home', `${SETTINGS.SITE_NAME} Homepage`);
 
   x('h1', '.company_logo', SETTINGS.SITE_NAME)
-  x('main', (main) => {
-    main('div', '#wait', (d) => {
-      d('div', (d2) => {
-        d2('p', 'Send an e-mail with the following values:')
-        d2('div', '#email', (d3) => {
-          d3('p', '.to', (p) => {
-            p('span', '.field', 'To: ')
-            p('span', '.value', (span) => span('a', '.login_email', {href: '{MAILTO}'}, '{login_email}'))
+  x('main', () => {
+    x('div', '#wait', () => {
+      x('div', () => {
+        x('p', 'Send an e-mail with the following values:')
+        x('div', '#email', () => {
+          x('p', '.to', () => {
+            x('span', '.field', 'To: ')
+            x('span', '.value', () => x('a', '.login_email', {href: '{MAILTO}'}, '{login_email}'))
           }) // x p
-          d3('p', '.subject', (p) => {
-            p('span', '.field', 'Subject: ')
-            p('span', '.value', 'ENTER');
+          x('p', '.subject', () => {
+            x('span', '.field', 'Subject: ')
+            x('span', '.value', 'ENTER');
           })
         }) // x div#email
       }) // x div,
 
-      d('p', 'Then wait a few minutes to receive a reply with further instructions.')
+      x('p', 'Then wait a few minutes to receive a reply with further instructions.')
     }) // x div#wait
   }) // x main
 
