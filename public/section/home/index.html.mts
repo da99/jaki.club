@@ -1,10 +1,10 @@
 
-import { html5 } from '../../../../www/html.js/build.html.mts';
-import { SETTINGS } from '../../../src/Base.mts';
+import { print_html } from '../../../../www/html.js/html.mts';
+import SETTINGS from '../../settings.json';
 import { default_head } from '../../../src/bsr.mts';
 
-const HTML = html5((x) => {
-  default_head('home', `${SETTINGS.SITE_NAME} Homepage`, x);
+print_html((x) => {
+  default_head('home', `${SETTINGS.SITE_NAME} Homepage`);
 
   x('body', () => {
     x('h1', '.company_logo', SETTINGS.SITE_NAME)
@@ -15,9 +15,12 @@ const HTML = html5((x) => {
           x('div', '#email', () => {
             x('p', '.to', () => {
               x('span', '.field', 'To: ')
-              x('span', '.value', x('a', '.login_email', {href: '{MAILTO}'}, '{login_email}'))
+              x('span', '.value', (span) => span('a', '.login_email', {href: '{MAILTO}'}, '{login_email}'))
             }) // x p
-            x('p', '.subject', x('span', '.field', 'Subject: '), x('span', '.value', 'ENTER'))
+            x('p', '.subject', (p) => {
+              p('span', '.field', 'Subject: ')
+              p('span', '.value', 'ENTER');
+            })
           }) // x div#email
          }) // x div,
 
@@ -25,10 +28,9 @@ const HTML = html5((x) => {
        }) // x div#wait
      }) // x main
 
-     x('footer', x('span', '.copyright', '(c) 2025. All rights reserved.'))
+     x('footer', f => f('span', '.copyright', '(c) 2025. All rights reserved.'))
      x('script', {type: 'module', src: '/section/home/index.mjs'}, '')
   });
 
 }); // html5
 
-console.log(HTML);

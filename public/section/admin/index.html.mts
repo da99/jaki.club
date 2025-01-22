@@ -1,13 +1,9 @@
-import { html5, element as x } from '../../../../da/src/www/src/bsr.mts';
-import { SETTINGS } from '../../../src/Base.mts';
-import { default_head } from '/apps/jaki.club/src/bsr.mts';
+import { print_html } from '../../../../www/html.js/html.mts';
+import SETTINGS from '../../settings.json';
+import { default_head } from '../../../src/bsr.mts';
 
 
-console.log(
-  html5(
-    default_head('admin', `Admin: ${SETTINGS.SITE_NAME}`),
-    x('body',
-      x('script', {type: 'module', src: '/section/admin/index.mjs'})
-     )
-  )
-);
+print_html((h) => {
+  default_head('admin', `Admin: ${SETTINGS.SITE_NAME}`)
+  h('script', {type: 'module', src: '/section/admin/index.mjs'})
+});
