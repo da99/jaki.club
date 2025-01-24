@@ -27,7 +27,7 @@ print_html((x) => {
     }) // x div#wait
   }) // x main
 
-  x('footer', f => f('span', '.copyright', '(c) 2025. All rights reserved.'))
+  x('footer', () => x('span', '.copyright', '(c) 2025. All rights reserved.'))
   x('script', {type: 'module', src: '/section/home/index.mjs'}, '')
 
 }); // html5
