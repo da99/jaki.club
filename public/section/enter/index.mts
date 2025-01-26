@@ -1,7 +1,7 @@
 
 import {
   css, on, log
-} from "/apps/da/src/www/src/html.mts";
+} from "../../../../www/html.js/dom.mts";
 // import { SETTINGS } from "/apps/jaki.club/src/Base.mts";
 
 on.submit('confirm_email', function (_data) {

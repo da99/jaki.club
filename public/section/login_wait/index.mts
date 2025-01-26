@@ -1,14 +1,13 @@
+
+import type { Response_Origin } from "../../../../www/html.js/types.mjs";
+import { on } from "../../../../www/html.js/on.mts";
+import { log } from "../../../../www/html.js/log.mts";
 import {
   use,
-  css, page, on, http,
-  template
-} from "/apps/da/src/www/src/html.mts";
-
-import type {
-  Response_Origin
-} from "/apps/da/src/www/src/html.mts";
-
-import SETTINGS from '../../../tmp/settings.json';
+  css, http,
+  template, page
+} from "../../../../www/html.js/dom.mts";
+import SETTINGS from '../../settings.json';
 
 /* ********************************************* */
 let time_ends_at = 0;
@@ -96,7 +95,7 @@ const new_content = template.compile(
 if (new_content)
   document.body.appendChild(new_content);
 
-console.log('done')
+log('done')
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />
 /// <reference lib="dom" />

@@ -1,14 +1,17 @@
 import {
   use,
-  css, on, http,
-  template, log
-} from "/apps/da/src/www/src/html.mts";
+  css, http,
+  template
+} from "../../../../www/html.js/dom.mts";
+
+import { on } from "../../../../www/html.js/on.mts";
+import { log } from "../../../../www/html.js/log.mts";
 
 // import type {
 //   Response_Origin
 // } from "/apps/da/src/www/src/html.mts";
 
-import SETTINGS from '../../../tmp/settings.json';
+import SETTINGS from '../../settings.json';
 
 /* ********************************************* */
 // let time_ends_at = 0;
@@ -56,5 +59,8 @@ on.ok('login', function (json, _req) {
 });
 
 const login_email = 'ENTER' + '@' + SETTINGS.DOMAIN;
-document.querySelectorAll('#wait a[data-key="login_email"]').forEach((x) => { x.setAttribute('href', 'mailto:' + login_email); x.textContent = login_email });
+document.querySelectorAll('#wait a[data-key="login_email"]').forEach((x) => {
+  x.setAttribute('href', 'mailto:' + login_email)
+  x.textContent = login_email
+});
 log('done');
