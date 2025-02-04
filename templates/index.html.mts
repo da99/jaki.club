@@ -1,19 +1,17 @@
-import { html5, element as x } from '../../../../da/src/www/src/bsr.mts';
-import { SETTINGS } from '../../../src/Base.mts';
+import { print_html } from '../../../../www/html.js/html.mts';
+import SETTINGS from '../../settings.json';
 import { default_head } from '../../../src/bsr.mts';
 
-const HTML = html5(
-  default_head('{NAME}', `{NAME}`),
+print_html((x) => {
+  default_head('{{NAME}}', `{{NAME}}`),
 
-  x('body',
-    x('h1', '{NAME} Page'),
-    x('main',
-      x('p', 'some content')
-    ), // main
+  x('h1', '{{NAME}} Page'),
+  x('main', () => {
+    x('p', 'some content')
+  }) // main
 
-    x('footer', x('span', '.copyright', '(c) {YEAR}. All rights reserved.')),
-    x('script', {type: 'module', src: '/section/{NAME}/index.mjs'}, '')
-  ) // body
+  x('footer', () => x('span', '.copyright', '(c) {{YEAR}}. All rights reserved.'))
+  x('script', {type: 'module', src: '/section/{{NAME}}/index.mjs'}, '')
 
-); // html5
+}); // html5
 

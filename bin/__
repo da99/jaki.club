@@ -19,6 +19,11 @@ case "$*" in
       hono hono-sessions
     ;;
 
+  # doc: CMD upgrade
+  upgrade)
+    bun update
+    ;;
+
   # doc: CMD build
   build)
     this_bin="$(realpath "$0")"
@@ -46,35 +51,8 @@ case "$*" in
   # doc: CMD section new [SECTION-NAME]
   "section new "*)
     for x in index.html.mts index.mts index.css ; do
-      www_static template \
-        from templates/"$x" \
-        to "public/section/$3" \
-        with YEAR="$(date +%Y)",NAME="$3"
+      YEAR="$(date +%Y)" NAME="$3" www_static template templates/"$x" "public/section/$3"
     done
-    ;;
-
-  # doc: CMD upgrade
-  upgrade)
-    bun update
-    ;;
-
-  # doc: CMD prune files
-  "prune files")
-    set -x
-    secrets JAKI_DEV da www "$@"
-    ;;
-
-  # =============================================================================
-  # doc: CMD stage deploy (now)
-  "stage deploy")
-    set -x
-    "$0" stage public upload
-    "$0" stage deploy now
-    ;;
-
-  "stage deploy now")
-    set -x
-    bun x wrangler deploy --env "stage"
     ;;
 
   # doc: CMD stage db setup|drop|inspect|prune
@@ -117,10 +95,6 @@ case "$*" in
 
   # =============================================================================
   # doc: CMD dev db setup|drop|reset|inspect
-  "dev build")
-  "$0" build
-  ;;
-
   "dev db setup")
     set -x
     npx wrangler d1 execute login-code-db --env dev --local --file=./d1/setup.sql

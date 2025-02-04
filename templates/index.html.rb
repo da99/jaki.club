@@ -2,7 +2,7 @@
 require '../src/JAKI'
 
 JAKI.html5! do
-  default_head('{NAME}', "#{SETTINGS['SITE_NAME']} Homepage")
+  default_head('{{NAME}}', "#{SETTINGS['SITE_NAME']} Homepage")
 
   body do
     h1 "Title does here."
@@ -14,8 +14,8 @@ JAKI.html5! do
 
     end # main
 
-    footer { span.copyright '(c) {YEAR}. All rights reserved.' }
-    script(type: 'module', src: JAKI.static_url('/section/{NAME}/index.mjs')) { "" }
+    footer { span.copyright '(c) {{YEAR}}. All rights reserved.' }
+    script(type: 'module', src: JAKI.static_url('/section/{{NAME}}/index.mjs')) { '' }
 
   end # body
 
