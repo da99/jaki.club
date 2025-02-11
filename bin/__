@@ -6,7 +6,7 @@ set -u -e -o pipefail
 case "$*" in
   # doc: CMD -h|--help|help -- Show this message.
   "-h"|"--help"|"help")
-    CMD=__ da string doc "$0"
+    CMD=__ da_doc "$0"
     ;;
 
   # doc: CMD setup
