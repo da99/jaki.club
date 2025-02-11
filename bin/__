@@ -51,7 +51,8 @@ case "$*" in
   # doc: CMD section new [SECTION-NAME]
   "section new "*)
     for x in index.html.mts index.mts index.css ; do
-      YEAR="$(date +%Y)" NAME="$3" SECTION="$3" www_static template templates/"$x" "public/section/$3"
+      mkdir -p "public/section/$3"
+      YEAR="$(date +%Y)" NAME="$3" SECTION="$3" da_new templates/"$x" "public/section/$3/"
     done
     ;;
 
