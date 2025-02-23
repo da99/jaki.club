@@ -26,7 +26,6 @@ case "$*" in
 
   # doc: CMD build
   build)
-    this_bin="$(realpath "$0")"
     cd "$(dirname "$0")"/..
     echo "--- in $PWD" >&2
 
