@@ -11,6 +11,7 @@ case "$*" in
 
   # doc: CMD setup
   setup)
+    mkdir -p tmp
     bun install --save-dev \
       lightningcss \
       wrangler \
