@@ -41,7 +41,11 @@ case "$*" in
     echo
     echo "--- Building for: ${site_name} ---" >&2
 
-    www_static build
+    www_static build .css
+    www_static build .mjs
+    www_static add_etag_to_filename .css .mjs .svg
+    www_static build .html
+    www_static add_etag_to_filename .html
 
     echo
     echo -e "\e[1;32m====== Done building: ${site_name} ======\e[0m" >&2
