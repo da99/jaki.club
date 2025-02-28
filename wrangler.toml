@@ -10,9 +10,14 @@ rules = [
   { type = "Text", globs = ["**/*.sql"], fallthrough = true }
 ]
 
+[env.dev]
+name = "jakiclub"
+vars = { IS_PROD = "", BUILD_TARGET="dev" }
+route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
+
 [env.prod]
 name = "jakiclub"
-vars = { IS_PROD = "yes", BUILD_TARGET="prod" }
+vars = { IS_PROD = "YES", BUILD_TARGET="prod" }
 route = { pattern = "www.jaki.club/*", zone_name = "jaki.club" }
 d1_databases = [
   { binding = "LOGIN_CODE_DB", database_name = "jakiclub-db", database_id = "d37462ed-2790-4bb4-96ed-f259d0bafb6d" }
@@ -20,7 +25,7 @@ d1_databases = [
 
 [env.stage]
 name = "da99stream"
-vars = { IS_PROD = "yes", IS_STAGE = "yes", BUILD_TARGET="stage" }
+vars = { IS_PROD = "YES", IS_STAGE = "yes", BUILD_TARGET="stage" }
 route = { pattern = "www.da99.stream", custom_domain = true }
 d1_databases = [
  { binding = "LOGIN_CODE_DB", database_name = "da99stream-db", database_id = "e02b16ce-03ac-4788-a404-0673df782b2a" }
