@@ -17,7 +17,7 @@
     "prod": {
       "name": "jakiclub",
       "vars": { "IS_PROD": "YES", "BUILD_TARGET": "prod" },
-      "route": { "pattern": "www.jaki.club/*", "zone_name": "jaki.club" },
+      "route": { "pattern": "www.jaki.club", "custom_domain": true },
       "d1_databases": [
         { "binding": "LOGIN_CODE_DB", "database_name": "jakiclub-db", "database_id": "d37462ed-2790-4bb4-96ed-f259d0bafb6d" }
       ]
