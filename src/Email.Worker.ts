@@ -1,7 +1,7 @@
 
 import { EmailMessage } from 'cloudflare:email';
 import { createMimeMessage } from "mimetext/browser";
-import SETTINGS from "../tmp/settings.json";
+import SETTINGS from "../build/settings.json";
 
 // import type { ForwardableEmailMessage } from "cloudflare:email";
 
