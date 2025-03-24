@@ -25,10 +25,7 @@
     "stage": {
       "name": "da99stream",
       "vars": { "IS_PROD": "YES", "IS_STAGE": "yes", "BUILD_TARGET": "stage" },
-      "route": { "pattern": "www.da99.stream", "custom_domain": true },
-      "d1_databases": [
-        { "binding": "LOGIN_CODE_DB", "database_name": "da99stream-db", "database_id": "e02b16ce-03ac-4788-a404-0673df782b2a" }
-      ]
+      "route": { "pattern": "www.da99.stream", "custom_domain": true }
     }
   }
 }
