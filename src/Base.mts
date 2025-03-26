@@ -1,9 +1,6 @@
 
 import settings from "../build/settings.json";
 
-// export interface Env {
-//   LOGIN_CODE_DB: D1Database
-// }
 export const SETTINGS = settings;
 
 export type Bindings = {
@@ -11,7 +8,6 @@ export type Bindings = {
   IS_PROD: | string,
   IS_STAGE: | string
 }
-
 
 export interface TryAgain {
   readonly status: 'try_again',
