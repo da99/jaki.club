@@ -60,49 +60,6 @@ case "$*" in
     done
     ;;
 
-  # doc: CF_ENV=... CMD db setup|drop|inspect|prune|reset
-  "db setup")
-    set -x
-    bun x wrangler d1 execute db-stage --env "$CF_ENV" --local  --file=./d1/setup.sql
-    bun x wrangler d1 execute db-stage --env "$CF_ENV" --remote --file=./d1/setup.sql
-    ;;
-
-  "db drop")
-    set -x
-    for x in local remote ; do
-      bun x wrangler d1 execute db-stage --env "$CF_ENV" --"$x" --command="DROP TABLE IF EXISTS email;"
-      bun x wrangler d1 execute db-stage --env "$CF_ENV" --"$x" --command="DROP TABLE IF EXISTS login_codes;"
-      bun x wrangler d1 execute db-stage --env "$CF_ENV" --"$x" --command="DROP TABLE IF EXISTS sessions;"
-    done
-    ;;
-
-  "db inspect")
-    set -x
-    for table in email login_codes sessions; do
-      bun x wrangler d1 execute db-stage --env "$CF_ENV" --remote --command="SELECT * FROM $table;"
-    done
-    ;;
-
-  "db prune")
-    set -x
-    now_ts="$(date +%s)"
-    time_limit="$(( 20 * 60 ))"
-    bun x wrangler d1 execute db-stage --env "$CF_ENV" --remote --command="DELETE FROM login_codes WHERE login_codes.date_created < '$(( now_ts - time_limit ))' ;"
-    ;;
-
-  "db reset")
-    case "$CF_ENV" in
-      "stage"|"dev") : ;;
-      *)
-        echo "!!! Resetting the database in $CF_ENV needs to be done manually." >&2
-        exit 1
-      ;;
-    esac
-    set -x
-    "$0" db drop
-    "$0" db setup
-    ;;
-
   # doc: CF_ENV=... CMD tail
   "tail")
     set -x
